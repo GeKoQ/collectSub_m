@@ -47,8 +47,8 @@ async def process_tgchannels(session, tgchannels):
 
 # 转换设置
 CHECK_URL_LIST = ['sub.789.st', 'sub.xeton.dev', 'subconverters.com', 'subapi.cmliussss.net', 'url.v1.mk']
-target = 'v2ray'
-CHECK_NODE_URL_STR = "https://{}/sub?target={}&url={}&insert=false&config=config%2FACL4SSR.ini&list=true"
+target = 'mixed'
+CHECK_NODE_URL_STR = "https://{}/sub?target={}&url={}&insert=false"
 
 # 异步函数：转换订阅
 async def convert_sub(session, sub_url, domain):
