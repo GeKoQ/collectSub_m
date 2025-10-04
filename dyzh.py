@@ -35,7 +35,7 @@ def get_proxy_list():
     https_list = os.getenv("HTTPS_PROXY", "").split(",")
     socks5_list = os.getenv("SOCKS5_PROXY", "").split(",")
     proxies = [p for p in http_list + https_list + socks5_list if p]
-    return proxies or [None]
+    return proxies or []
 
 PROXY_LIST = get_proxy_list()
 
@@ -83,7 +83,8 @@ def save_null_data(source_url, content):
 
 # ========== Telegram 抓取 ==========
 async def fetch_with_proxies(session, url):
-    for proxy in PROXY_LIST:
+    tried_proxies = PROXY_LIST + [None]  # 最后尝试直连
+    for proxy in tried_proxies:
         for ua in USER_AGENTS:
             try:
                 headers = {"User-Agent": ua}
@@ -134,7 +135,8 @@ async def process_tgchannels(session, tgchannels):
 # ========== 订阅转换 ==========
 async def convert_sub(session, sub_url, domain):
     api_url = CHECK_NODE_URL_STR.format(domain, TARGET, sub_url)
-    for proxy in PROXY_LIST:
+    tried_proxies = PROXY_LIST + [None]  # 最后尝试直连
+    for proxy in tried_proxies:
         try:
             async with session.get(api_url, timeout=aiohttp.ClientTimeout(total=100), proxy=proxy) as response:
                 status = response.status
