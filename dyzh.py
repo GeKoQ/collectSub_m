@@ -28,6 +28,20 @@ with open('pool.yaml', 'r') as f:
 subscriptions = config.get('subscriptions', [])
 tgchannels = config.get('tgchannels', [])
 
+# ========== 新增函数：保存异常数据到 NULL.txt ==========
+def save_null_data(source_url, content):
+    """将异常或无效订阅数据保存到 pool/NULL.txt"""
+    os.makedirs("pool", exist_ok=True)
+    null_path = os.path.join("pool", "NULL.txt")
+    try:
+        with open(null_path, "a", encoding="utf-8") as f:
+            f.write(f"\n{'='*80}\n")
+            f.write(f"来源: {source_url}\n")
+            f.write(f"内容片段:\n")
+            f.write(content[:500] + "\n")  # 保存前 500 字符
+    except Exception as e:
+        print(f"[错误] 无法写入 NULL.txt: {e}")
+
 # ========== 抓取 Telegram 频道订阅链接 ==========
 
 async def extract_sub_links(session, channel):
@@ -79,6 +93,7 @@ async def extract_sub_links(session, channel):
 
             except Exception as e:
                 print(f"⚠️ 请求 {url} 失败 ({type(e).__name__}): {e}")
+                save_null_data(url, str(e))  # 新增：异常也保存
 
         print(f"🔁 {domain} 尝试失败，切换下一个镜像域名...")
 
@@ -95,8 +110,7 @@ async def process_tgchannels(session, tgchannels):
             new_links.extend(result)
     return new_links
 
-
-# ========== 订阅转换部分（原样保留） ==========
+# ========== 订阅转换部分（原样保留 + 新增异常保存） ==========
 
 CHECK_URL_LIST = ['sub.789.st', 'sub.xeton.dev', 'subconverters.com', 'subapi.cmliussss.net', 'url.v1.mk']
 target = 'mixed'
@@ -109,15 +123,28 @@ async def convert_sub(session, sub_url, domain):
             if response.status == 200:
                 content = await response.text()
                 content = content.strip()
+                # 如果返回HTML说明被拦截或错误
+                if "<html" in content.lower():
+                    print(f"[警告] {api_url} 返回 HTML，疑似拦截或无效。保存到 NULL.txt。")
+                    save_null_data(api_url, content)
+                    return []
+
                 # Base64 修正
                 padding = len(content) % 4
                 if padding:
                     content += '=' * (4 - padding)
-                decoded = base64.b64decode(content).decode('utf-8', errors='ignore')
+                try:
+                    decoded = base64.b64decode(content).decode('utf-8', errors='ignore')
+                except Exception as e:
+                    print(f"[错误] Base64 解码失败：{api_url} -> {e}")
+                    save_null_data(api_url, content)
+                    return []
+
                 lines = [line.strip() for line in decoded.splitlines() if line.strip()]
                 return lines
     except Exception as e:
         print(f"Error processing {api_url}: {e}")
+        save_null_data(api_url, str(e))
     return []
 
 async def process_subscriptions(session, subscriptions):
@@ -131,7 +158,6 @@ async def process_subscriptions(session, subscriptions):
         if not isinstance(result, Exception) and result:
             proxy_lines.extend(result)
     return proxy_lines
-
 
 # ========== 主流程 ==========
 
@@ -160,10 +186,14 @@ async def main():
         # 分类写入文件
         proxy_dict = {}
         for line in proxy_lines:
-            parsed = urlparse(line)
-            if parsed.scheme:
-                proxy_type = parsed.scheme
-                proxy_dict.setdefault(proxy_type, []).append(line)
+            try:
+                parsed = urlparse(line)
+                if parsed.scheme:
+                    proxy_type = parsed.scheme
+                    proxy_dict.setdefault(proxy_type, []).append(line)
+            except Exception as e:
+                print(f"[警告] 无效链接被跳过: {line[:80]}... 原因: {e}")
+                save_null_data("Invalid proxy line", f"{line}\n原因: {e}")
 
         # 写入文件（去重 + 排序）
         for proxy_type, new_lines in proxy_dict.items():
