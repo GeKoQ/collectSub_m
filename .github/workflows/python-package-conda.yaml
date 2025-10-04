@@ -5,7 +5,7 @@ on:
   workflow_dispatch:
 
   schedule:
-    - cron: '*/45 * * * *'
+    - cron: '0 */2 * * *'  # 优化：每两小时运行一次（UTC 时间，0 分钟）
   watch:
     types: started
   # - cron: '0 3,12 * * *'
@@ -13,49 +13,53 @@ on:
   # -该规则表示每天从 0 点开始，每隔 1 个小时执行一次任务
   # 表达式生成  https://crontab.guru/
 
- 
 jobs:
   fetch:
     runs-on: ubuntu-latest
-    steps:
+    timeout-minutes: 15  # 优化：添加任务超时，避免长时间挂起
 
+    steps:
     - name: 迁出代码
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4  # 优化：更新到 v4 版本，提高稳定性
 
     - name: 安装Python
-      uses: actions/setup-python@v3
+      uses: actions/setup-python@v5  # 优化：更新到 v5 版本，支持更多功能
       with:
-        python-version: '3.x'
-      
+        python-version: '3.12'  # 优化：指定具体版本，提高一致性
+
     - name: 加载缓存
-      uses: actions/cache@v3
+      uses: actions/cache@v4  # 优化：更新到 v4 版本
       with:
         path: ~/.cache/pip
-        key: ${{ runner.os }}-pip-${{ hashFiles('**/run_in_Actions/requirements.txt') }}
+        key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}  # 优化：移除 run_in_Actions/ 前缀，假设 requirements.txt 在根目录
         restore-keys: |
           ${{ runner.os }}-pip-
-      
+
     - name: 设置时区
       run: sudo timedatectl set-timezone 'Asia/Shanghai'
 
     - name: 安装依赖
       run: |
+        pip install --upgrade pip  # 优化：升级 pip 提高兼容性
         pip install -r ./requirements.txt
+
     - name: 执行任务
       run: |
         python ./main.py
-
 
     - name: Commit
       run: |
         git config --global user.name "GitHub Actions"
         git config --global user.email "actions@github.com"
 
-        git add .   #这是pre_check.py定义的输出路径
-        git commit -m "🍀 爬取订阅源 $(date '+%Y-%m-%d %H:%M:%S')"
-        
+        git add .
+        git diff --staged --quiet || git commit -m "🍀 爬取订阅源 $(date '+%Y-%m-%d %H:%M:%S')"
+        # 优化：添加 git diff 检查，只在有变化时 commit，避免空提交
+
     - name: 推送更改
-      uses:  ad-m/github-push-action@master
+      uses: ad-m/github-push-action@v0.8.0  # 优化：指定稳定版本，避免 master 变化
       with:
          # github_token: ${{ secrets.TOKEN }}
          branch: main
+         force: false  # 优化：默认 false，避免强制推送
+         tags: false
