@@ -16,6 +16,10 @@ on:
 jobs:
   fetch:
     runs-on: ubuntu-latest
+    env:
+      HTTP_PROXY: ${{ secrets.HTTP_PROXY }}
+      HTTPS_PROXY: ${{ secrets.HTTPS_PROXY }}
+      SOCKS5_PROXY: ${{ secrets.SOCKS5_PROXY }}
     timeout-minutes: 15  # 优化：添加任务超时，避免长时间挂起
 
     steps:
