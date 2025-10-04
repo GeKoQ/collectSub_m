@@ -1,0 +1,16 @@
+# 来源URL: https://ai.jiedianxielou.workers.dev/7i8lpf5cg3vpw9g4hkzikseqv
+# 保存时间: 2025-10-04 13:09:22.138547
+port: 7890
+socks-port: 7891
+allow-lan: true
+mode: Rule
+log-level: info
+external-controller: 127.0.0.1:9090
+proxies:
+  - {name: 已失效, server: 121.227.107.71, port: 42156, type: ss, cipher: aes-128-gcm, password: 89b0fd33-9bea-1b7c-4f46-8b817328a901}
+  - {name: 🇸🇬 加频道获取新订阅, server: 120.240.103.35, port: 17315, type: ss, cipher: aes-128-gcm, password: 89b0fd33-9bea-1b7c-4f46-8b817328a901}
+  - {name: TG@jdxll, server: 183.36.41.41, port: 18600, type: ss, cipher: aes-128-gcm, password: 89b0fd33-9bea-1b7c-4f46-8b817328a901}
+  - {name: http://t.me/jdxll, server: 120.240.153.16, port: 14560, type: ss, cipher: aes-256-gcm, password: 89b0fd33-9bea-1b7c-4f46-8b817328a901}
+  - {name: 🇺🇸 美国备用1加频道获取更多订阅@jdxll, server: 120.232.89.13, port: 11511, type: ss, cipher: aes-256-gcm, password: 77a12a3d-6df0-48c8-a189-b071fcda1456}
+  - {name: 🇺🇸 美国备用2使用前更一次订阅, server: 183.2.150.226, port: 11511, type: ss, cipher: aes-256-gcm, password: 77a12a3d-6df0-48c8-a189-b071fcda1456}
+  - {name: 🇺🇸 美国备用3https://jdxll.t.me, server: 111.29.57.104, port: 11511, type: ss, cipher: aes-256-gcm, password: 77a12a3d-6df0-48c8-a189-b071fcda1456}

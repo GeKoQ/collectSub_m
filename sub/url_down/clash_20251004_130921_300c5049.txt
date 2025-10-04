@@ -1,0 +1,62 @@
+# 来源URL: https://fs.v2rayse.com/share/20250412/zalymlem5e.yaml
+# 保存时间: 2025-10-04 13:09:21.847050
+# 模版名称：ACL4SSR.ini
+# 模版最后更新日期：2025/02/10 17:22:37
+# 配置生成日期：2025-04-12 15:41:55
+
+mixed-port: 7890
+allow-lan: false
+mode: rule
+log-level: info
+ipv6: false
+external-controller: 0.0.0.0:9090
+dns:
+  enable: true
+  listen: 0.0.0.0:53
+  ipv6: false
+  default-nameserver:
+    - 223.5.5.5
+    - 114.114.114.114
+  nameserver:
+    - 223.5.5.5
+    - 114.114.114.114
+    - 119.29.29.29
+    - 180.76.76.76
+  enhanced-mode: fake-ip
+  fake-ip-range: 198.18.0.1/16
+  fake-ip-filter:
+    - '*.lan'
+    - '*.localdomain'
+    - '*.example'
+    - '*.invalid'
+    - '*.localhost'
+    - '*.test'
+    - '*.local'
+    - '*.home.arpa'
+    - router.asus.com
+    - localhost.sec.qq.com
+    - localhost.ptlogin2.qq.com
+    - +.msftconnecttest.com
+tun:
+  enable: true
+  stack: system
+  auto-route: true
+  auto-detect-interface: true
+  dns-hijack:
+    - 114.114.114.114
+    - 180.76.76.76
+    - 119.29.29.29
+    - 223.5.5.5
+    - 8.8.8.8
+    - 8.8.4.4
+    - 1.1.1.1
+    - 1.0.0.1
+proxies:
+  - name: 公益路线1-香港HK 限速50Mbps
+    type: ss
+    server: jg647hf446ghvw.gym0boy.com
+    port: 49709
+    tls: false
+    password: 2c11c843-95a0-4c42-ac20-9ab77443c737
+    ip-version: dual
+    cipher: chacha20-ietf-poly1305

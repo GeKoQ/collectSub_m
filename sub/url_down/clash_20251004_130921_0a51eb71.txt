@@ -1,0 +1,1160 @@
+# 来源URL: https://fs.v2rayse.com/share/20250522/4sjzyfgni5.yaml
+# 保存时间: 2025-10-04 13:09:21.705336
+# 生成地址：v2rayse.com
+# 模版名称：defaultName
+# 生成时间：2025-05-22 18:07:57
+# 不要随意改变关键字，否则会导致出错
+# acl4SSR规则
+# 去广告：支持
+# 自动测速：支持
+# 微软分流：支持
+# 苹果分流：支持
+# 增强中国IP段：不支持
+# 增强国外GFW：不支持
+
+mixed-port: 7890
+allow-lan: false
+mode: rule
+ipv6: false
+log-level: info
+external-controller: 0.0.0.0:9090
+dns:
+  enable: true
+  listen: 0.0.0.0:53
+  ipv6: false
+  default-nameserver:
+    - 223.5.5.5
+    - 114.114.114.114
+  nameserver:
+    - 223.5.5.5
+    - 114.114.114.114
+    - 119.29.29.29
+    - 180.76.76.76
+  enhanced-mode: fake-ip
+  fake-ip-range: 198.18.0.1/16
+  fake-ip-filter:
+    - "*.lan"
+    - "*.localdomain"
+    - "*.example"
+    - "*.invalid"
+    - "*.localhost"
+    - "*.test"
+    - "*.local"
+    - "*.home.arpa"
+    - router.asus.com
+    - localhost.sec.qq.com
+    - localhost.ptlogin2.qq.com
+    - +.msftconnecttest.com
+tun:
+  enable: true
+  stack: system
+  auto-route: true
+  auto-detect-interface: true
+  dns-hijack:
+    - 114.114.114.114
+    - 180.76.76.76
+    - 119.29.29.29
+    - 223.5.5.5
+    - 8.8.8.8
+    - 8.8.4.4
+    - 1.1.1.1
+    - 1.0.0.1
+proxies:
+  - name: https://t.me/xyfqzy
+    port: 15624
+    server: 36.156.102.124
+    type: trojan
+    network: tcp
+    udp: true
+    sni: 36.156.102.124
+    password: RlzoEILU
+    skip-cert-verify: true
+    client-fingerprint: chrome
+  - name: "关注TG: @xyfqzy"
+    port: 28296
+    server: 36.151.251.60
+    type: trojan
+    network: tcp
+    udp: true
+    sni: cdn.egvra.cn
+    password: RlzoEILU
+    skip-cert-verify: true
+    client-fingerprint: chrome
+  - name: 提供免费小火箭账号
+    port: 17166
+    server: 36.156.102.123
+    type: trojan
+    network: tcp
+    udp: true
+    sni: cdn.egvra.cn
+    password: RlzoEILU
+    skip-cert-verify: true
+    client-fingerprint: chrome
+  - name: 🇩🇪德国20 | ⬇️ 1.7MB/s
+    port: 8880
+    server: 102.177.176.20
+    type: vless
+    network: ws
+    udp: true
+    skip-cert-verify: true
+    ws-opts:
+      path: /?ed=2560
+      headers:
+        host: reedfree8mahsang2.redorg.ir
+    uuid: 53fa8faf-ba4b-4322-9c69-a3e5b1555049
+  - name: 🇺🇸美国54 | ⬇️ 1.6MB/s
+    port: 443
+    server: 154.17.25.96
+    type: trojan
+    network: tcp
+    udp: true
+    sni: theory.wireshop.net
+    password: 3lSlAcxDSNpeKOyZ3pIlyYRC7328C3X93Aa8SFOgDX4D7An0zYSRDRuaRE8lCpCASE6Bu
+    skip-cert-verify: false
+    client-fingerprint: chrome
+  - name: 🇭🇰香港9 | ⬇️ 1.8MB/s
+    port: 8880
+    server: 185.18.250.20
+    type: vless
+    network: ws
+    udp: true
+    skip-cert-verify: true
+    ws-opts:
+      path: /?ed=2560
+      headers:
+        host: reedfree8mahsang2.redorg.ir
+    uuid: 53fa8faf-ba4b-4322-9c69-a3e5b1555049
+  - name: 🇩🇪德国3 | ⬇️ 5.3MB/s
+    port: 8880
+    server: 45.85.118.20
+    type: vless
+    network: ws
+    udp: true
+    servername: reedfree8mahsang2.redorg.ir
+    skip-cert-verify: true
+    ws-opts:
+      path: /
+      headers:
+        host: reedfree8mahsang2.redorg.ir
+    uuid: 53fa8faf-ba4b-4322-9c69-a3e5b1555049
+  - name: 🇺🇸美国57 | ⬇️ 1.0MB/s
+    port: 80
+    server: 141.193.213.187
+    type: vless
+    network: ws
+    udp: true
+    skip-cert-verify: true
+    ws-opts:
+      path: /Telegram🇨🇳 @MxlShare @WangCai2 /?ed=2560
+      headers:
+        host: cs.laoyoutiao.link
+    uuid: fab7bf9c-ddb9-4563-8a04-fb01ce6c0fbf
+  - name: 🇩🇪德国29 | ⬇️ 2.8MB/s
+    port: 443
+    server: dlhost.10dar15.ir
+    type: vless
+    network: grpc
+    tls: true
+    udp: true
+    servername: stackoverflow.com
+    skip-cert-verify: true
+    grpc-opts: {}
+    reality-opts:
+      public-key: Hng90MObJ5OBtIrfrf6U02WIx36R9srHLBwRsj1r7Dw
+      short-id: 05a6d4aa5e314637
+    alpn:
+      - h2
+    uuid: d90a7b46-65e5-49c3-b245-afbca72ee39d
+    client-fingerprint: chrome
+  - name: 🇩🇪德国1 | ⬇️ 1.0MB/s
+    port: 80
+    server: 23.134.82.1
+    type: vless
+    network: ws
+    udp: true
+    servername: reedfree8mahsang2.redorg.ir
+    skip-cert-verify: true
+    ws-opts:
+      path: /TelegramU0001F1E8U0001F1F3 @WangCai2 /?ed=2560
+      headers:
+        host: reedfree8mahsang2.redorg.ir
+    uuid: 53fa8faf-ba4b-4322-9c69-a3e5b1555049
+  - name: 🇺🇸美国81 | ⬇️ 1.5MB/s
+    port: 49454
+    server: 2d281b1affe4774fd522901b91dc9447.v1.cac.node-is.green
+    type: trojan
+    network: tcp
+    udp: true
+    sni: us1.bilibili.com
+    password: aa6ddd2f-d1cf-4a52-ba1b-2640c41a7856
+    skip-cert-verify: true
+    client-fingerprint: chrome
+  - name: 🇩🇪德国2 | ⬇️ 1.2MB/s
+    port: 8880
+    server: 14.102.229.20
+    type: vless
+    network: ws
+    udp: true
+    servername: reedfree8mahsang2.redorg.ir
+    skip-cert-verify: true
+    ws-opts:
+      path: /
+      headers:
+        host: reedfree8mahsang2.redorg.ir
+    uuid: 53fa8faf-ba4b-4322-9c69-a3e5b1555049
+  - name: 🇰🇷韩国4 | ⬇️ 1.2MB/s
+    port: 8880
+    server: 89.116.161.20
+    type: vless
+    network: ws
+    udp: true
+    servername: reedfree8mahsang2.redorg.ir
+    skip-cert-verify: true
+    ws-opts:
+      path: /
+      headers:
+        host: reedfree8mahsang2.redorg.ir
+    uuid: 53fa8faf-ba4b-4322-9c69-a3e5b1555049
+  - name: 🇺🇸美国70 | ⬇️ 1.2MB/s
+    port: 8880
+    server: 92.243.74.20
+    type: vless
+    network: ws
+    udp: true
+    servername: reedfree8mahsang2.redorg.ir
+    skip-cert-verify: true
+    ws-opts:
+      path: /?ed=2560
+      headers:
+        host: reedfree8mahsang2.redorg.ir
+    uuid: 53fa8faf-ba4b-4322-9c69-a3e5b1555049
+  - name: 🇩🇪德国26 | ⬇️ 3.8MB/s
+    port: 443
+    server: 88.198.101.94
+    type: vless
+    network: grpc
+    tls: true
+    udp: true
+    servername: stackoverflow.com
+    skip-cert-verify: true
+    grpc-opts: {}
+    reality-opts:
+      public-key: Hng90MObJ5OBtIrfrf6U02WIx36R9srHLBwRsj1r7Dw
+      short-id: 05a6d4aa5e314637
+    alpn:
+      - h2
+    uuid: 2ee918dc-6407-467f-8df2-a62ad6c79c7c
+    client-fingerprint: chrome
+  - name: 🇺🇸美国12 | ⬇️ 1.0MB/s
+    port: 8880
+    server: 181.214.1.20
+    type: vless
+    network: ws
+    udp: true
+    servername: reedfree8mahsang2.redorg.ir
+    skip-cert-verify: true
+    ws-opts:
+      path: /?ed=2560
+      headers:
+        host: reedfree8mahsang2.redorg.ir
+    uuid: 53fa8faf-ba4b-4322-9c69-a3e5b1555049
+  - name: 🇫🇷法国4 | ⬇️ 2.0MB/s
+    port: 8080
+    server: 172.67.73.163
+    type: vless
+    network: ws
+    udp: true
+    servername: 18.6na7PY43IT.zuLaiR.Org.
+    skip-cert-verify: true
+    ws-opts:
+      path: /
+      headers:
+        host: 18.6na7PY43IT.zuLaiR.Org.
+    uuid: 51fda508-20aa-419e-b4c3-3a6202411412
+  - name: 🇺🇸美国2 | ⬇️ 3.3MB/s
+    port: 8880
+    server: 92.53.188.20
+    type: vless
+    network: ws
+    udp: true
+    servername: reedfree8mahsang2.redorg.ir
+    skip-cert-verify: true
+    ws-opts:
+      path: /?ed=2560
+      headers:
+        host: reedfree8mahsang2.redorg.ir
+    uuid: 53fa8faf-ba4b-4322-9c69-a3e5b1555049
+  - name: 🇺🇸美国40 | ⬇️ 1.2MB/s
+    port: 8880
+    server: 176.124.223.20
+    type: vless
+    network: ws
+    udp: true
+    skip-cert-verify: true
+    ws-opts:
+      path: /?ed=2560
+      headers:
+        host: reedfree8mahsang2.redorg.ir
+    uuid: 53fa8faf-ba4b-4322-9c69-a3e5b1555049
+  - name: 🇩🇪德国12 | ⬇️ 1.2MB/s
+    port: 8880
+    server: 14.102.228.20
+    type: vless
+    network: ws
+    udp: true
+    servername: reedfree8mahsang2.redorg.ir
+    skip-cert-verify: true
+    ws-opts:
+      path: /
+      headers:
+        host: reedfree8mahsang2.redorg.ir
+    uuid: 53fa8faf-ba4b-4322-9c69-a3e5b1555049
+  - name: 🇫🇮芬兰2 | ⬇️ 1.0MB/s
+    port: 80
+    server: 185.162.230.6
+    type: vless
+    network: ws
+    udp: true
+    skip-cert-verify: true
+    ws-opts:
+      path: /
+      headers:
+        host: reedfree8mahsang2.redorg.ir
+    uuid: 53fa8faf-ba4b-4322-9c69-a3e5b1555049
+  - name: 🇰🇷韩国6 | ⬇️ 1.2MB/s
+    port: 8880
+    server: 195.245.221.20
+    type: vless
+    network: ws
+    udp: true
+    skip-cert-verify: true
+    ws-opts:
+      path: /?ed=2560
+      headers:
+        host: reedfree8mahsang2.redorg.ir
+    uuid: 53fa8faf-ba4b-4322-9c69-a3e5b1555049
+  - name: 🇦🇪阿拉伯酋长国1 | ⬇️ 1.2MB/s
+    port: 8880
+    server: 185.176.26.20
+    type: vless
+    network: ws
+    udp: true
+    skip-cert-verify: true
+    ws-opts:
+      path: /?ed=2560
+      headers:
+        host: reedfree8mahsang2.redorg.ir
+    uuid: 53fa8faf-ba4b-4322-9c69-a3e5b1555049
+  - name: 🇭🇰香港8 | ⬇️ 2.1MB/s
+    port: 15008
+    server: 8tv68qhq.slashdevslashnetslashtun.net
+    type: ss
+    udp: true
+    password: 0S43J3FD6L7IEKGQ
+    cipher: aes-256-gcm
+  - name: 🌀其他7-未识别 | ⬇️ 1.2MB/s
+    port: 80
+    server: 141.193.213.9
+    type: vless
+    network: ws
+    udp: true
+    skip-cert-verify: true
+    ws-opts:
+      path: /Telegram🇨🇳 @MxlShare @WangCai2 /?ed=2560
+      headers:
+        host: cs.laoyoutiao.link
+    uuid: fab7bf9c-ddb9-4563-8a04-fb01ce6c0fbf
+  - name: 🇰🇷韩国2 | ⬇️ 3.9MB/s
+    port: 28548
+    server: 36.151.251.62
+    type: trojan
+    network: tcp
+    udp: true
+    sni: cdn.egvra.cn
+    password: RlzoEILU
+    skip-cert-verify: true
+    client-fingerprint: chrome
+  - name: 🇺🇸美国82 | ⬇️ 3.7MB/s
+    port: 42174
+    server: 120.234.102.229
+    type: vmess
+    network: tcp
+    tls: false
+    udp: true
+    version: "2"
+    servername: ""
+    skip-cert-verify: true
+    cipher: auto
+    uuid: 418048af-a293-4b99-9b0c-98ca3580dd24
+    alterId: 64
+  - name: 🇺🇸美国4 | ⬇️ 1.1MB/s
+    port: 443
+    server: 15.204.150.39
+    type: vless
+    network: tcp
+    tls: true
+    udp: true
+    servername: 147135001178.sec22org.com
+    skip-cert-verify: true
+    uuid: e20ebe01-1815-4c09-8e77-fb2f168263ce
+    client-fingerprint: chrome
+  - name: 🇳🇱荷兰2 | ⬇️ 2.0MB/s
+    port: 443
+    server: aut03.abvpn.ru
+    type: vless
+    network: ws
+    tls: true
+    udp: true
+    servername: aut03.abvpn.ru
+    skip-cert-verify: true
+    ws-opts:
+      path: /websocket
+      headers:
+        host: aut03.abvpn.ru
+    uuid: 588f094b-431b-422c-b80b-007945037072
+  - name: 🇺🇸美国72 | ⬇️ 3.1MB/s
+    port: 443
+    server: 135.148.177.196
+    type: vless
+    network: tcp
+    tls: true
+    udp: true
+    servername: 147135001178.sec22org.com
+    skip-cert-verify: true
+    uuid: e20ebe01-1815-4c09-8e77-fb2f168263ce
+    client-fingerprint: chrome
+  - name: 🇺🇸美国27 | ⬇️ 1.4MB/s
+    port: 443
+    server: 135.148.177.165
+    type: vless
+    network: tcp
+    tls: true
+    udp: true
+    servername: 147135010072.sec21org.com
+    skip-cert-verify: true
+    uuid: c4fa89d4-fcb9-48ba-adbc-665181cc817f
+  - name: 🇩🇪德国28 | ⬇️ 2.0MB/s
+    port: 443
+    server: 104.21.64.1
+    type: vless
+    network: ws
+    tls: true
+    udp: true
+    servername: Et3ch-007.Zed23.wEB1337.net
+    skip-cert-verify: true
+    ws-opts:
+      path: /wlbywy8cCxbWMJZI
+      headers:
+        host: et3ch-007.zed23.web1337.net
+    alpn:
+      - http/1.1
+    uuid: 4971ac7d-376d-47b9-9b86-83a21adcedc4
+    client-fingerprint: firefox
+  - name: 🇺🇸美国6 | ⬇️ 2.0MB/s
+    port: 443
+    server: 135.148.206.76
+    type: vless
+    network: tcp
+    tls: true
+    udp: true
+    servername: 147135010072.sec21org.com
+    skip-cert-verify: true
+    uuid: c4fa89d4-fcb9-48ba-adbc-665181cc817f
+    client-fingerprint: chrome
+  - name: 🇺🇸美国11 | ⬇️ 1.6MB/s
+    port: 15229
+    server: 69108338-swo740-sy4o80-fha8.cu.plebai.net
+    type: trojan
+    network: tcp
+    udp: true
+    sni: 69108338-swo740-sy4o80-fha8.cu.plebai.net
+    password: 8ec8325a-efa4-11ef-a7bb-f23c9164ca5d
+    skip-cert-verify: false
+    client-fingerprint: chrome
+  - name: 🇺🇸美国10 | ⬇️ 1.8MB/s
+    port: 15229
+    server: 699bbddc-swq1s0-sxzls8-1gxvd.cu.plebai.net
+    type: trojan
+    network: tcp
+    udp: true
+    sni: 699bbddc-swq1s0-sxzls8-1gxvd.cu.plebai.net
+    password: 398e0d38-8649-11ef-959c-f23c9164ca5d
+    skip-cert-verify: false
+    client-fingerprint: chrome
+  - name: 🇺🇸美国23 | ⬇️ 2.7MB/s
+    port: 443
+    server: 104.21.25.95
+    type: vless
+    network: ws
+    tls: true
+    udp: true
+    servername: ws345.890604.fIlEGeAR-Sg.me
+    skip-cert-verify: true
+    ws-opts:
+      path: /h1iXYtqUZkDQMvgKagyIefJfM0OQ
+      headers:
+        host: ws345.890604.filegear-sg.me
+    alpn:
+      - http/1.1
+    uuid: 43324bdf-a0e8-4f6f-8bdc-5482db82fd0f
+    client-fingerprint: chrome
+  - name: 🌀其他3-TR | ⬇️ 1.2MB/s
+    port: 4111
+    server: serverdlt1.goodshoes.ir
+    type: vless
+    network: tcp
+    udp: true
+    servername: serverdlt1.goodshoes.ir
+    skip-cert-verify: true
+    reality-opts:
+      public-key: SLaKJrXI_5q7tPsYGffScpC1MEl75kMp-Z6M5KnvZwc
+      short-id: cc30318af8ce0970
+    uuid: 885a03bb-4797-3fd8-5446-c770066cb87e
+    flow: xtls-rprx-vision
+    client-fingerprint: chrome
+  - name: 🇩🇪德国4 | ⬇️ 2.7MB/s
+    port: 8880
+    server: 167.68.11.20
+    type: vless
+    network: ws
+    udp: true
+    servername: reedfree8mahsang2.redorg.ir
+    skip-cert-verify: true
+    ws-opts:
+      path: /
+      headers:
+        host: reedfree8mahsang2.redorg.ir
+    uuid: 53fa8faf-ba4b-4322-9c69-a3e5b1555049
+  - name: 🇺🇸美国29 | ⬇️ 1.5MB/s
+    port: 15229
+    server: 808f9c30-swq1s0-swy6li-tni2.cu.plebai.net
+    type: trojan
+    network: tcp
+    udp: true
+    sni: 808f9c30-swq1s0-swy6li-tni2.cu.plebai.net
+    password: 5e2f888c-68ef-11ef-96ca-f23c9164ca5d
+    skip-cert-verify: false
+  - name: 🇬🇧英国8 | ⬇️ 3.3MB/s
+    port: 2030
+    server: ns7.esfahansiman.com
+    type: vless
+    network: grpc
+    udp: true
+    servername: refersion.com
+    skip-cert-verify: true
+    grpc-opts: {}
+    reality-opts:
+      public-key: YWfCdTnr4FAOMYTY2dLrMtQUokyxOGpPhYEEszPj20E
+      short-id: 7fe29733
+    uuid: e66070a9-049f-42ce-9e14-9752141c3be4
+    client-fingerprint: chrome
+  - name: 🇬🇧英国10 | ⬇️ 3.2MB/s
+    port: 2030
+    server: ns7.esfahansiman.com
+    type: vless
+    network: grpc
+    udp: true
+    servername: refersion.com
+    skip-cert-verify: true
+    grpc-opts: {}
+    reality-opts:
+      public-key: YWfCdTnr4FAOMYTY2dLrMtQUokyxOGpPhYEEszPj20E
+      short-id: 7fe29733
+    uuid: 98e5553e-abcc-4c9a-941a-8f0e9741d541
+    client-fingerprint: chrome
+  - name: 🇺🇸美国76 | ⬇️ 1.4MB/s
+    port: 443
+    server: 172.67.144.126
+    type: vless
+    network: grpc
+    tls: true
+    udp: true
+    servername: 10e.288288.shop
+    skip-cert-verify: true
+    grpc-opts: {}
+    alpn:
+      - h2
+    uuid: ca48571a-403f-44b9-b2a6-e17c36d7cacc
+    client-fingerprint: chrome
+  - name: 🇺🇸美国22 | ⬇️ 1.8MB/s
+    port: 15229
+    server: a828e0b8-swo740-tcinla-hrtf.cu.plebai.net
+    type: trojan
+    network: tcp
+    udp: true
+    sni: a828e0b8-swo740-tcinla-hrtf.cu.plebai.net
+    password: 0da8651e-e1f6-11ec-bd7c-f23c913c8d2b
+    skip-cert-verify: false
+    client-fingerprint: chrome
+  - name: 🇺🇸美国74 | ⬇️ 2.0MB/s
+    port: 443
+    server: 172.67.214.21
+    type: vless
+    network: ws
+    tls: true
+    udp: true
+    servername: 10e.191268.xyz
+    skip-cert-verify: true
+    ws-opts:
+      path: /uDLWPKXENxF2ulPWRIwOavJd
+      headers:
+        host: 10e.191268.xyz
+    alpn:
+      - http/1.1
+    uuid: 072f4db4-d89d-420d-9d9e-045ed8d5c9cc
+    client-fingerprint: chrome
+  - name: 🇺🇸美国45 | ⬇️ 1.6MB/s
+    port: 443
+    server: 103.21.244.113
+    type: vless
+    network: ws
+    tls: true
+    udp: true
+    servername: free.5niu.xyz
+    skip-cert-verify: true
+    ws-opts:
+      path: /?ed=2560
+      headers:
+        host: free.5niu.xyz
+    uuid: 67fa5212-9ce6-4a2c-b57d-7b15c5ac3b6e
+    client-fingerprint: random
+  - name: 🇳🇱荷兰3 | ⬇️ 1.1MB/s
+    port: 33097
+    server: 36.151.251.61
+    type: trojan
+    network: tcp
+    udp: true
+    sni: 36.151.251.61
+    password: RlzoEILU
+    skip-cert-verify: true
+  - name: 🇺🇸美国3 | ⬇️ 2.2MB/s
+    port: 443
+    server: 104.21.7.147
+    type: vless
+    network: ws
+    tls: true
+    udp: true
+    servername: m12wErT.HuangSHAnG.dpDNS.Org
+    skip-cert-verify: true
+    ws-opts:
+      path: /vaETNuCIptYKnk9eiIGVIW
+      headers:
+        host: m12wert.huangshang.dpdns.org
+    alpn:
+      - http/1.1
+    uuid: 08355b07-1f90-4225-a420-6373c2e1c059
+    client-fingerprint: chrome
+  - name: 🇺🇸美国24 | ⬇️ 3.8MB/s
+    port: 443
+    server: 104.21.26.17
+    type: vless
+    network: ws
+    tls: true
+    udp: true
+    servername: 1.459.PP.uA
+    skip-cert-verify: true
+    ws-opts:
+      path: /en98IVNnhxyMtdfYnjLYhU30U
+      headers:
+        host: 1.459.pp.ua
+    uuid: 44ed7a37-af89-4cd1-8680-83a7207810d9
+    client-fingerprint: chrome
+  - name: 🇩🇪德国16 | ⬇️ 3.1MB/s
+    port: 80
+    server: 151.101.64.155
+    type: vless
+    network: ws
+    udp: true
+    skip-cert-verify: true
+    ws-opts:
+      path: /@XpnTeam/@XpnTeam/@XpnTeam/@XpnTeam/@XpnTeam/@XpnTeam/@XpnTeam/@XpnTeam/@XpnTeam/@XpnTeam/@XpnTeam/@XpnTeam/@XpnTeam/@XpnTeam/@XpnTeam/@XpnTeam?ed=2048
+      headers:
+        host: Bpalanenok.ir
+    uuid: 85d82fdc-ce5c-42b6-f130-83ffbe4b0b1f
+  - name: 🇩🇪德国13 | ⬇️ 1.6MB/s
+    port: 80
+    server: expressvpn_420.fastly80-3.hosting-ip.com
+    type: vless
+    network: ws
+    udp: true
+    skip-cert-verify: true
+    ws-opts:
+      path: /Join--EXPRESSVPN_420--Join--EXPRESSVPN_420--Join--EXPRESSVPN_420--Join--EXPRESSVPN_420--Join--EXPRESSVPN_420--Join--EXPRESSVPN_420--Join--EXPRESSVPN_420--Join--EXPRESSVPN_420--Join--EXPRESSVPN_420--Join--EXPRESSVPN_420--Join--EXPRESSVPN_420--Join--EXPRESSVPN_420--Join--EXPRESSVPN_420?ed=2048
+      headers:
+        host: taxi.ir
+    uuid: 19859922-a02c-4f4c-a081-ee59535910f7
+  - name: 🇺🇸美国7 | ⬇️ 3.7MB/s
+    port: 15229
+    server: 3784f70a-swo740-swy6li-tni2.cu.plebai.net
+    type: trojan
+    network: tcp
+    udp: true
+    sni: 3784f70a-swo740-swy6li-tni2.cu.plebai.net
+    password: 5e2f888c-68ef-11ef-96ca-f23c9164ca5d
+    skip-cert-verify: false
+    client-fingerprint: chrome
+  - name: 🇳🇱荷兰1 | ⬇️ 3.3MB/s
+    port: 16641
+    server: 36.151.251.61
+    type: trojan
+    network: tcp
+    udp: true
+    sni: 36.151.251.61
+    password: RlzoEILU
+    skip-cert-verify: true
+  - name: 🇬🇧英国3 | ⬇️ 3.5MB/s
+    port: 80
+    server: hajlab.ucdavis.edu
+    type: vless
+    network: ws
+    udp: true
+    servername: wWw.SpEeDtEsT.NeT.ZuLa.Ir.IkCoSaLeS.iR.D662599.v07.networkpro.net
+    skip-cert-verify: true
+    ws-opts:
+      path: /?ed=2048
+      headers:
+        host: wWw.SpEeDtEsT.NeT.ZuLa.Ir.IkCoSaLeS.iR.D662599.v07.networkpro.net
+    uuid: 2404f667-5969-4883-a71a-ea2e0db2d25b
+  - name: 🇺🇸美国77 | ⬇️ 3.6MB/s
+    port: 443
+    server: 104.21.22.133
+    type: vless
+    network: ws
+    tls: true
+    udp: true
+    servername: 300-ac1b-3e970b59d0.20220420.pp.ua
+    skip-cert-verify: true
+    ws-opts:
+      path: /ok1UBnf7txQ8YJFJxz
+      headers:
+        host: 300-ac1b-3e970b59d0.20220420.pp.ua
+    alpn:
+      - http/1.1
+    uuid: 15b24b56-d667-4fa8-b548-f3dc942fb461
+    client-fingerprint: chrome
+  - name: 🇨🇦加拿大1 | ⬇️ 2.5MB/s
+    port: 443
+    server: 104.17.142.12
+    type: vless
+    network: ws
+    tls: true
+    udp: true
+    servername: vle.amclubsapp.dpdns.org
+    skip-cert-verify: true
+    ws-opts:
+      path: /
+      headers:
+        host: vle.amclubsapp.dpdns.org
+    uuid: d6b8011a-c725-435a-9fec-bf6d3530392c
+    client-fingerprint: chrome
+  - name: 🇺🇸美国20 | ⬇️ 3.8MB/s
+    port: 443
+    server: 172.67.144.126
+    type: vless
+    network: ws
+    tls: true
+    udp: true
+    servername: 899.288288.shoP
+    skip-cert-verify: true
+    ws-opts:
+      path: /wAlPWPCQWnsVcNgLsMVz
+      headers:
+        host: 899.288288.shop
+    alpn:
+      - http/1.1
+    uuid: 4e41764d-ac31-43f5-8e9b-231ddf252d1f
+    client-fingerprint: chrome
+  - name: 🇺🇸美国8 | ⬇️ 3.0MB/s
+    port: 443
+    server: 104.21.30.167
+    type: vless
+    network: ws
+    tls: true
+    udp: true
+    servername: d3332856-cd74.2032.pp.ua
+    skip-cert-verify: true
+    ws-opts:
+      path: /ok1UBnf7txQ8YJFJxz
+      headers:
+        host: d3332856-cd74.2032.pp.ua
+    alpn:
+      - http/1.1
+    uuid: 15b24b56-d667-4fa8-b548-f3dc942fb461
+    client-fingerprint: chrome
+  - name: 🇺🇸美国79 | ⬇️ 3.8MB/s
+    port: 443
+    server: 104.21.42.250
+    type: vless
+    network: ws
+    tls: true
+    udp: true
+    servername: 10e.191268.xyz
+    skip-cert-verify: true
+    ws-opts:
+      path: /uDLWPKXENxF2ulPWRIwOavJd
+      headers:
+        host: 10e.191268.xyz
+    alpn:
+      - http/1.1
+    uuid: 072f4db4-d89d-420d-9d9e-045ed8d5c9cc
+    client-fingerprint: chrome
+  - name: 🌀其他1-EE | ⬇️ 1.4MB/s
+    port: 4768
+    server: 146.19.143.150
+    type: vless
+    network: tcp
+    udp: true
+    servername: yandex.com
+    skip-cert-verify: true
+    reality-opts:
+      public-key: 1juiWgfU1-cGsbu9zxKCly7Vn3WGES5x6S86r90_vwc
+      short-id: b7e284c9b786f709
+    uuid: af50bdbf-1715-a461-cbb4-ebbea9ed338c
+    flow: xtls-rprx-vision
+    client-fingerprint: chrome
+  - name: 🇺🇸美国16 | ⬇️ 3.6MB/s
+    port: 8880
+    server: 176.124.223.20
+    type: vless
+    network: ws
+    udp: true
+    servername: reedfree8mahsang2.redorg.ir
+    skip-cert-verify: true
+    ws-opts:
+      path: /
+      headers:
+        host: reedfree8mahsang2.redorg.ir
+    uuid: 53fa8faf-ba4b-4322-9c69-a3e5b1555049
+  - name: 🇬🇧英国5 | ⬇️ 3.5MB/s
+    port: 80
+    server: 151.101.66.228
+    type: vless
+    network: ws
+    udp: true
+    skip-cert-verify: true
+    ws-opts:
+      path: /?ed=2048
+      headers:
+        host: wWw.SpEeDtEsT.NeT.ZuLa.Ir.IkCoSaLeS.iR.D662599.v13.networkpro.net
+    uuid: 2404f667-5969-4883-a71a-ea2e0db2d25b
+  - name: 🇺🇸美国13 | ⬇️ 3.7MB/s
+    port: 443
+    server: 172.67.212.82
+    type: vless
+    network: ws
+    tls: true
+    udp: true
+    servername: 7tgn.131.pp.ua
+    skip-cert-verify: true
+    ws-opts:
+      path: /rdcXpTqcZpByZyxgvJgLl
+      headers:
+        host: 7tgn.131.pp.ua
+    alpn:
+      - http/1.1
+    uuid: ad4a124c-12fb-4467-9ad0-dc6d9b509ac0
+    client-fingerprint: chrome
+  - name: 🇰🇷韩国3 | ⬇️ 1.0MB/s
+    port: 8880
+    server: 185.176.24.20
+    type: vless
+    network: ws
+    udp: true
+    servername: reedfree8mahsang2.redorg.ir
+    skip-cert-verify: true
+    ws-opts:
+      path: /
+      headers:
+        host: reedfree8mahsang2.redorg.ir
+    uuid: 53fa8faf-ba4b-4322-9c69-a3e5b1555049
+  - name: 🇰🇷韩国7 | ⬇️ 1.2MB/s
+    port: 8880
+    server: 185.162.231.20
+    type: vless
+    network: ws
+    udp: true
+    skip-cert-verify: true
+    ws-opts:
+      path: /?ed=2560
+      headers:
+        host: reedfree8mahsang2.redorg.ir
+    uuid: 53fa8faf-ba4b-4322-9c69-a3e5b1555049
+  - name: 🇩🇪德国10 | ⬇️ 1.2MB/s
+    port: 8880
+    server: 45.8.211.20
+    type: vless
+    network: ws
+    udp: true
+    servername: reedfree8mahsang2.redorg.ir
+    skip-cert-verify: true
+    ws-opts:
+      path: /?ed=2560
+      headers:
+        host: reedfree8mahsang2.redorg.ir
+    uuid: 53fa8faf-ba4b-4322-9c69-a3e5b1555049
+  - name: 🇬🇧英国6 | ⬇️ 1.8MB/s
+    port: 80
+    server: 151.101.130.228
+    type: vless
+    network: ws
+    udp: true
+    skip-cert-verify: true
+    ws-opts:
+      path: /?ed=2048@Evay_vpn----@Evay_vpn----@Evay_vpn----@Evay_vpn----@Evay_vpn----@Evay_vpn----@Evay_vpn----@Evay_vpn----@Evay_vpn----@Evay_vpn----@Evay_vpn----@Evay_vpn----@Evay_vpn----@Evay_vpn----@Evay_vpn
+      headers:
+        host: wWw.SpEeDtEsT.NeT.ZuLa.Ir.IkCoSaLeS.iR.D662599.v18.networkpro.net
+    uuid: 2404f667-5969-4883-a71a-ea2e0db2d25b
+  - name: 🇺🇸美国37 | ⬇️ 1.6MB/s
+    port: 80
+    server: 141.193.213.107
+    type: vless
+    network: ws
+    udp: true
+    skip-cert-verify: true
+    ws-opts:
+      path: /Telegram🇨🇳 @MxlShare @WangCai2 /?ed=2560
+      headers:
+        host: cs.laoyoutiao.link
+    uuid: fab7bf9c-ddb9-4563-8a04-fb01ce6c0fbf
+  - name: 🇬🇧英国4 | ⬇️ 3.6MB/s
+    port: 80
+    server: 151.101.2.228
+    type: vless
+    network: ws
+    udp: true
+    skip-cert-verify: true
+    ws-opts:
+      path: /?ed=2048
+      headers:
+        host: wWw.SpEeDtEsT.NeT.ZuLa.Ir.IkCoSaLeS.iR.D662599.v03.networkpro.net
+    uuid: 2404f667-5969-4883-a71a-ea2e0db2d25b
+  - name: 🇩🇪德国21 | ⬇️ 1.0MB/s
+    port: 8880
+    server: 141.11.203.20
+    type: vless
+    network: ws
+    udp: true
+    skip-cert-verify: true
+    ws-opts:
+      path: /?ed=2560
+      headers:
+        host: reedfree8mahsang2.redorg.ir
+    uuid: 53fa8faf-ba4b-4322-9c69-a3e5b1555049
+  - name: 🇺🇸美国80 | ⬇️ 3.5MB/s
+    port: 443
+    server: 104.21.83.113
+    type: vless
+    network: ws
+    tls: true
+    udp: true
+    servername: S859886xYZXs.859886.xYz
+    skip-cert-verify: true
+    ws-opts:
+      path: /25Rajr8UdFGa29fCwxS
+      headers:
+        host: s859886xyzxs.859886.xyz
+    alpn:
+      - http/1.1
+    uuid: 0a23af3f-3f9b-4333-ae89-796f7fe2f9ce
+    client-fingerprint: chrome
+  - name: 🇸🇬新加坡5 | ⬇️ 1.7MB/s
+    port: 80
+    server: partner.zoom.us
+    type: vless
+    network: ws
+    udp: true
+    skip-cert-verify: true
+    ws-opts:
+      path: /
+      headers:
+        host: 14.sahanwickramasinghe.shop
+    uuid: 438f9559-1671-45cf-9d2c-338fe6766acf
+  - name: 🇫🇷法国2 | ⬇️ 3.1MB/s
+    port: 80
+    server: 151.101.194.228
+    type: vless
+    network: ws
+    udp: true
+    skip-cert-verify: true
+    ws-opts:
+      path: /
+      headers:
+        host: wWw.SpEeDtEsT.NeT.ZuLa.Ir.IkCoSaLeS.iR.D662599.v01.networkpro.net
+    uuid: 2404f667-5969-4883-a71a-ea2e0db2d25b
+  - name: 🇺🇸美国25 | ⬇️ 3.2MB/s
+    port: 443
+    server: 172.67.212.59
+    type: vless
+    network: ws
+    tls: true
+    udp: true
+    servername: bBA.890601.pP.UA
+    skip-cert-verify: true
+    ws-opts:
+      path: /rU9rSjDSOd4yY2fOe
+      headers:
+        host: bba.890601.pp.ua
+    alpn:
+      - http/1.1
+    uuid: 585acd30-52bf-4b70-a537-e13649fafefc
+    client-fingerprint: chrome
+  - name: 🇬🇧英国7 | ⬇️ 2.2MB/s
+    port: 8880
+    server: 104.19.54.50
+    type: vless
+    network: ws
+    udp: true
+    skip-cert-verify: true
+    ws-opts:
+      path: /@V2rayArgoN----@V2rayArgoN----@V2rayArgoN----@V2rayArgoN----@V2rayArgoN----@V2rayArgoN----@V2rayArgoN----@V2rayArgoN----@V2rayArgoN----@V2rayArgoN----@V2rayArgoN----@V2rayArgoN?ed=2048
+      headers:
+        host: V2rayArgoN.elmahstyle.xyz.
+    uuid: 13118a5b-8e07-409c-a244-98c6f828ac44
+  - name: 🇩🇪德国8 | ⬇️ 2.2MB/s
+    port: 8880
+    server: 216.116.134.20
+    type: vless
+    network: ws
+    udp: true
+    servername: reedfree8mahsang2.redorg.ir
+    skip-cert-verify: true
+    ws-opts:
+      path: /?ed=2560
+      headers:
+        host: reedfree8mahsang2.redorg.ir
+    uuid: 53fa8faf-ba4b-4322-9c69-a3e5b1555049
+  - name: 🇩🇪德国27 | ⬇️ 3.7MB/s
+    port: 8080
+    server: 104.19.54.50
+    type: vless
+    network: ws
+    udp: true
+    skip-cert-verify: true
+    ws-opts:
+      path: /@XvProxy----@XvProxy----@XvProxy----@XvProxy----@XvProxy----@XvProxy----@XvProxy----@XvProxy----@XvProxy----@XvProxy----@XvProxy----@XvProxy?ed=2048
+      headers:
+        host: www.speedtest.net.www.zula.ir.cloudflare.com.www.parsvds.ir.svgspeedtest.net.
+    uuid: 363fef65-27b3-4ef1-b7f3-21a2953aff68
+  - name: 🇩🇪德国6 | ⬇️ 3.7MB/s
+    port: 8880
+    server: 104.17.147.22
+    type: vless
+    network: ws
+    udp: true
+    skip-cert-verify: true
+    ws-opts:
+      path: /Join--EXPRESSVPN_420--Join--EXPRESSVPN_420--Join--EXPRESSVPN_420--Join--EXPRESSVPN_420--Join--EXPRESSVPN_420--Join--EXPRESSVPN_420--Join--EXPRESSVPN_420--Join--EXPRESSVPN_420--Join--EXPRESSVPN_420--Join--EXPRESSVPN_420--Join--EXPRESSVPN_420--Join--EXPRESSVPN_420--Join--EXPRESSVPN_420?ed=2048
+      headers:
+        host: de-snapp.academigroup.ir.
+    uuid: 19859922-a02c-4f4c-a081-ee59535910f7
+  - name: 🇭🇰香港11 | ⬇️ 1.5MB/s
+    port: 40185
+    server: b7feba4302001c9d9c06c8c2713b05cc.v1.cac.node-is.green
+    type: trojan
+    network: tcp
+    udp: true
+    sni: hk13.bilibili.com
+    password: aa6ddd2f-d1cf-4a52-ba1b-2640c41a7856
+    skip-cert-verify: true
+    client-fingerprint: chrome
+  - name: 🌀其他5-CY | ⬇️ 1.9MB/s
+    port: 2053
+    server: 104.31.16.95
+    type: vless
+    network: ws
+    tls: true
+    udp: true
+    servername: ir.akcovufun.ir
+    skip-cert-verify: true
+    ws-opts:
+      path: /
+      headers:
+        host: ir.akcovufun.ir
+    uuid: 39a91eaf-a379-4fff-a9c8-1cb01442b76f
+    client-fingerprint: chrome
+  - name: 🇺🇸美国14 | ⬇️ 1.4MB/s
+    port: 443
+    server: 172.67.138.187
+    type: vless
+    network: ws
+    tls: true
+    udp: true
+    servername: XszAW34.7282728.xYZ
+    skip-cert-verify: true
+    ws-opts:
+      path: /rU9rSjDSOd4yY2fOe?ed=2048/@Evay_vpn----@Evay_vpn----@Evay_vpn----@Evay_vpn----@Evay_vpn----@Evay_vpn----@Evay_vpn----@Evay_vpn----@Evay_vpn----@Evay_vpn----@Evay_vpn
+      headers:
+        host: xszaw34.7282728.xyz
+    alpn:
+      - http/1.1
+    uuid: 585acd30-52bf-4b70-a537-e13649fafefc
+    client-fingerprint: chrome
+  - name: 🇭🇰香港10 | ⬇️ 1.0MB/s
+    port: 40021
+    server: vt-bana2-cn-11.ghpgwqswodgzv.com
+    type: trojan
+    network: ws
+    udp: true
+    sni: vt-bana2-cn-11.ghpgwqswodgzv.com
+    password: a38c9e28-9960-4e31-9f18-ed2495a756aa
+    skip-cert-verify: false
+    ws-opts:
+      path: /dl_media
+      headers:
+        host: vt-bana2-cn-11.ghpgwqswodgzv.com
+  - name: 🇺🇸美国19 | ⬇️ 2.7MB/s
+    port: 25536
+    server: 216.230.233.49
+    type: vless
+    network: tcp
+    udp: true
+    servername: apps.apple.com
+    skip-cert-verify: true
+    reality-opts:
+      public-key: ydfJ-qHuqDCqmGnFbRwzqYT7gA9mWoh0gtYvMzt8OmI
+      short-id: fc3d
+    uuid: 4a3dc64b-17e1-4ae7-a9a4-851f9794d4c6
+    flow: xtls-rprx-vision
+    client-fingerprint: chrome
+  - name: 🇸🇬新加坡6 | ⬇️ 1.8MB/s
+    port: 80
+    server: tiamo2.tiamocloud.us.kg
+    type: vmess
+    network: ws
+    tls: false
+    udp: true
+    version: "2"
+    servername: ""
+    skip-cert-verify: true
+    ws-opts:
+      path: /
+      headers:
+        host: tiamo2.tiamocloud.us.kg
+    cipher: auto
+    uuid: 1d3c4dbb-597d-493b-98af-0bef617767e3
+    alterId: 0
+  - name: 🇩🇪德国9 | ⬇️ 2.1MB/s
+    port: 8880
+    server: www.speedtest.net
+    type: vless
+    network: ws
+    udp: true
+    skip-cert-verify: true
+    ws-opts:
+      path: /Join--EXPRESSVPN_420--Join--EXPRESSVPN_420--Join--EXPRESSVPN_420--Join--EXPRESSVPN_420--Join--EXPRESSVPN_420--Join--EXPRESSVPN_420--Join--EXPRESSVPN_420--Join--EXPRESSVPN_420--Join--EXPRESSVPN_420--Join--EXPRESSVPN_420--Join--EXPRESSVPN_420--Join--EXPRESSVPN_420--Join--EXPRESSVPN_420?ed=2048
+      headers:
+        host: de-snapp.academigroup.ir.
+    uuid: 19859922-a02c-4f4c-a081-ee59535910f7
+  - name: 🇸🇬新加坡2 | ⬇️ 3.8MB/s
+    port: 80
+    server: 170.114.45.6
+    type: vless
+    network: ws
+    udp: true
+    servername: 14.sahanwickramasinghe.shop
+    skip-cert-verify: true
+    ws-opts:
+      path: /
+      headers:
+        host: 14.sahanwickramasinghe.shop
+    uuid: 438f9559-1671-45cf-9d2c-338fe6766acf

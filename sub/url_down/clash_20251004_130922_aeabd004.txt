@@ -1,0 +1,1403 @@
+# 来源URL: https://fs.v2rayse.com/share/20250911/xmj9il7jyi.yaml
+# 保存时间: 2025-10-04 13:09:22.425128
+# 生成地址：https://t.me/zyzzzoao
+# 免费节点：https://t.me/zyzzzoao
+# TG频道每天更新  https://t.me/dns68
+# 生成时间：2025-09-11 12:07:00
+# 不要随意改变关键字，否则会导致出错
+# acl4SSR规则
+# 去广告：支持
+# 自动测速：支持
+# 微软分流：支持
+# 苹果分流：支持
+# 增强中国IP段：不支持
+# 增强国外GFW：不支持
+
+mixed-port: 7890
+allow-lan: false
+mode: rule
+ipv6: false
+log-level: info
+external-controller: 0.0.0.0:9090
+dns:
+  enable: true
+  listen: 0.0.0.0:53
+  ipv6: false
+  default-nameserver:
+    - 223.5.5.5
+    - 114.114.114.114
+  nameserver:
+    - 223.5.5.5
+    - 114.114.114.114
+    - 119.29.29.29
+    - 180.76.76.76
+  enhanced-mode: fake-ip
+  fake-ip-range: 198.18.0.1/16
+  fake-ip-filter:
+    - "*.lan"
+    - "*.localdomain"
+    - "*.example"
+    - "*.invalid"
+    - "*.localhost"
+    - "*.test"
+    - "*.local"
+    - "*.home.arpa"
+    - router.asus.com
+    - localhost.sec.qq.com
+    - localhost.ptlogin2.qq.com
+    - +.msftconnecttest.com
+tun:
+  enable: true
+  stack: system
+  auto-route: true
+  auto-detect-interface: true
+  dns-hijack:
+    - 114.114.114.114
+    - 180.76.76.76
+    - 119.29.29.29
+    - 223.5.5.5
+    - 8.8.8.8
+    - 8.8.4.4
+    - 1.1.1.1
+    - 1.0.0.1
+proxies:
+  - name: 🇺🇸美国4号
+    port: 30118
+    server: uk.youyacloud.me
+    type: hysteria2
+    udp: true
+    sni: uk.youyacloud.me
+    password: 8da7bd17-70ab-472d-a925-cc827857dc35
+    skip-cert-verify: true
+  - name: 🇩🇪德国博物馆岛
+    port: 30172
+    server: de.youyacloud.me
+    type: hysteria2
+    udp: true
+    sni: de.youyacloud.me
+    obfs: salamander
+    password: 8da7bd17-70ab-472d-a925-cc827857dc35
+    skip-cert-verify: true
+    obfs-password: qBbeISsJ8AK48fZW
+  - name: 🇩🇪德国​新天鹅堡
+    port: 30173
+    server: de.youyacloud.me
+    type: hysteria2
+    udp: true
+    sni: de.youyacloud.me
+    obfs: salamander
+    password: 8da7bd17-70ab-472d-a925-cc827857dc35
+    skip-cert-verify: true
+    obfs-password: qBbeISsJ8AK48fZW
+  - name: 🇺🇸美国3号
+    port: 30163
+    server: uk.youyacloud.me
+    type: hysteria2
+    udp: true
+    sni: uk.youyacloud.me
+    password: 8da7bd17-70ab-472d-a925-cc827857dc35
+    skip-cert-verify: true
+  - name: 🇺🇸美国
+    port: 30195
+    server: uk.youyacloud.me
+    type: hysteria2
+    udp: true
+    sni: uk.youyacloud.me
+    password: 8da7bd17-70ab-472d-a925-cc827857dc35
+    skip-cert-verify: true
+  - name: 🇺🇸美国02号
+    port: 30160
+    server: uk.youyacloud.me
+    type: hysteria2
+    udp: true
+    sni: uk.youyacloud.me
+    password: 8da7bd17-70ab-472d-a925-cc827857dc35
+    skip-cert-verify: true
+  - name: 日本_1
+    port: 13890
+    server: japan001.tmdns-sing.top
+    type: ss
+    udp: true
+    password: bce817bc-ccd4-4f4a-8f8a-7dc57a0558f2
+    cipher: aes-128-gcm
+  - name: 日本_2
+    port: 13890
+    server: japan001.tmdns-sing.top
+    type: ss
+    udp: true
+    password: b1adee9a-5cbc-4f73-8ccc-b8c492054f88
+    cipher: aes-128-gcm
+  - name: JP-日本 _1
+    port: 13890
+    server: japan001.tmdns-sing.top
+    type: ss
+    udp: true
+    password: 3d963bfb-36b1-4d7b-8e93-d52b6609ed26
+    cipher: aes-128-gcm
+  - name: 日本_3
+    port: 13890
+    server: japan001.tmdns-sing.top
+    type: ss
+    udp: true
+    password: c430d375-b889-4782-a53b-c4720996ad73
+    cipher: aes-128-gcm
+  - name: JP-日本 _2
+    port: 13890
+    server: japan001.tmdns-sing.top
+    type: ss
+    udp: true
+    password: f4e7fbe5-5b85-4b2b-bfc0-39d969ad22a4
+    cipher: aes-128-gcm
+  - name: 日本_4
+    port: 13890
+    server: japan001.tmdns-sing.top
+    type: ss
+    udp: true
+    password: 2ac1d872-a046-44db-b1be-8cc10d1263f7
+    cipher: aes-128-gcm
+  - name: 日本_5
+    port: 13882
+    server: hanguo01.tmdns-sing.top
+    type: ss
+    udp: true
+    password: c430d375-b889-4782-a53b-c4720996ad73
+    cipher: aes-128-gcm
+  - name: 日本_6
+    port: 13882
+    server: hanguo01.tmdns-sing.top
+    type: ss
+    udp: true
+    password: 2ac1d872-a046-44db-b1be-8cc10d1263f7
+    cipher: aes-128-gcm
+  - name: 日本_7
+    port: 13882
+    server: hanguo01.tmdns-sing.top
+    type: ss
+    udp: true
+    password: f4e7fbe5-5b85-4b2b-bfc0-39d969ad22a4
+    cipher: aes-128-gcm
+  - name: 日本_8
+    port: 13882
+    server: hanguo01.tmdns-sing.top
+    type: ss
+    udp: true
+    password: bce817bc-ccd4-4f4a-8f8a-7dc57a0558f2
+    cipher: aes-128-gcm
+  - name: 🇺🇸US_3|2.0MB/s
+    port: 2096
+    server: 190.93.247.195
+    type: trojan
+    network: ws
+    udp: true
+    sni: ocost-dy.wmlefl.cc
+    password: slch2024
+    skip-cert-verify: false
+    ws-opts:
+      path: /Telegram🇨🇳
+      headers:
+        host: ocost-dy.wmlefl.cc
+  - name: "美国 "
+    port: 2096
+    server: 199.68.156.195
+    type: trojan
+    network: ws
+    udp: true
+    sni: ocost-dy.wmlefl.cc
+    password: slch2024
+    skip-cert-verify: false
+    ws-opts:
+      path: /Telegram🇨🇳
+      headers:
+        host: ocost-dy.wmlefl.cc
+  - name: 日本_9
+    port: 13882
+    server: hanguo01.tmdns-sing.top
+    type: ss
+    udp: true
+    password: b1adee9a-5cbc-4f73-8ccc-b8c492054f88
+    cipher: aes-128-gcm
+  - name: 科技网络_1
+    port: 2096
+    server: 185.7.240.195
+    type: trojan
+    network: ws
+    udp: true
+    sni: ocost-dy.wmlefl.cc
+    password: slch2024
+    skip-cert-verify: false
+    ws-opts:
+      path: /Telegram
+      headers:
+        host: ocost-dy.wmlefl.cc
+  - name: 德国 001
+    port: 2096
+    server: 185.16.110.195
+    type: trojan
+    network: ws
+    udp: true
+    sni: ocost-dy.wmlefl.cc
+    password: slch2024
+    skip-cert-verify: false
+    ws-opts:
+      path: /Telegram🇨🇳
+  - name: 立陶宛 _1
+    port: 2096
+    server: 185.176.24.195
+    type: trojan
+    network: ws
+    udp: true
+    sni: ocost-dy.wmlefl.cc
+    password: slch2024
+    skip-cert-verify: false
+    ws-opts:
+      path: /Telegram🇨🇳
+      headers:
+        host: ocost-dy.wmlefl.cc
+  - name: 俄罗斯+_1
+    port: 2096
+    server: 193.9.49.195
+    type: trojan
+    network: ws
+    udp: true
+    sni: ocost-dy.wmlefl.cc
+    password: slch2024
+    skip-cert-verify: false
+    ws-opts:
+      path: /Telegram
+      headers:
+        host: ocost-dy.wmlefl.cc
+  - name: "俄罗斯 "
+    port: 2096
+    server: 195.13.45.195
+    type: trojan
+    network: ws
+    udp: true
+    sni: ocost-dy.wmlefl.cc
+    password: slch2024
+    skip-cert-verify: false
+    ws-opts:
+      path: /Telegram🇨🇳
+      headers:
+        host: ocost-dy.wmlefl.cc
+  - name: "法国 "
+    port: 2096
+    server: 185.7.240.195
+    type: trojan
+    network: ws
+    udp: true
+    sni: ocost-dy.wmlefl.cc
+    password: slch2024
+    skip-cert-verify: false
+    ws-opts:
+      path: /Telegram🇨🇳
+      headers:
+        host: ocost-dy.wmlefl.cc
+  - name: 科技网络 🇨🇭_1
+    port: 2096
+    server: 185.18.250.195
+    type: trojan
+    network: ws
+    udp: true
+    sni: ocost-dy.wmlefl.cc
+    password: slch2024
+    skip-cert-verify: false
+    ws-opts:
+      path: /由零开始
+      headers:
+        host: ocost-dy.wmlefl.cc
+  - name: 德国_1
+    port: 2096
+    server: 185.16.110.195
+    type: trojan
+    network: ws
+    udp: true
+    sni: ocost-dy.wmlefl.cc
+    password: slch2024
+    skip-cert-verify: false
+    ws-opts:
+      path: /Telegram🇨🇳
+      headers:
+        host: ocost-dy.wmlefl.cc
+  - name: 美国 017
+    port: 2096
+    server: 216.24.57.87
+    type: trojan
+    network: ws
+    udp: true
+    sni: ocost-dy.wmlefl.cc
+    password: slch2024
+    skip-cert-verify: true
+    ws-opts:
+      path: /Telegram🇨🇳
+  - name: 荷兰 002
+    port: 2096
+    server: 188.42.145.195
+    type: trojan
+    network: ws
+    udp: true
+    sni: ocost-dy.wmlefl.cc
+    password: slch2024
+    skip-cert-verify: false
+    ws-opts:
+      path: /Telegram🇨🇳
+  - name: 美国 037
+    port: 2096
+    server: 192.200.160.87
+    type: trojan
+    network: ws
+    udp: true
+    sni: ocost-dy.wmlefl.cc
+    password: slch2024
+    skip-cert-verify: true
+    ws-opts:
+      path: /Telegram🇨🇳
+  - name: 科技网络 🇪🇸_1
+    port: 2096
+    server: 185.251.80.195
+    type: trojan
+    network: ws
+    udp: true
+    sni: ocost-dy.wmlefl.cc
+    password: slch2024
+    skip-cert-verify: false
+    ws-opts:
+      path: /Telegram🇨🇳
+      headers:
+        host: ocost-dy.wmlefl.cc
+  - name: 德国_2
+    port: 2096
+    server: 195.13.45.195
+    type: trojan
+    network: ws
+    udp: true
+    sni: ocost-dy.wmlefl.cc
+    password: slch2024
+    skip-cert-verify: false
+    ws-opts:
+      path: /Telegram
+      headers:
+        host: ocost-dy.wmlefl.cc
+  - name: 科技网络 🇨🇭_2
+    port: 2096
+    server: 185.18.250.195
+    type: trojan
+    network: ws
+    udp: true
+    sni: ocost-dy.wmlefl.cc
+    password: slch2024
+    skip-cert-verify: false
+    ws-opts:
+      path: /Telegram
+      headers:
+        host: ocost-dy.wmlefl.cc
+  - name: 美国+_1
+    port: 2096
+    server: 199.68.156.195
+    type: trojan
+    network: ws
+    udp: true
+    sni: ocost-dy.wmlefl.cc
+    password: slch2024
+    skip-cert-verify: false
+    ws-opts:
+      path: /Telegram
+      headers:
+        host: ocost-dy.wmlefl.cc
+  - name: 科技网络_2
+    port: 2096
+    server: 194.76.18.195
+    type: trojan
+    network: ws
+    udp: true
+    sni: ocost-dy.wmlefl.cc
+    password: slch2024
+    skip-cert-verify: false
+    ws-opts:
+      path: /由零开始
+      headers:
+        host: ocost-dy.wmlefl.cc
+  - name: 立陶宛 _2
+    port: 2096
+    server: 185.176.24.195
+    type: trojan
+    network: ws
+    udp: true
+    sni: ocost-dy.wmlefl.cc
+    password: slch2024
+    skip-cert-verify: false
+    ws-opts:
+      path: /Telegram
+      headers:
+        host: ocost-dy.wmlefl.cc
+  - name: 英国_1
+    port: 2096
+    server: 194.36.55.195
+    type: trojan
+    network: ws
+    udp: true
+    sni: ocost-dy.wmlefl.cc
+    password: slch2024
+    skip-cert-verify: false
+    ws-opts:
+      path: /Telegram
+      headers:
+        host: ocost-dy.wmlefl.cc
+  - name: 科技网络_3
+    port: 2096
+    server: 188.42.88.195
+    type: trojan
+    network: ws
+    udp: true
+    sni: ocost-dy.wmlefl.cc
+    password: slch2024
+    skip-cert-verify: false
+    ws-opts:
+      path: /Telegram🇨🇳
+  - name: 科技网络_4
+    port: 2096
+    server: 188.42.89.195
+    type: trojan
+    network: ws
+    udp: true
+    sni: ocost-dy.wmlefl.cc
+    password: slch2024
+    skip-cert-verify: false
+    ws-opts:
+      path: /由零开始
+      headers:
+        host: ocost-dy.wmlefl.cc
+  - name: 科技网络_5
+    port: 2096
+    server: 185.7.240.195
+    type: trojan
+    network: ws
+    udp: true
+    sni: ocost-dy.wmlefl.cc
+    password: slch2024
+    skip-cert-verify: false
+    ws-opts:
+      path: /由零开始🇨🇳
+      headers:
+        host: ocost-dy.wmlefl.cc
+  - name: 俄罗斯 001
+    port: 2096
+    server: 194.76.18.195
+    type: trojan
+    network: ws
+    udp: true
+    sni: ocost-dy.wmlefl.cc
+    password: slch2024
+    skip-cert-verify: false
+    ws-opts:
+      path: /Telegram🇨🇳
+  - name: 节点日期：09-06
+    port: 2096
+    server: 216.24.57.195
+    type: trojan
+    network: ws
+    udp: true
+    sni: ocost-dy.wmlefl.cc
+    password: slch2024
+    skip-cert-verify: false
+    ws-opts:
+      path: /Telegram🇨🇳
+      headers:
+        host: ocost-dy.wmlefl.cc
+  - name: 科技网络 🇫🇷
+    port: 2096
+    server: 185.16.110.195
+    type: trojan
+    network: ws
+    udp: true
+    sni: ocost-dy.wmlefl.cc
+    password: slch2024
+    skip-cert-verify: false
+    ws-opts:
+      path: /Telegram
+      headers:
+        host: ocost-dy.wmlefl.cc
+  - name: 科技网络 🇩🇪_1
+    port: 2096
+    server: 188.244.122.195
+    type: trojan
+    network: ws
+    udp: true
+    sni: ocost-dy.wmlefl.cc
+    password: slch2024
+    skip-cert-verify: false
+    ws-opts:
+      path: /Telegram🇨🇳
+      headers:
+        host: ocost-dy.wmlefl.cc
+  - name: 法国 001
+    port: 2096
+    server: 185.7.240.195
+    type: trojan
+    network: ws
+    udp: true
+    sni: ocost-dy.wmlefl.cc
+    password: slch2024
+    skip-cert-verify: false
+    ws-opts:
+      path: /Telegram🇨🇳
+  - name: 俄罗斯 011
+    port: 2096
+    server: 194.76.18.87
+    type: trojan
+    network: ws
+    udp: true
+    sni: ocost-dy.wmlefl.cc
+    password: slch2024
+    skip-cert-verify: true
+    ws-opts:
+      path: /Telegram🇨🇳
+  - name: "🇱🇹 立陶宛  "
+    port: 2096
+    server: 185.148.105.195
+    type: trojan
+    network: ws
+    udp: true
+    sni: ocost-dy.wmlefl.cc
+    password: slch2024
+    skip-cert-verify: true
+    ws-opts:
+      path: /Telegram🇨🇳
+  - name: 科技网络 🇪🇸_2
+    port: 2096
+    server: 185.238.228.195
+    type: trojan
+    network: ws
+    udp: true
+    sni: ocost-dy.wmlefl.cc
+    password: slch2024
+    skip-cert-verify: false
+    ws-opts:
+      path: /Telegram🇨🇳
+      headers:
+        host: ocost-dy.wmlefl.cc
+  - name: 科技网络 🇪🇸_3
+    port: 2096
+    server: 185.238.228.195
+    type: trojan
+    network: ws
+    udp: true
+    sni: ocost-dy.wmlefl.cc
+    password: slch2024
+    skip-cert-verify: false
+    ws-opts:
+      path: /Telegram
+      headers:
+        host: ocost-dy.wmlefl.cc
+  - name: 科技网络 🇨🇭_3
+    port: 2096
+    server: 185.18.250.195
+    type: trojan
+    network: ws
+    udp: true
+    sni: ocost-dy.wmlefl.cc
+    password: slch2024
+    skip-cert-verify: false
+    ws-opts:
+      path: /
+      headers:
+        host: ocost-dy.wmlefl.cc
+  - name: 科技网络_6
+    port: 2096
+    server: 185.176.26.195
+    type: trojan
+    network: ws
+    udp: true
+    sni: ocost-dy.wmlefl.cc
+    password: slch2024
+    skip-cert-verify: false
+    ws-opts:
+      path: /Telegram🇨🇳
+      headers:
+        host: ocost-dy.wmlefl.cc
+  - name: 科技网络_7
+    port: 2096
+    server: 188.42.145.195
+    type: trojan
+    network: ws
+    udp: true
+    sni: ocost-dy.wmlefl.cc
+    password: slch2024
+    skip-cert-verify: false
+    ws-opts:
+      path: /由零开始
+      headers:
+        host: ocost-dy.wmlefl.cc
+  - name: 科技网络 🇪🇸_4
+    port: 2096
+    server: 185.251.83.195
+    type: trojan
+    network: ws
+    udp: true
+    sni: ocost-dy.wmlefl.cc
+    password: slch2024
+    skip-cert-verify: false
+    ws-opts:
+      path: /由零开始🇨🇳
+      headers:
+        host: ocost-dy.wmlefl.cc
+  - name: 科技网络 🇪🇸_5
+    port: 2096
+    server: 185.251.83.195
+    type: trojan
+    network: ws
+    udp: true
+    sni: ocost-dy.wmlefl.cc
+    password: slch2024
+    skip-cert-verify: false
+    ws-opts:
+      path: /TelegramU0001F1E8U0001F1F3
+      headers:
+        host: ocost-dy.wmlefl.cc
+  - name: 科技网络_8
+    port: 2096
+    server: 195.26.229.195
+    type: trojan
+    network: ws
+    udp: true
+    sni: ocost-dy.wmlefl.cc
+    password: slch2024
+    skip-cert-verify: false
+    ws-opts:
+      path: /由零开始
+      headers:
+        host: ocost-dy.wmlefl.cc
+  - name: 频道 t.me/zyzzzoao
+    port: 2096
+    server: 185.251.81.195
+    type: trojan
+    network: ws
+    udp: true
+    sni: ocost-dy.wmlefl.cc
+    password: slch2024
+    skip-cert-verify: false
+    ws-opts:
+      path: /Telegram
+      headers:
+        host: ocost-dy.wmlefl.cc
+  - name: 英国+
+    port: 2096
+    server: 185.156.19.195
+    type: trojan
+    network: ws
+    udp: true
+    sni: ocost-dy.wmlefl.cc
+    password: slch2024
+    skip-cert-verify: false
+    ws-opts:
+      path: /Telegram
+      headers:
+        host: ocost-dy.wmlefl.cc
+  - name: 科技网络 🇪🇸_6
+    port: 2096
+    server: 185.238.228.195
+    type: trojan
+    network: ws
+    udp: true
+    sni: ocost-dy.wmlefl.cc
+    password: slch2024
+    skip-cert-verify: false
+    ws-opts:
+      path: /由零开始
+      headers:
+        host: ocost-dy.wmlefl.cc
+  - name: 科技网络 🇪🇸_7
+    port: 2096
+    server: 185.238.228.195
+    type: trojan
+    network: ws
+    udp: true
+    sni: ocost-dy.wmlefl.cc
+    password: slch2024
+    skip-cert-verify: false
+    ws-opts:
+      path: /由零开始🇨🇳
+      headers:
+        host: ocost-dy.wmlefl.cc
+  - name: 科技网络 🇪🇸_8
+    port: 2096
+    server: 185.251.82.195
+    type: trojan
+    network: ws
+    udp: true
+    sni: ocost-dy.wmlefl.cc
+    password: slch2024
+    skip-cert-verify: false
+    ws-opts:
+      path: /由零开始
+      headers:
+        host: ocost-dy.wmlefl.cc
+  - name: 科技网络_9
+    port: 2096
+    server: 193.124.224.195
+    type: trojan
+    network: ws
+    udp: true
+    sni: ocost-dy.wmlefl.cc
+    password: slch2024
+    skip-cert-verify: false
+    ws-opts:
+      path: /由零开始
+      headers:
+        host: ocost-dy.wmlefl.cc
+  - name: 美国 007
+    port: 2096
+    server: 199.34.230.195
+    type: trojan
+    network: ws
+    udp: true
+    sni: ocost-dy.wmlefl.cc
+    password: slch2024
+    skip-cert-verify: false
+    ws-opts:
+      path: /Telegram🇨🇳
+  - name: 美国+_2
+    port: 2096
+    server: 192.0.63.195
+    type: trojan
+    network: ws
+    udp: true
+    sni: ocost-dy.wmlefl.cc
+    password: slch2024
+    skip-cert-verify: false
+    ws-opts:
+      path: /Telegram
+      headers:
+        host: ocost-dy.wmlefl.cc
+  - name: 科技网络 🇪🇸_9
+    port: 2096
+    server: 185.251.82.195
+    type: trojan
+    network: ws
+    udp: true
+    sni: ocost-dy.wmlefl.cc
+    password: slch2024
+    skip-cert-verify: false
+    ws-opts:
+      path: /Telegram
+      headers:
+        host: ocost-dy.wmlefl.cc
+  - name: 科技网络_10
+    port: 2096
+    server: 194.76.18.195
+    type: trojan
+    network: ws
+    udp: true
+    sni: ocost-dy.wmlefl.cc
+    password: slch2024
+    skip-cert-verify: false
+    ws-opts:
+      path: /Telegram🇨🇳
+      headers:
+        host: ocost-dy.wmlefl.cc
+  - name: 科技网络_11
+    port: 2096
+    server: 188.42.145.195
+    type: trojan
+    network: ws
+    udp: true
+    sni: ocost-dy.wmlefl.cc
+    password: slch2024
+    skip-cert-verify: false
+    ws-opts:
+      path: /Telegram🇨🇳
+      headers:
+        host: ocost-dy.wmlefl.cc
+  - name: 立陶宛
+    port: 2096
+    server: 185.148.104.195
+    type: trojan
+    network: ws
+    udp: true
+    sni: ocost-dy.wmlefl.cc
+    password: slch2024
+    skip-cert-verify: false
+    ws-opts:
+      path: /Telegram
+      headers:
+        host: ocost-dy.wmlefl.cc
+  - name: 美国_1
+    port: 2096
+    server: 199.34.229.195
+    type: trojan
+    network: ws
+    udp: true
+    sni: ocost-dy.wmlefl.cc
+    password: slch2024
+    skip-cert-verify: false
+    ws-opts:
+      path: /Telegram🇨🇳
+      headers:
+        host: ocost-dy.wmlefl.cc
+  - name: 科技网络 🇪🇸_10
+    port: 2096
+    server: 185.251.81.195
+    type: trojan
+    network: ws
+    udp: true
+    sni: ocost-dy.wmlefl.cc
+    password: slch2024
+    skip-cert-verify: false
+    ws-opts:
+      path: /Telegram🇨🇳
+      headers:
+        host: ocost-dy.wmlefl.cc
+  - name: 科技网络 🇪🇸_11
+    port: 2096
+    server: 185.251.82.195
+    type: trojan
+    network: ws
+    udp: true
+    sni: ocost-dy.wmlefl.cc
+    password: slch2024
+    skip-cert-verify: false
+    ws-opts:
+      path: /Telegram
+      headers:
+        host: ocost-dy.wmlefl.cc
+  - name: 科技网络_12
+    port: 2096
+    server: 194.76.18.195
+    type: trojan
+    network: ws
+    udp: true
+    sni: ocost-dy.wmlefl.cc
+    password: slch2024
+    skip-cert-verify: false
+    ws-opts:
+      path: /由零开始🇨🇳
+      headers:
+        host: ocost-dy.wmlefl.cc
+  - name: 科技网络_13
+    port: 2096
+    server: 188.42.145.195
+    type: trojan
+    network: ws
+    udp: true
+    sni: ocost-dy.wmlefl.cc
+    password: slch2024
+    skip-cert-verify: false
+    ws-opts:
+      path: /由零开始🇨🇳
+      headers:
+        host: ocost-dy.wmlefl.cc
+  - name: 科技网络_14
+    port: 2096
+    server: 188.42.89.195
+    type: trojan
+    network: ws
+    udp: true
+    sni: ocost-dy.wmlefl.cc
+    password: slch2024
+    skip-cert-verify: false
+    ws-opts:
+      path: /Telegram
+      headers:
+        host: ocost-dy.wmlefl.cc
+  - name: 西班牙_1
+    port: 2096
+    server: 185.251.80.195
+    type: trojan
+    network: ws
+    udp: true
+    sni: ocost-dy.wmlefl.cc
+    password: slch2024
+    skip-cert-verify: false
+    ws-opts:
+      path: /Telegram🇨🇳
+      headers:
+        host: ocost-dy.wmlefl.cc
+  - name: 美国 015
+    port: 2096
+    server: 209.46.30.195
+    type: trojan
+    network: ws
+    udp: true
+    sni: ocost-dy.wmlefl.cc
+    password: slch2024
+    skip-cert-verify: false
+    ws-opts:
+      path: /Telegram🇨🇳
+  - name: 英国 005
+    port: 2096
+    server: 185.156.19.195
+    type: trojan
+    network: ws
+    udp: true
+    sni: ocost-dy.wmlefl.cc
+    password: slch2024
+    skip-cert-verify: false
+    ws-opts:
+      path: /Telegram🇨🇳
+  - name: 美国 034
+    port: 2096
+    server: 198.62.62.87
+    type: trojan
+    network: ws
+    udp: true
+    sni: ocost-dy.wmlefl.cc
+    password: slch2024
+    skip-cert-verify: true
+    ws-opts:
+      path: /Telegram🇨🇳
+  - name: 俄罗斯 006
+    port: 2096
+    server: 195.13.44.195
+    type: trojan
+    network: ws
+    udp: true
+    sni: ocost-dy.wmlefl.cc
+    password: slch2024
+    skip-cert-verify: false
+    ws-opts:
+      path: /Telegram🇨🇳
+  - name: 科技网络_15
+    port: 2096
+    server: 188.42.88.195
+    type: trojan
+    network: ws
+    udp: true
+    sni: ocost-dy.wmlefl.cc
+    password: slch2024
+    skip-cert-verify: false
+    ws-opts:
+      path: /由零开始
+      headers:
+        host: ocost-dy.wmlefl.cc
+  - name: 科技网络_16
+    port: 2096
+    server: 188.42.89.195
+    type: trojan
+    network: ws
+    udp: true
+    sni: ocost-dy.wmlefl.cc
+    password: slch2024
+    skip-cert-verify: false
+    ws-opts:
+      path: /Telegram🇨🇳
+      headers:
+        host: ocost-dy.wmlefl.cc
+  - name: 科技网络_17
+    port: 2096
+    server: 185.7.240.195
+    type: trojan
+    network: ws
+    udp: true
+    sni: ocost-dy.wmlefl.cc
+    password: slch2024
+    skip-cert-verify: false
+    ws-opts:
+      path: /由零开始
+      headers:
+        host: ocost-dy.wmlefl.cc
+  - name: 科技网络_18
+    port: 2096
+    server: 188.42.145.195
+    type: trojan
+    network: ws
+    udp: true
+    sni: ocost-dy.wmlefl.cc
+    password: slch2024
+    skip-cert-verify: false
+    ws-opts:
+      path: /Telegram
+      headers:
+        host: ocost-dy.wmlefl.cc
+  - name: 🇺🇸US_4|2.1MB/s
+    port: 2096
+    server: 185.59.218.195
+    type: trojan
+    network: ws
+    udp: true
+    sni: ocost-dy.wmlefl.cc
+    password: slch2024
+    skip-cert-verify: false
+    ws-opts:
+      path: /Telegram%F0%9F%87%A8%F0%9F%87%B3
+      headers:
+        host: ocost-dy.wmlefl.cc
+  - name: 立陶宛+
+    port: 2096
+    server: 185.148.106.195
+    type: trojan
+    network: ws
+    udp: true
+    sni: ocost-dy.wmlefl.cc
+    password: slch2024
+    skip-cert-verify: false
+    ws-opts:
+      path: /Telegram
+      headers:
+        host: ocost-dy.wmlefl.cc
+  - name: 俄罗斯+_2
+    port: 2096
+    server: 185.59.218.195
+    type: trojan
+    network: ws
+    udp: true
+    sni: ocost-dy.wmlefl.cc
+    password: slch2024
+    skip-cert-verify: false
+    ws-opts:
+      path: /Telegram
+      headers:
+        host: ocost-dy.wmlefl.cc
+  - name: 关注： https://t.me/zyzzzoao
+    port: 2096
+    server: 193.9.49.195
+    type: trojan
+    network: ws
+    udp: true
+    sni: ocost-dy.wmlefl.cc
+    password: slch2024
+    skip-cert-verify: false
+    ws-opts:
+      path: /Telegram🇨🇳
+      headers:
+        host: ocost-dy.wmlefl.cc
+  - name: 科技网络 🇦🇹
+    port: 2096
+    server: 212.183.88.195
+    type: trojan
+    network: ws
+    udp: true
+    sni: ocost-dy.wmlefl.cc
+    password: slch2024
+    skip-cert-verify: false
+    ws-opts:
+      path: /Telegram
+      headers:
+        host: ocost-dy.wmlefl.cc
+  - name: 荷兰 007
+    port: 2096
+    server: 188.42.145.87
+    type: trojan
+    network: ws
+    udp: true
+    sni: ocost-dy.wmlefl.cc
+    password: slch2024
+    skip-cert-verify: true
+    ws-opts:
+      path: /Telegram🇨🇳
+  - name: 英国 006
+    port: 2096
+    server: 195.26.229.87
+    type: trojan
+    network: ws
+    udp: true
+    sni: ocost-dy.wmlefl.cc
+    password: slch2024
+    skip-cert-verify: true
+    ws-opts:
+      path: /Telegram🇨🇳
+  - name: 关注上方频道@zyzzzoao
+    port: 2096
+    server: 194.36.55.87
+    type: trojan
+    network: ws
+    udp: true
+    sni: ocost-dy.wmlefl.cc
+    password: slch2024
+    skip-cert-verify: true
+    ws-opts:
+      path: /Telegram🇨🇳
+  - name: 科技网络_19
+    port: 2096
+    server: 188.42.89.195
+    type: trojan
+    network: ws
+    udp: true
+    sni: ocost-dy.wmlefl.cc
+    password: slch2024
+    skip-cert-verify: false
+    ws-opts:
+      path: /由零开始🇨🇳
+      headers:
+        host: ocost-dy.wmlefl.cc
+  - name: 科技网络_20
+    port: 2096
+    server: 193.124.224.195
+    type: trojan
+    network: ws
+    udp: true
+    sni: ocost-dy.wmlefl.cc
+    password: slch2024
+    skip-cert-verify: false
+    ws-opts:
+      path: /Telegram
+      headers:
+        host: ocost-dy.wmlefl.cc
+  - name: 英国 008
+    port: 2096
+    server: 193.124.224.87
+    type: trojan
+    network: ws
+    udp: true
+    sni: ocost-dy.wmlefl.cc
+    password: slch2024
+    skip-cert-verify: true
+    ws-opts:
+      path: /Telegram🇨🇳
+  - name: 美国 023
+    port: 2096
+    server: 199.34.229.87
+    type: trojan
+    network: ws
+    udp: true
+    sni: ocost-dy.wmlefl.cc
+    password: slch2024
+    skip-cert-verify: true
+    ws-opts:
+      path: /Telegram🇨🇳
+  - name: 西班牙_2
+    port: 2096
+    server: 185.251.82.195
+    type: trojan
+    network: ws
+    udp: true
+    sni: ocost-dy.wmlefl.cc
+    password: slch2024
+    skip-cert-verify: false
+    ws-opts:
+      path: /Telegram
+      headers:
+        host: ocost-dy.wmlefl.cc
+  - name: 美国 013
+    port: 2096
+    server: 216.24.57.195
+    type: trojan
+    network: ws
+    udp: true
+    sni: ocost-dy.wmlefl.cc
+    password: slch2024
+    skip-cert-verify: false
+    ws-opts:
+      path: /Telegram🇨🇳
+  - name: 英国_2
+    port: 2096
+    server: 194.36.55.195
+    type: trojan
+    network: ws
+    udp: true
+    sni: ocost-dy.wmlefl.cc
+    password: slch2024
+    skip-cert-verify: false
+    ws-opts:
+      path: /Telegram🇨🇳
+      headers:
+        host: ocost-dy.wmlefl.cc
+  - name: 立陶宛 001
+    port: 2096
+    server: 185.148.107.195
+    type: trojan
+    network: ws
+    udp: true
+    sni: ocost-dy.wmlefl.cc
+    password: slch2024
+    skip-cert-verify: true
+    ws-opts:
+      path: /TelegramU0001F1E8U0001F1F3
+  - name: 美国_2
+    port: 2096
+    server: 192.0.54.195
+    type: trojan
+    network: ws
+    udp: true
+    sni: ocost-dy.wmlefl.cc
+    password: slch2024
+    skip-cert-verify: false
+    ws-opts:
+      path: /Telegram
+      headers:
+        host: ocost-dy.wmlefl.cc
+  - name: 俄罗斯 009
+    port: 2096
+    server: 195.13.45.87
+    type: trojan
+    network: ws
+    udp: true
+    sni: ocost-dy.wmlefl.cc
+    password: slch2024
+    skip-cert-verify: true
+    ws-opts:
+      path: /Telegram🇨🇳
+  - name: 未知
+    port: 2096
+    server: 209.94.90.195
+    type: trojan
+    network: ws
+    udp: true
+    sni: ocost-dy.wmlefl.cc
+    password: slch2024
+    skip-cert-verify: false
+    ws-opts:
+      path: /Telegram🇨🇳
+      headers:
+        host: ocost-dy.wmlefl.cc
+  - name: 澳大利亚
+    port: 2096
+    server: 192.65.217.195
+    type: trojan
+    network: ws
+    udp: true
+    sni: ocost-dy.wmlefl.cc
+    password: slch2024
+    skip-cert-verify: false
+    ws-opts:
+      path: /Telegram🇨🇳
+      headers:
+        host: ocost-dy.wmlefl.cc
+  - name: 美国 012
+    port: 2096
+    server: 199.34.229.195
+    type: trojan
+    network: ws
+    udp: true
+    sni: ocost-dy.wmlefl.cc
+    password: slch2024
+    skip-cert-verify: false
+    ws-opts:
+      path: /Telegram🇨🇳
+  - name: 科技网络 🇪🇸_12
+    port: 2096
+    server: 185.251.83.195
+    type: trojan
+    network: ws
+    udp: true
+    sni: ocost-dy.wmlefl.cc
+    password: slch2024
+    skip-cert-verify: false
+    ws-opts:
+      path: /Telegram🇨🇳
+      headers:
+        host: ocost-dy.wmlefl.cc
+  - name: 科技网络 🇪🇸_13
+    port: 2096
+    server: 185.251.82.195
+    type: trojan
+    network: ws
+    udp: true
+    sni: ocost-dy.wmlefl.cc
+    password: slch2024
+    skip-cert-verify: false
+    ws-opts:
+      path: /由零开始🇨🇳
+      headers:
+        host: ocost-dy.wmlefl.cc
+  - name: 科技网络 🇪🇸_14
+    port: 2096
+    server: 185.251.80.195
+    type: trojan
+    network: ws
+    udp: true
+    sni: ocost-dy.wmlefl.cc
+    password: slch2024
+    skip-cert-verify: false
+    ws-opts:
+      path: /Telegram
+      headers:
+        host: ocost-dy.wmlefl.cc
+  - name: 科技网络 🇪🇸_15
+    port: 2096
+    server: 185.251.83.195
+    type: trojan
+    network: ws
+    udp: true
+    sni: ocost-dy.wmlefl.cc
+    password: slch2024
+    skip-cert-verify: false
+    ws-opts:
+      path: /Telegram
+      headers:
+        host: ocost-dy.wmlefl.cc
+  - name: 科技网络 🇪🇸_16
+    port: 2096
+    server: 185.251.83.195
+    type: trojan
+    network: ws
+    udp: true
+    sni: ocost-dy.wmlefl.cc
+    password: slch2024
+    skip-cert-verify: false
+    ws-opts:
+      path: /由零开始
+      headers:
+        host: ocost-dy.wmlefl.cc
+  - name: 科技网络 🇩🇪_2
+    port: 2096
+    server: 188.244.122.195
+    type: trojan
+    network: ws
+    udp: true
+    sni: ocost-dy.wmlefl.cc
+    password: slch2024
+    skip-cert-verify: false
+    ws-opts:
+      path: /Telegram
+      headers:
+        host: ocost-dy.wmlefl.cc
+  - name: 科技网络_21
+    port: 2096
+    server: 195.26.229.195
+    type: trojan
+    network: ws
+    udp: true
+    sni: ocost-dy.wmlefl.cc
+    password: slch2024
+    skip-cert-verify: false
+    ws-opts:
+      path: /由零开始🇨🇳
+      headers:
+        host: ocost-dy.wmlefl.cc
+  - name: 科技网络_22
+    port: 2096
+    server: 193.124.224.195
+    type: trojan
+    network: ws
+    udp: true
+    sni: ocost-dy.wmlefl.cc
+    password: slch2024
+    skip-cert-verify: false
+    ws-opts:
+      path: /Telegram🇨🇳
+      headers:
+        host: ocost-dy.wmlefl.cc
+  - name: 美国+_3
+    port: 2096
+    server: 209.94.90.195
+    type: trojan
+    network: ws
+    udp: true
+    sni: ocost-dy.wmlefl.cc
+    password: slch2024
+    skip-cert-verify: false
+    ws-opts:
+      path: /Telegram
+      headers:
+        host: ocost-dy.wmlefl.cc
+  - name: 奥地利 001
+    port: 2096
+    server: 212.183.88.195
+    type: trojan
+    network: ws
+    udp: true
+    sni: ocost-dy.wmlefl.cc
+    password: slch2024
+    skip-cert-verify: false
+    ws-opts:
+      path: /Telegram🇨🇳
+  - name: 俄罗斯 003
+    port: 2096
+    server: 193.9.49.195
+    type: trojan
+    network: ws
+    udp: true
+    sni: ocost-dy.wmlefl.cc
+    password: slch2024
+    skip-cert-verify: false
+    ws-opts:
+      path: /Telegram🇨🇳
