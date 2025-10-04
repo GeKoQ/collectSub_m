@@ -1,0 +1,254 @@
+# 来源URL: https://c0660044.ghelper.me/subs/clash/2b18b115c0660044cd6d95c04d5f5629
+# 保存时间: 2025-10-04 13:56:25.017101
+allow-lan: true
+dns:
+  default-nameserver:
+  - 119.29.29.29
+  - 223.5.5.5
+  enable: true
+  fake-ip-range: 198.18.0.1/16
+  nameserver:
+  - https://doh.pub/dns-query
+  - https://223.6.6.6/dns-query
+  use-hosts: true
+log-level: warning
+mixed-port: 9981
+mode: rule
+proxies:
+- name: 🇺🇸 美国西雅图
+  password: d18bcaf4-1323-11ec-a0fc-f23c913c8d2b
+  port: 443
+  server: 4a8f32e2-t3pwg0-t7fz1r-8rja.se.oshuawei.com
+  tls: true
+  type: http
+  username: d18bcaf4-1323-11ec-a0fc-f23c913c8d2b
+- name: 🇺🇸 美国西雅图2
+  password: d18bcaf4-1323-11ec-a0fc-f23c913c8d2b
+  port: 443
+  server: 88acdc43-t3pwg0-t7fz1r-8rja.sv.plebai.net
+  tls: true
+  type: socks5
+  username: d18bcaf4-1323-11ec-a0fc-f23c913c8d2b
+- name: 🇺🇸 美国洛杉矶2[CU]
+  password: d18bcaf4-1323-11ec-a0fc-f23c913c8d2b
+  port: 15229
+  server: 512b7e45-t3pwg0-t7fz1r-8rja.cu.plebai.net
+  tls: true
+  type: trojan
+- name: 🇺🇸 美国硅谷
+  password: d18bcaf4-1323-11ec-a0fc-f23c913c8d2b
+  port: 443
+  server: 7982d41a-t3pwg0-t7fz1r-8rja.sj.gotochinatown.net
+  tls: true
+  type: socks5
+  username: d18bcaf4-1323-11ec-a0fc-f23c913c8d2b
+- name: 🇺🇸 美国硅谷2
+  password: d18bcaf4-1323-11ec-a0fc-f23c913c8d2b
+  port: 443
+  server: 19c87e5c-t3pwg0-t7fz1r-8rja.sj.oshuawei.com
+  tls: true
+  type: http
+  username: d18bcaf4-1323-11ec-a0fc-f23c913c8d2b
+- name: 🇺🇸 美国洛杉矶
+  password: d18bcaf4-1323-11ec-a0fc-f23c913c8d2b
+  port: 443
+  server: e2f65657-t3pwg0-t7fz1r-8rja.los.gotochinatown.net
+  tls: true
+  type: socks5
+  username: d18bcaf4-1323-11ec-a0fc-f23c913c8d2b
+- name: 🇺🇸 美国洛杉矶2
+  password: d18bcaf4-1323-11ec-a0fc-f23c913c8d2b
+  port: 443
+  server: e2f65657-t3pwg0-t7fz1r-8rja.los.gotochinatown.net
+  tls: true
+  type: http
+  username: d18bcaf4-1323-11ec-a0fc-f23c913c8d2b
+- name: 🇭🇰香港中转[CM]
+  password: d18bcaf4-1323-11ec-a0fc-f23c913c8d2b
+  port: 5228
+  server: c1073623-t3pwg0-t7fz1r-8rja.cm4.oshuawei.com
+  tls: true
+  type: http
+  username: d18bcaf4-1323-11ec-a0fc-f23c913c8d2b
+- name: 🇭🇰香港精品4
+  password: d18bcaf4-1323-11ec-a0fc-f23c913c8d2b
+  port: 443
+  server: 792919f8-t3pwg0-t7fz1r-8rja.hkt2.cdnhuawei.com
+  tls: true
+  type: http
+  username: d18bcaf4-1323-11ec-a0fc-f23c913c8d2b
+- name: 🇭🇰香港精品3
+  password: <password>
+  port: 8443
+  server: bd792138-t3pwg0-t7fz1r-8rja.hkt.cdnhuawei.com
+  tls: true
+  type: http
+  username: d18bcaf4-1323-11ec-a0fc-f23c913c8d2b
+- alterId: 2
+  cipher: auto
+  name: 🇭🇰 香港精品
+  network: ws
+  port: 80
+  server: 333edca1-t3pwg0-t7fz1r-8rja.hkt.gotochinatown.net
+  tls: false
+  type: vmess
+  uuid: d18bcaf4-1323-11ec-a0fc-f23c913c8d2b
+  ws-headers:
+    Host: broadcastlv.chat.bilibili.com
+    User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36
+      (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36
+  ws-path: /
+- name: 🇭🇰香港精品2
+  password: <password>
+  port: 443
+  server: 792919f8-t3pwg0-t7fz1r-8rja.hkt2.cdnhuawei.com
+  tls: true
+  type: socks5
+  username: d18bcaf4-1323-11ec-a0fc-f23c913c8d2b
+- alterId: 2
+  cipher: auto
+  name: 🇭🇰 香港01
+  network: ws
+  port: 80
+  server: 67719545-t3pwg0-t7fz1r-8rja.hk.p5pv.com
+  tls: false
+  type: vmess
+  uuid: d18bcaf4-1323-11ec-a0fc-f23c913c8d2b
+  ws-headers:
+    Host: broadcastlv.chat.bilibili.com
+    User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36
+      (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36
+  ws-path: /
+- alterId: 0
+  cipher: auto
+  name: 🇭🇰 香港02
+  network: ws
+  port: 80
+  server: 014f2153-t3pwg0-t7fz1r-8rja.hkt.tcpbbr.net
+  tls: false
+  type: vmess
+  uuid: d18bcaf4-1323-11ec-a0fc-f23c913c8d2b
+  ws-headers:
+    Host: broadcastlv.chat.bilibili.com
+  ws-path: /
+- alterId: 2
+  cipher: auto
+  name: 🇭🇰 香港03
+  network: ws
+  port: 80
+  server: 28176b49-t3pwg0-t7fz1r-8rja.hk3.p5pv.com
+  tls: false
+  type: vmess
+  uuid: d18bcaf4-1323-11ec-a0fc-f23c913c8d2b
+  ws-headers:
+    Host: broadcastlv.chat.bilibili.com
+    User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36
+      (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36
+  ws-path: /
+- name: 🇬🇧 英国
+  password: d18bcaf4-1323-11ec-a0fc-f23c913c8d2b
+  port: 443
+  server: 0cb7219c-t3pwg0-t7fz1r-8rja.uk.oshuawei.com
+  tls: true
+  type: http
+  username: d18bcaf4-1323-11ec-a0fc-f23c913c8d2b
+- name: 🇫🇷 法国
+  password: d18bcaf4-1323-11ec-a0fc-f23c913c8d2b
+  port: 8443
+  server: aefbc7f0-t3pwg0-t7fz1r-8rja.fr.cdnkuaishou.com
+  tls: true
+  type: http
+  username: d18bcaf4-1323-11ec-a0fc-f23c913c8d2b
+- name: 🇩🇪 德国
+  password: d18bcaf4-1323-11ec-a0fc-f23c913c8d2b
+  port: 443
+  server: 79b744dc-t3pwg0-t7fz1r-8rja.de.oshuawei.com
+  tls: true
+  type: http
+  username: d18bcaf4-1323-11ec-a0fc-f23c913c8d2b
+- name: 🇲🇾 马来西亚
+  password: d18bcaf4-1323-11ec-a0fc-f23c913c8d2b
+  port: 31233
+  server: dad83525-t3pwg0-t7fz1r-8rja.my.oshuawei.com
+  tls: true
+  type: http
+  username: d18bcaf4-1323-11ec-a0fc-f23c913c8d2b
+- name: 🇹🇭 泰国
+  password: d18bcaf4-1323-11ec-a0fc-f23c913c8d2b
+  port: 27235
+  server: ca253479-t3pwg0-t7fz1r-8rja.cm5.oshuawei.com
+  tls: true
+  type: http
+  username: d18bcaf4-1323-11ec-a0fc-f23c913c8d2b
+- name: 🇰🇷韩國[CT]
+  password: d18bcaf4-1323-11ec-a0fc-f23c913c8d2b
+  port: 31433
+  server: 28bd57ba-t3pwg0-t7fz1r-8rja.kr.oshuawei.com
+  tls: true
+  type: http
+  username: d18bcaf4-1323-11ec-a0fc-f23c913c8d2b
+- name: 🇨🇳 台湾
+  password: d18bcaf4-1323-11ec-a0fc-f23c913c8d2b
+  port: 443
+  server: 6dc125ef-t3pwg0-t7fz1r-8rja.tw3.p5pv.com
+  tls: true
+  type: http
+  username: d18bcaf4-1323-11ec-a0fc-f23c913c8d2b
+- name: 🇯🇵 日本
+  password: d18bcaf4-1323-11ec-a0fc-f23c913c8d2b
+  port: 443
+  server: 4a2fdda0-t3pwg0-t7fz1r-8rja.jp.oshuawei.com
+  tls: true
+  type: http
+  username: d18bcaf4-1323-11ec-a0fc-f23c913c8d2b
+- name: 🇮🇩 印尼[CT]
+  password: d18bcaf4-1323-11ec-a0fc-f23c913c8d2b
+  port: 32233
+  server: ed1ae74c-t3pwg0-t7fz1r-8rja.id.oshuawei.com
+  tls: true
+  type: http
+  username: d18bcaf4-1323-11ec-a0fc-f23c913c8d2b
+- name: 🇯🇵 日本[CT]
+  password: d18bcaf4-1323-11ec-a0fc-f23c913c8d2b
+  port: 27233
+  server: ca253479-t3pwg0-t7fz1r-8rja.cm5.oshuawei.com
+  tls: true
+  type: http
+  username: d18bcaf4-1323-11ec-a0fc-f23c913c8d2b
+- name: 🇯🇵 日本4
+  password: d18bcaf4-1323-11ec-a0fc-f23c913c8d2b
+  port: 443
+  server: 1492ea2e-t3pwg0-t7fz1r-8rja.jp4.oshuawei.com
+  tls: true
+  type: http
+  username: d18bcaf4-1323-11ec-a0fc-f23c913c8d2b
+- name: 🇸🇬 新加坡[CT]
+  password: d18bcaf4-1323-11ec-a0fc-f23c913c8d2b
+  port: 17235
+  server: ca253479-t3pwg0-t7fz1r-8rja.cm5.oshuawei.com
+  tls: true
+  type: http
+  username: d18bcaf4-1323-11ec-a0fc-f23c913c8d2b
+- name: 🇸🇬 新加坡
+  password: d18bcaf4-1323-11ec-a0fc-f23c913c8d2b
+  port: 443
+  server: c7911599-t3pwg0-t7fz1r-8rja.sg.oshuawei.com
+  tls: true
+  type: http
+  username: d18bcaf4-1323-11ec-a0fc-f23c913c8d2b
+- name: 🇸🇬 新加坡3
+  password: d18bcaf4-1323-11ec-a0fc-f23c913c8d2b
+  port: 443
+  server: a3d35027-t3pwg0-t7fz1r-8rja.sg3.oshuawei.com
+  tls: true
+  type: http
+  username: d18bcaf4-1323-11ec-a0fc-f23c913c8d2b
+- alterId: 0
+  cipher: auto
+  name: 线路少请更换软件看公告
+  network: tcp
+  port: 443
+  server: hostloc.com
+  tls: false
+  type: vmess
+  uuid: d18bcaf4-1323-11ec-a0fc-f23c913c8d2b
