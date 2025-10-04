@@ -110,12 +110,6 @@ async def extract_sub_links(session, channel):
         if not html:
             continue
 
-        # 保存 HTML 以便调试
-        os.makedirs("pool/tg_debug", exist_ok=True)
-        debug_path = os.path.join("pool/tg_debug", f"{channel}.html")
-        with open(debug_path, "w", encoding="utf-8") as f:
-            f.write(html)
-
         urls = re.findall(RE_URL, html)
         for u in urls:
             if re.search(r'(sub|clash|v2ray|vmess|ss|trojan|subscribe)', u, re.IGNORECASE):
@@ -125,8 +119,6 @@ async def extract_sub_links(session, channel):
         if all_links:
             print(f"🎯 成功提取 {len(all_links)} 条链接 ✅")
             return list(set(all_links))
-        else:
-            print("❌ 未匹配到订阅链接，尝试下一个镜像...")
 
     print(f"❌ 所有镜像失败: {channel}")
     return []
