@@ -45,7 +45,7 @@ jobs:
 
     - name: 执行任务
       run: |
-        python ./main.py
+        python ./dyzh.py
 
     - name: Commit
       run: |
