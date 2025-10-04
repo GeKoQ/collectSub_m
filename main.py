@@ -541,5 +541,39 @@ async def main():
     logger.info("\n🎉 订阅管理流程完成！")
     logger.info("=" * 60)
 
+def merge_configs(config_path):
+    """合并四个配置文件到 all.txt"""
+    base_path = config_path.replace('.yaml', '')
+    output_file = f"{base_path}_all.txt"
+    
+    # 配置文件名清单
+    config_files = [
+        f"{base_path}_sub_store.txt",
+        f"{base_path}_clash.txt",
+        f"{base_path}_loon.txt",
+        f"{base_path}_v2.txt"
+    ]
+    
+    with open(output_file, 'w', encoding='utf-8') as out_f:
+        out_f.write(f"# 综合配置文件 {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n\n")
+        
+        for file in config_files:
+            # 添加文件分隔标识
+            out_f.write(f"\n=== {os.path.basename(file)} ===\n\n")
+            
+            # 读取并写入内容
+            try:
+                with open(file, 'r', encoding='utf-8') as in_f:
+                    out_f.write(in_f.read() + "\n")
+            except FileNotFoundError:
+                pass
+    
+    logger.info(f"📦 合并文件已生成: {output_file}")
+
+
+
 if __name__ == '__main__':
     asyncio.run(main())
+    merge_configs(config_path)
+
+
