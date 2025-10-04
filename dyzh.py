@@ -1,7 +1,6 @@
 import yaml
 import aiohttp
 import asyncio
-from bs4 import BeautifulSoup
 import os
 import base64
 from urllib.parse import urlparse
@@ -21,14 +20,17 @@ USER_AGENTS = [
 # Telegram 镜像域名（自动切换）
 TG_DOMAINS = ["t.me", "telegram.me", "tgo.li", "tg.rip"]
 
-# 加载配置文件
-with open('pool.yaml', 'r') as f:
+# 链接正则
+RE_URL = r"https?://[-A-Za-z0-9+&@#/%?=~_|!:,.;]+"
+
+# ========== 加载配置文件 ==========
+with open('pool.yaml', 'r', encoding='utf-8') as f:
     config = yaml.safe_load(f)
 
 subscriptions = config.get('subscriptions', [])
 tgchannels = config.get('tgchannels', [])
 
-# ========== 新增函数：保存异常数据到 NULL.txt ==========
+# ========== 保存异常数据 ==========
 def save_null_data(source_url, content):
     """将异常或无效订阅数据保存到 pool/NULL.txt"""
     os.makedirs("pool", exist_ok=True)
@@ -38,81 +40,81 @@ def save_null_data(source_url, content):
             f.write(f"\n{'='*80}\n")
             f.write(f"来源: {source_url}\n")
             f.write(f"内容片段:\n")
-            f.write(content[:500] + "\n")  # 保存前 500 字符
+            f.write(content[:500] + "\n")
     except Exception as e:
         print(f"[错误] 无法写入 NULL.txt: {e}")
 
-# ========== 抓取 Telegram 频道订阅链接 ==========
+# ========== 抓取 Telegram 频道订阅链接（无 BeautifulSoup） ==========
+
+async def fetch_html(session, url):
+    """尝试多 UA 抓取页面 HTML"""
+    for ua in USER_AGENTS:
+        try:
+            headers = {"User-Agent": ua}
+            async with session.get(url, headers=headers, timeout=aiohttp.ClientTimeout(total=20)) as r:
+                if r.status == 200:
+                    text = await r.text()
+                    # 检测 Cloudflare 拦截
+                    if any(x in text for x in ["Just a moment", "enable JavaScript", "Cloudflare"]):
+                        print(f"🚫 UA [{ua[:25]}...] 被 Cloudflare 拦截，尝试下一个 UA")
+                        continue
+                    print(f"✅ UA 成功: {ua[:50]}...")
+                    return text
+                else:
+                    print(f"⚠️ UA [{ua[:25]}...] 状态码: {r.status}")
+        except Exception as e:
+            print(f"⚠️ 请求失败 UA[{ua[:25]}]: {e}")
+            save_null_data(url, str(e))
+    return ""
 
 async def extract_sub_links(session, channel):
-    """
-    从 Telegram 频道抓取订阅链接
-    - 顺序尝试多个 UA
-    - 遇到 Cloudflare 或超时自动切换镜像站
-    """
+    """从 Telegram 频道抓取订阅链接（纯正则）"""
     links = []
 
     for domain in TG_DOMAINS:
         url = f"https://{domain}/s/{channel}"
-        print(f"\n🌐 尝试访问 {url}")
+        print(f"\n🌐 正在访问 {url}")
 
-        for ua in USER_AGENTS:
-            headers = {'User-Agent': ua}
-            try:
-                async with session.get(url, headers=headers, timeout=aiohttp.ClientTimeout(total=20)) as response:
-                    if response.status != 200:
-                        print(f"⚠️ UA [{ua[:25]}...] 返回状态码: {response.status}")
-                        continue
+        html = await fetch_html(session, url)
+        if not html:
+            print(f"❌ 获取失败，切换下一个镜像")
+            continue
 
-                    text = await response.text()
+        # 用正则匹配所有链接
+        urls = re.findall(RE_URL, html)
+        for u in urls:
+            if re.search(r'(sub|clash|v2ray|vmess|ss|trojan|subscribe)', u, re.IGNORECASE):
+                # 排除 Telegram 自身和 CDN 链接
+                if "t.me" not in u and "cdn-telegram" not in u:
+                    links.append(u)
 
-                    # 检测是否被 Cloudflare 拦截
-                    if "Just a moment" in text or "Cloudflare" in text or "enable JavaScript" in text:
-                        print(f"🚫 UA [{ua[:25]}...] 被 Cloudflare 拦截，尝试下一个 UA")
-                        continue
-
-                    # 调试输出
-                    print(f"✅ UA 成功: {ua[:60]}...")
-                    print(f"🔍 内容前 200 字符: {text[:200].replace(chr(10),' ')}")
-
-                    # 解析 HTML
-                    soup = BeautifulSoup(text, 'html.parser')
-                    messages = soup.find_all('div', class_='tgme_widget_message_text')
-
-                    for msg in messages:
-                        for a in msg.find_all('a', href=True):
-                            href = a['href']
-                            if re.search(r'(sub|clash|v2ray|vmess|ss|trojan|subscribe)', href, re.IGNORECASE):
-                                links.append(href)
-
-                    if links:
-                        print(f"🎯 成功抓取 {len(links)} 个订阅链接")
-                        return links  # 成功则退出循环
-                    else:
-                        print(f"❌ 页面加载成功但未发现订阅链接，尝试下一个 UA")
-
-            except Exception as e:
-                print(f"⚠️ 请求 {url} 失败 ({type(e).__name__}): {e}")
-                save_null_data(url, str(e))  # 新增：异常也保存
-
-        print(f"🔁 {domain} 尝试失败，切换下一个镜像域名...")
+        if links:
+            print(f"🎯 成功抓取 {len(links)} 个订阅链接")
+            return list(set(links))
+        else:
+            print(f"❌ 未发现订阅链接，切换下一个镜像...")
 
     print(f"❌ 所有镜像均访问失败: {channel}")
     return []
 
-# 异步处理 Telegram 频道
+# ========== 异步处理 Telegram 频道 ==========
 async def process_tgchannels(session, tgchannels):
-    tasks = [extract_sub_links(session, channel) for channel in tgchannels]
+    tasks = [extract_sub_links(session, ch) for ch in tgchannels]
     results = await asyncio.gather(*tasks, return_exceptions=True)
     new_links = []
     for result in results:
         if not isinstance(result, Exception):
             new_links.extend(result)
-    return new_links
+    return list(set(new_links))
 
-# ========== 订阅转换部分（原样保留 + 新增异常保存） ==========
-
-CHECK_URL_LIST = ['sub.789.st', 'sub.xeton.dev', 'subconverters.com', 'subapi.cmliussss.net', 'url.v1.mk']
+# ========== 订阅转换部分 ==========
+CHECK_URL_LIST = [
+    'sub.789.st',
+    'sub.xeton.dev',
+    'subconverters.com',
+    'subapi.cmliussss.net',
+    'url.v1.mk'
+]
 target = 'mixed'
 CHECK_NODE_URL_STR = "https://{}/sub?target={}&url={}&insert=false"
 
@@ -123,9 +125,8 @@ async def convert_sub(session, sub_url, domain):
             if response.status == 200:
                 content = await response.text()
                 content = content.strip()
-                # 如果返回HTML说明被拦截或错误
-                if "<html" in content.lower():
-                    print(f"[警告] {api_url} 返回 HTML，疑似拦截或无效。保存到 NULL.txt。")
+                if "<html" in content.lower() or "error" in content.lower():
+                    print(f"[警告] {api_url} 返回 HTML/错误，保存到 NULL.txt。")
                     save_null_data(api_url, content)
                     return []
 
@@ -160,7 +161,6 @@ async def process_subscriptions(session, subscriptions):
     return proxy_lines
 
 # ========== 主流程 ==========
-
 async def main():
     global subscriptions
     global config
@@ -174,8 +174,8 @@ async def main():
         subscriptions = list(set(subscriptions))
         config['subscriptions'] = subscriptions
 
-        with open('pool.yaml', 'w') as f:
-            yaml.dump(config, f)
+        with open('pool.yaml', 'w', encoding='utf-8') as f:
+            yaml.safe_dump(config, f, allow_unicode=True, sort_keys=False)
 
         # 创建 pool 文件夹
         os.makedirs('pool', exist_ok=True)
@@ -207,6 +207,5 @@ async def main():
             with open(file_path, 'w', encoding='utf-8') as f:
                 f.write('\n'.join(all_lines) + '\n')
 
-# 运行主函数
 if __name__ == "__main__":
     asyncio.run(main())
