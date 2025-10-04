@@ -84,6 +84,8 @@ async def process_subscriptions(session, subscriptions):
 
 # 主异步函数
 async def main():
+    global subscriptions
+    global config
     async with aiohttp.ClientSession() as session:
         # 处理 Telegram 频道
         new_links = await process_tgchannels(session, tgchannels)
