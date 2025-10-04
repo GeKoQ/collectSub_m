@@ -4,17 +4,18 @@ import re
 import yaml
 import os
 import base64
-from urllib.parse import quote
+from urllib.parse import quote, unquote
 from tqdm import tqdm
 from loguru import logger
+import json  # 新增：用于可能的 JSON 解析
 
-# 全局配置
+# 全局配置（保持原样）
 RE_URL = r"https?://[-A-Za-z0-9+&@#/%?=~_|!:,.;]+[-A-Za-z0-9+&@#/%=~_|]"
 CHECK_NODE_URL_STR = "https://{}/sub?target={}&url={}&insert=false&config=config%2FACL4SSR.ini"
 CHECK_URL_LIST = ['api.dler.io', 'sub.xeton.dev', 'sub.id9.cc', 'sub.maoxiongnet.com']
 
 # -------------------------------
-# 配置文件操作
+# 配置文件操作（保持原样）
 # -------------------------------
 def load_yaml_config(path_yaml):
     """读取 YAML 配置文件，如文件不存在则返回默认结构"""
@@ -52,7 +53,7 @@ def get_config_channels(config_file='config.yaml'):
     return new_list
 
 # -------------------------------
-# 异步 HTTP 请求辅助函数
+# 异步 HTTP 请求辅助函数（保持原样）
 # -------------------------------
 async def fetch_content(url, session, method='GET', headers=None, timeout=15):
     """获取指定 URL 的文本内容"""
@@ -69,7 +70,198 @@ async def fetch_content(url, session, method='GET', headers=None, timeout=15):
         return None
 
 # -------------------------------
-# 频道抓取及订阅检查
+# 新增：订阅解析函数
+# -------------------------------
+async def parse_subscription_content(content, sub_type):
+    """
+    解析订阅内容，根据类型提取可导入的节点链接（ss://, vmess:// 等）
+    返回字典：{protocol: [links]}
+    支持类型：'clash', 'v2', 'loon', 'sub' (机场，通常 base64 V2)
+    """
+    protocols = {
+        'ss': [],
+        'vmess': [],
+        'trojan': [],
+        'vless': [],
+        'ssr': [],
+        'other': []  # 其他如 hysteria 等
+    }
+
+    if not content or len(content.strip()) < 10:
+        return protocols
+
+    try:
+        if sub_type == 'clash':
+            # Clash YAML 解析
+            config = yaml.safe_load(content)
+            if 'proxies' in config:
+                for proxy in config['proxies']:
+                    p_type = proxy.get('type', '').lower()
+                    name = proxy.get('name', 'Unnamed')
+                    # 根据类型生成 share link
+                    if p_type == 'ss':
+                        server = proxy['server']
+                        port = proxy['port']
+                        method = proxy['cipher']
+                        password = proxy['password']
+                        link = f"ss://{quote(base64.b64encode(f'{method}:{password}@{server}:{port}'.encode()).decode())}#{quote(name)}"
+                        protocols['ss'].append(link)
+                    elif p_type == 'vmess':
+                        # VMess JSON to link
+                        v_obj = {
+                            "v": "2",
+                            "ps": name,
+                            "add": proxy['server'],
+                            "port": str(proxy['port']),
+                            "id": proxy['uuid'],
+                            "aid": str(proxy.get('alterId', 0)),
+                            "net": proxy.get('network', 'tcp'),
+                            "type": "none",
+                            "host": proxy.get('ws-headers', {}).get('Host', ''),
+                            "path": proxy.get('ws-path', ''),
+                            "tls": proxy.get('tls', '')
+                        }
+                        json_str = json.dumps(v_obj)
+                        link = f"vmess://{quote(base64.b64encode(json_str.encode()).decode())}"
+                        protocols['vmess'].append(link)
+                    elif p_type == 'trojan':
+                        server = proxy['server']
+                        port = proxy['port']
+                        password = proxy['password']
+                        link = f"trojan://{quote(password)}@{server}:{port}#{quote(name)}"
+                        protocols['trojan'].append(link)
+                    elif p_type == 'vless':
+                        server = proxy['server']
+                        port = proxy['port']
+                        uuid = proxy['uuid']
+                        link = f"vless://{quote(uuid)}@{server}:{port}#{quote(name)}"
+                        protocols['vless'].append(link)
+                    else:
+                        protocols['other'].append(f"clash://{p_type}:{name}")  # 简化其他类型
+
+        elif sub_type in ['v2', 'sub']:  # V2 和机场通常 base64 编码的链接列表
+            # 尝试 base64 解码
+            try:
+                decoded = base64.b64decode(content.strip()).decode('utf-8', errors='ignore')
+                lines = [line.strip() for line in decoded.split('\n') if line.strip()]
+            except:
+                lines = [line.strip() for line in content.split('\n') if line.strip()]  # 如果不是 base64，假设原始
+
+            for line in lines:
+                if line.startswith('ss://'):
+                    protocols['ss'].append(line)
+                elif line.startswith('vmess://'):
+                    protocols['vmess'].append(line)
+                elif line.startswith('trojan://'):
+                    protocols['trojan'].append(line)
+                elif line.startswith('vless://'):
+                    protocols['vless'].append(line)
+                elif line.startswith('ssr://'):
+                    protocols['ssr'].append(line)
+                else:
+                    protocols['other'].append(line)
+
+        elif sub_type == 'loon':
+            # Loon 格式：每行 proxy = url, name 或直接 URI
+            lines = [line.strip() for line in content.split('\n') if line.strip() and '=' in line]
+            for line in lines:
+                if line.startswith('[Proxy]'):
+                    continue
+                parts = line.split('=', 1)
+                if len(parts) == 2:
+                    url_part = parts[1].strip().strip('"')
+                    if url_part.startswith('ss://'):
+                        protocols['ss'].append(url_part)
+                    elif url_part.startswith('vmess://'):
+                        protocols['vmess'].append(url_part)
+                    elif url_part.startswith('trojan://'):
+                        protocols['trojan'].append(url_part)
+                    elif url_part.startswith('vless://'):
+                        protocols['vless'].append(url_part)
+                    else:
+                        protocols['other'].append(url_part)
+
+    except Exception as e:
+        logger.error(f"解析 {sub_type} 订阅内容异常: {e}")
+        protocols['other'].append(content[:200])  # 保留原始片段用于调试
+
+    # 过滤空列表
+    protocols = {k: v for k, v in protocols.items() if v}
+    return protocols
+
+async def download_and_process_all_txt(all_txt_path, sub_dir='sub'):
+    """
+    从 all.txt 下载订阅信息到 sub/ 文件夹，按代理类型分类保存链接
+    """
+    if not os.path.exists(all_txt_path):
+        logger.error(f"all.txt 不存在: {all_txt_path}")
+        return
+
+    # 创建 sub/ 文件夹
+    os.makedirs(sub_dir, exist_ok=True)
+
+    # 读取 all.txt 并分割部分
+    with open(all_txt_path, 'r', encoding='utf-8') as f:
+        content = f.read()
+
+    sections = re.split(r'--\s*(\w+)\s*--', content)  # 分割 -- Section --
+    urls_by_type = {}  # {type: [urls]}
+
+    for i in range(1, len(sections), 2):  # 跳过空部分
+        section_name = sections[i].strip().lower()
+        section_content = sections[i+1].strip() if i+1 < len(sections) else ''
+        urls = re.findall(RE_URL, section_content)
+        if urls:
+            # 映射 section 到 sub_type
+            if 'sub store' in section_name:
+                sub_type = 'sub'  # 机场，通常 V2 base64
+            elif 'loon' in section_name:
+                sub_type = 'loon'
+            elif 'clash' in section_name:
+                sub_type = 'clash'
+            elif 'v2' in section_name:
+                sub_type = 'v2'
+            else:
+                sub_type = 'other'
+            urls_by_type[sub_type] = list(set(urls))  # 去重
+
+    logger.info(f"从 all.txt 提取订阅类型: {urls_by_type.keys()}")
+
+    # 并发下载和解析
+    connector = aiohttp.TCPConnector(limit=50)
+    timeout = aiohttp.ClientTimeout(total=30)
+    semaphore = asyncio.Semaphore(20)
+
+    async def process_single_url(url, sub_type):
+        async with semaphore:
+            async with aiohttp.ClientSession(connector=connector, timeout=timeout) as session:
+                content = await fetch_content(url, session)
+                if content:
+                    return await parse_subscription_content(content, sub_type)
+                return {}
+
+    all_protocols = {p: [] for p in ['ss', 'vmess', 'trojan', 'vless', 'ssr', 'other']}
+
+    for sub_type, urls in urls_by_type.items():
+        logger.info(f"处理 {sub_type} 类型: {len(urls)} 个 URL")
+        tasks = [process_single_url(url, sub_type) for url in urls]
+        for coro in tqdm(asyncio.as_completed(tasks), total=len(tasks), desc=f"解析{sub_type}"):
+            protocols = await coro
+            for proto, links in protocols.items():
+                all_protocols[proto].extend(links)
+
+    # 保存到文件
+    for proto, links in all_protocols.items():
+        if links:
+            file_path = os.path.join(sub_dir, f"{proto}_links.txt")
+            with open(file_path, 'w', encoding='utf-8') as f:
+                f.write("\n".join(sorted(set(links))))  # 去重排序
+            logger.info(f"保存 {len(links)} 个 {proto} 链接到 {file_path}")
+
+    logger.info("✅ 下载和分类完成！检查 sub/ 文件夹")
+
+# -------------------------------
+# 频道抓取及订阅检查（保持原样）
 # -------------------------------
 async def get_channel_urls(channel_url, session):
     """从 Telegram 频道页面抓取所有订阅链接，并过滤无关链接"""
@@ -220,7 +412,7 @@ async def sub_check(url, session):
     return None
 
 # -------------------------------
-# 节点有效性检测（根据多个检测入口）
+# 节点有效性检测（保持原样）
 # -------------------------------
 async def url_check_valid(url, target, session):
     """
@@ -280,7 +472,7 @@ async def url_check_valid(url, target, session):
     return None
 
 # -------------------------------
-# 主流程：更新订阅与合并
+# 主流程：更新订阅与合并（保持原样，但 main 中添加新步骤）
 # -------------------------------
 async def update_today_sub(session):
     """
@@ -402,7 +594,7 @@ def merge_files_to_all_txt(sub_store_file, loon_file, clash_file, v2_file, all_f
     logger.info(f"📄 已合并生成: {all_file}")
 
 # -------------------------------
-# 主函数入口
+# 主函数入口（修改：添加第八步处理 all.txt）
 # -------------------------------
 async def validate_existing_subscriptions(config, session):
     """验证现有订阅的有效性，移除失效订阅"""
@@ -564,6 +756,10 @@ async def main():
         logger.info("\n🔍 第六步：检测节点有效性")
         logger.info("-" * 40)
 
+        loon_file = None
+        clash_file = None
+        v2_file = None
+
         # 检测机场订阅节点
         if final_config["机场订阅"]:
             valid_loon = await check_nodes(final_config["机场订阅"], "loon", session)
@@ -587,6 +783,11 @@ async def main():
         logger.info("-" * 40)
         all_file = config_path.replace('.yaml', '_all.txt')
         merge_files_to_all_txt(sub_store_file, loon_file, clash_file, v2_file, all_file)
+
+        # 第八步：下载 all.txt 中的订阅到 sub/ 文件夹，按类型分类
+        logger.info("\n📥 第八步：下载并分类订阅链接到 sub/ 文件夹")
+        logger.info("-" * 40)
+        await download_and_process_all_txt(all_file)
 
     logger.info("\n🎉 订阅管理流程完成！")
     logger.info("=" * 60)
