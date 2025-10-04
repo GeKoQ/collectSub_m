@@ -95,7 +95,7 @@ def clean_null_file():
         with open(null_path, "r", encoding="utf-8") as f:
             lines = f.readlines()
         # 删除不以协议开头的行
-        pattern = re.compile(r'^(?!(socks|http|ss|vmess|vless|trojan|hy|tuic|anytls|sn)).*$', re.IGNORECASE)
+        pattern = re.compile(r'^(?!(socks|http|ss|vmess|vless|trojan|hy|tuic|anytls|sn|wireguard)).*$', re.IGNORECASE)
         kept_lines = [l for l in lines if not pattern.match(l.strip())]
         with open(null_path, "w", encoding="utf-8") as f:
             f.writelines(kept_lines)
