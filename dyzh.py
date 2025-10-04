@@ -19,7 +19,7 @@ USER_AGENTS = [
 ]
 
 # Telegram 镜像域名（自动切换）
-TG_DOMAINS = ["t.me", "telegram.me", "tgo.li"]
+TG_DOMAINS = ["t.me", "telegram.me", "tgo.li", "tg.rip"]
 
 # 加载配置文件
 with open('pool.yaml', 'r') as f:
