@@ -1,7 +1,7 @@
 import yaml
 import aiohttp
 import asyncio
-from bs4 import BeautifulSoup4
+from bs4 import BeautifulSoup
 import os
 import base64
 from urllib.parse import urlparse
