@@ -53,7 +53,7 @@ def get_config_channels(config_file='config.yaml'):
     return new_list
 
 # -------------------------------
-# 异步 HTTP 请求辅助函数（保持原样）
+# 异步 HTTP 请求辅助函数（修改：添加 CancelledError 处理）
 # -------------------------------
 async def fetch_content(url, session, method='GET', headers=None, timeout=15):
     """获取指定 URL 的文本内容"""
@@ -65,6 +65,12 @@ async def fetch_content(url, session, method='GET', headers=None, timeout=15):
             else:
                 logger.warning(f"URL {url} 返回状态 {response.status}")
                 return None
+    except asyncio.TimeoutError:
+        logger.warning(f"请求 {url} 超时")
+        return None
+    except asyncio.CancelledError:
+        logger.warning(f"请求 {url} 被取消")
+        return None
     except Exception as e:
         logger.error(f"请求 {url} 异常: {e}")
         return None
@@ -227,41 +233,61 @@ async def download_and_process_all_txt(all_txt_path, sub_dir='sub'):
 
     logger.info(f"从 all.txt 提取订阅类型: {urls_by_type.keys()}")
 
-    # 并发下载和解析
+    # 并发下载和解析 - 使用单个 session
     connector = aiohttp.TCPConnector(limit=50)
-    timeout = aiohttp.ClientTimeout(total=30)
-    semaphore = asyncio.Semaphore(20)
+    timeout = aiohttp.ClientTimeout(total=60, connect=15)  # 增加超时时间
+    semaphore = asyncio.Semaphore(10)  # 降低并发数，避免 Actions 网络压力
 
-    async def process_single_url(url, sub_type):
-        async with semaphore:
-            async with aiohttp.ClientSession(connector=connector, timeout=timeout) as session:
-                content = await fetch_content(url, session)
-                if content:
-                    return await parse_subscription_content(content, sub_type)
-                return {}
+    async with aiohttp.ClientSession(connector=connector, timeout=timeout) as session:
+        async def process_single_url(url, sub_type):
+            async with semaphore:
+                try:
+                    logger.debug(f"开始处理 URL: {url}")
+                    content = await fetch_content(url, session, timeout=aiohttp.ClientTimeout(total=30))
+                    if content:
+                        return await parse_subscription_content(content, sub_type)
+                    else:
+                        logger.debug(f"URL {url} 无内容")
+                    return {}
+                except asyncio.CancelledError:
+                    logger.warning(f"Task for {url} was cancelled")
+                    return {}
+                except Exception as e:
+                    logger.error(f"Error processing {url}: {e}")
+                    return {}
 
-    all_protocols = {p: [] for p in ['ss', 'vmess', 'trojan', 'vless', 'ssr', 'other']}
+        all_protocols = {p: [] for p in ['ss', 'vmess', 'trojan', 'vless', 'ssr', 'other']}
 
-    for sub_type, urls in urls_by_type.items():
-        logger.info(f"处理 {sub_type} 类型: {len(urls)} 个 URL")
-        tasks = [process_single_url(url, sub_type) for url in urls]
-        for coro in tqdm(asyncio.as_completed(tasks), total=len(tasks), desc=f"解析{sub_type}"):
-            protocols = await coro
-            for proto, links in protocols.items():
-                all_protocols[proto].extend(links)
+        for sub_type, urls in urls_by_type.items():
+            logger.info(f"处理 {sub_type} 类型: {len(urls)} 个 URL")
+            tasks = [process_single_url(url, sub_type) for url in urls]
+            completed = 0
+            for coro in tqdm(asyncio.as_completed(tasks), total=len(tasks), desc=f"解析{sub_type}"):
+                try:
+                    protocols = await coro
+                    for proto, links in protocols.items():
+                        all_protocols[proto].extend(links)
+                    completed += 1
+                except asyncio.CancelledError:
+                    logger.warning(f"as_completed for {sub_type} was cancelled")
+                except Exception as e:
+                    logger.error(f"Error in as_completed for {sub_type}: {e}")
+                    completed += 1
+            logger.info(f"{sub_type} 处理完成: {completed}/{len(urls)}")
 
-    # 保存到文件
-    for proto, links in all_protocols.items():
-        if links:
-            file_path = os.path.join(sub_dir, f"{proto}_links.txt")
-            with open(file_path, 'w', encoding='utf-8') as f:
-                f.write("\n".join(sorted(set(links))))  # 去重排序
-            logger.info(f"保存 {len(links)} 个 {proto} 链接到 {file_path}")
+        # 保存到文件
+        for proto, links in all_protocols.items():
+            unique_links = sorted(set(links))
+            if unique_links:
+                file_path = os.path.join(sub_dir, f"{proto}_links.txt")
+                with open(file_path, 'w', encoding='utf-8') as f:
+                    f.write("\n".join(unique_links))  # 去重排序
+                logger.info(f"保存 {len(unique_links)} 个 {proto} 链接到 {file_path}")
 
     logger.info("✅ 下载和分类完成！检查 sub/ 文件夹")
 
 # -------------------------------
-# 频道抓取及订阅检查（保持原样）
+# 频道抓取及订阅检查（保持原样，但更新 fetch_content 调用）
 # -------------------------------
 async def get_channel_urls(channel_url, session):
     """从 Telegram 频道页面抓取所有订阅链接，并过滤无关链接"""
@@ -412,7 +438,7 @@ async def sub_check(url, session):
     return None
 
 # -------------------------------
-# 节点有效性检测（保持原样）
+# 节点有效性检测（修改：添加异常处理）
 # -------------------------------
 async def url_check_valid(url, target, session):
     """
@@ -464,6 +490,9 @@ async def url_check_valid(url, target, session):
         except asyncio.TimeoutError:
             logger.debug(f"节点检测 {url} 在 {check_base} 超时")
             continue
+        except asyncio.CancelledError:
+            logger.debug(f"节点检测 {url} 在 {check_base} 被取消")
+            return None
         except Exception as e:
             logger.debug(f"节点检测 {url} 在 {check_base} 异常: {e}")
             continue
@@ -515,9 +544,13 @@ async def check_subscriptions(urls):
 
         tasks = [check_single(url) for url in urls]
         for coro in tqdm(asyncio.as_completed(tasks), total=len(tasks), desc="订阅筛选"):
-            res = await coro
-            if res:
-                results.append(res)
+            try:
+                res = await coro
+                if res:
+                    results.append(res)
+            except Exception as e:
+                logger.error(f"Error in check_subscriptions: {e}")
+
     return results
 
 async def check_nodes(urls, target, session):
@@ -538,9 +571,13 @@ async def check_nodes(urls, target, session):
 
     tasks = [check_single_node(url) for url in urls]
     for coro in tqdm(asyncio.as_completed(tasks), total=len(tasks), desc=f"检测{target}节点"):
-        res = await coro
-        if res:
-            valid_urls.append(res)
+        try:
+            res = await coro
+            if res:
+                valid_urls.append(res)
+        except Exception as e:
+            logger.error(f"Error in check_nodes: {e}")
+
     return valid_urls
 
 def write_url_list(url_list, file_path):
@@ -634,16 +671,19 @@ async def validate_existing_subscriptions(config, session):
     tasks = [check_single_existing(url_info) for url_info in all_existing_urls]
 
     for coro in tqdm(asyncio.as_completed(tasks), total=len(tasks), desc="验证现有订阅"):
-        url, category, result = await coro
-        if result:
-            if result["type"] == "机场订阅":
-                valid_existing["机场订阅"].append(url)
-                if result["info"]:
-                    valid_existing["开心玩耍"].append(f'{result["info"]}\n{url}')
-            elif result["type"] == "clash订阅":
-                valid_existing["clash订阅"].append(url)
-            elif result["type"] == "v2订阅":
-                valid_existing["v2订阅"].append(url)
+        try:
+            url, category, result = await coro
+            if result:
+                if result["type"] == "机场订阅":
+                    valid_existing["机场订阅"].append(url)
+                    if result["info"]:
+                        valid_existing["开心玩耍"].append(f'{result["info"]}\n{url}')
+                elif result["type"] == "clash订阅":
+                    valid_existing["clash订阅"].append(url)
+                elif result["type"] == "v2订阅":
+                    valid_existing["v2订阅"].append(url)
+        except Exception as e:
+            logger.error(f"Error in validate_existing: {e}")
 
     # 统计验证结果
     total_original = len(all_existing_urls)
@@ -787,7 +827,11 @@ async def main():
         # 第八步：下载 all.txt 中的订阅到 sub/ 文件夹，按类型分类
         logger.info("\n📥 第八步：下载并分类订阅链接到 sub/ 文件夹")
         logger.info("-" * 40)
-        await download_and_process_all_txt(all_file)
+        try:
+            await download_and_process_all_txt(all_file)
+        except Exception as e:
+            logger.error(f"Error in download_and_process_all_txt: {e}")
+            logger.info("继续流程，尽管下载步骤失败")
 
     logger.info("\n🎉 订阅管理流程完成！")
     logger.info("=" * 60)
