@@ -574,6 +574,6 @@ def merge_configs(config_path):
 
 if __name__ == '__main__':
     asyncio.run(main())
-    merge_configs(config_path)
+    merge_configs('config.yaml')
 
 
