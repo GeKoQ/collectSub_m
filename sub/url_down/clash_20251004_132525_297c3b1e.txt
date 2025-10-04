@@ -1,0 +1,142 @@
+# 来源URL: https://sub.ng165.dpdns.org/c/12345
+# 保存时间: 2025-10-04 13:25:26.041696
+port: 7890
+socks-port: 7891
+allow-lan: false
+mode: Rule
+log-level: info
+dns:
+  enable: true
+  ipv6: true
+  respect-rules: true
+  enhanced-mode: fake-ip
+  nameserver:
+    - https://120.53.53.53/dns-query
+    - https://223.5.5.5/dns-query
+  proxy-server-nameserver:
+    - https://120.53.53.53/dns-query
+    - https://223.5.5.5/dns-query
+  nameserver-policy:
+    geosite:cn,private:
+      - https://120.53.53.53/dns-query
+      - https://223.5.5.5/dns-query
+    geosite:geolocation-!cn:
+      - https://dns.cloudflare.com/dns-query
+      - https://dns.google/dns-query
+proxies:
+  - name: TG频道:@eziyuan_1 🇭🇰香港
+    type: ss
+    server: 47.86.1.111
+    port: 20168
+    cipher: aes-256-gcm
+    password: LHD6009_AES_256_GCM
+  - name: TG频道:@eziyuan_1 🇭🇰香港 | 原生IP
+    type: vless
+    server: nepnep.team
+    port: 21008
+    uuid: aec7f775-261d-44d0-ad99-557dbf7a8d29
+    tls: true
+    client-fingerprint: chrome
+    servername: yahoo.com
+    network: tcp
+    reality-opts:
+      public-key: PIcpgq3Yd7kEOHv3y7RYXoxyQuG9l0xeW7HqHcN1RiY
+      short-id: 2d2aef2e2dd13e84
+    tfo: false
+    skip-cert-verify: false
+  - name: TG频道:@eziyuan_1 🇺🇸美国 | 原生IP
+    type: vless
+    server: 38.78.145.12
+    port: 443
+    uuid: 6a2dddf6-9b90-4593-8afe-195776e4529c
+    tls: true
+    client-fingerprint: chrome
+    servername: ytsndw0u.com
+    network: tcp
+    reality-opts:
+      public-key: o3sbRk0GY5xEGqnQmJOYXL6B7fcVpjyjxq-Ztq3r6gY
+      short-id: 6b7142533e
+    tfo: false
+    skip-cert-verify: false
+  - name: TG频道:@eziyuan_1 🇺🇸美国 | 原生IP
+    type: vmess
+    server: 38.57.40.155
+    port: 20521
+    uuid: 1713618a-2844-4564-b1fb-07c838ea03b8
+    alterId: 0
+    cipher: auto
+    tls: false
+    servername: ''
+    network: ws
+    ws-opts:
+      path: /
+      headers:
+        Host: ''
+  - name: TG频道:@eziyuan_1 🇺🇸美国 | 家宽IP
+    type: vless
+    server: 38.57.247.121
+    port: 41316
+    uuid: ec43a13f-f0cf-47ec-9634-ae2f61dd3501
+    tls: true
+    client-fingerprint: chrome
+    servername: tesla.com
+    network: tcp
+    reality-opts:
+      public-key: bF4fmThCoBzWH1qV4U5KmMU05O5-iLbk4-bc2A6-5WM
+      short-id: 5154f1
+    tfo: false
+    skip-cert-verify: false
+  - name: TG频道:@eziyuan_1 🇺🇸美国 | 家宽IP
+    type: vless
+    server: 38.244.12.138
+    port: 17901
+    uuid: 85dad006-ceec-4b32-81e2-e63486366f3c
+    tls: true
+    client-fingerprint: chrome
+    servername: yahoo.com
+    network: tcp
+    reality-opts:
+      public-key: Nj2sSYdQbY6-jDJdREFrkWrOWyptRyyi23u54KOIykI
+      short-id: d1ef6b
+    tfo: false
+    skip-cert-verify: false
+  - name: TG频道:@eziyuan_1 🇺🇸美国 | 家宽IP
+    type: vless
+    server: 64.81.38.7
+    port: 39769
+    uuid: 877be881-944c-4fd2-b660-9e363c8fb094
+    tls: true
+    client-fingerprint: chrome
+    servername: tesla.com
+    network: grpc
+    reality-opts:
+      public-key: GqrD581Nwk_JEp9T5UnyBoMncTmjr2GEANdmHw4e2T0
+      short-id: '07'
+    grpc-opts:
+      grpc-mode: gun
+    tfo: false
+    skip-cert-verify: false
+  - name: TG频道:@eziyuan_1 🇺🇸美国 | 原生IP
+    type: vmess
+    server: 172.233.229.207
+    port: 10002
+    uuid: 8afd259a-f6fe-478b-ba54-60c42510a7c1
+    alterId: 0
+    cipher: auto
+    tls: false
+    servername: ''
+    network: tcp
+  - name: TG频道:@eziyuan_1 🇩🇪德国
+    type: vless
+    server: 64.188.124.119
+    port: 40721
+    uuid: bf3e8944-8d26-47de-8748-b9aa74cce974
+    tls: true
+    client-fingerprint: chrome
+    servername: yahoo.com
+    network: tcp
+    reality-opts:
+      public-key: TUZgwzcTvoROSbgnqMh3WorXVMxQNIF2zsEM39FQbyk
+      short-id: df8611c07d
+    tfo: false
+    skip-cert-verify: false
