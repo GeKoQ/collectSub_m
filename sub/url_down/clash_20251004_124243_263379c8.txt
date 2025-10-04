@@ -1,0 +1,53 @@
+# 来源URL: https://flynb.site/sub?token=oLKUUBC7cJPmouRzlnw2bg&tag=clash#
+# 保存时间: 2025-10-04 12:42:44.291818
+port: 7890
+socks-port: 7891
+allow-lan: true
+mode: Rule
+log-level: info
+external-controller: :9090
+proxies:
+  - {name: 频道： @HelloWorld_1024, server: 61.221.48.98, port: 28331, client-fingerprint: chrome, type: trojan, password: 4cDgyx33xaypDCIFaOj84Snjy3g9XpulOI3FF0CaaTSyY3ElCOeYKx8eCeN7zRRZnCu2A, sni: sohtsa.taiwanesefood.link, skip-cert-verify: false, udp: true}
+  - {name: 🇯🇵 Tokyo1, server: 103.232.213.170, port: 4990, client-fingerprint: chrome, type: http, username: tqqlqvxj@mayorlogistic.com, password: 25d55ad283aa400af464c76d713c07ad, tls: true, skip-cert-verify: true, udp: true}
+  - {name: Los Angeles, server: lax04.wddc.akaedge.net, port: 8330, client-fingerprint: chrome, type: http, username: tqqlqvxj@mayorlogistic.com, password: 25d55ad283aa400af464c76d713c07ad, tls: true, skip-cert-verify: true, udp: true}
+  - {name: Seoul2, server: 61.111.247.42, port: 8330, client-fingerprint: chrome, type: http, username: tqqlqvxj@mayorlogistic.com, password: 25d55ad283aa400af464c76d713c07ad, tls: true, skip-cert-verify: true, udp: true}
+  - {name: Riyadh, server: 156.244.12.140, port: 4990, client-fingerprint: chrome, type: http, username: tqqlqvxj@mayorlogistic.com, password: 25d55ad283aa400af464c76d713c07ad, tls: true, skip-cert-verify: true, udp: true}
+  - {name: Frankfurt, server: 156.226.175.105, port: 8443, client-fingerprint: chrome, type: http, username: tqqlqvxj@mayorlogistic.com, password: 25d55ad283aa400af464c76d713c07ad, tls: true, skip-cert-verify: true, udp: true}
+  - {name: Madrid, server: 103.240.146.143, port: 8330, client-fingerprint: chrome, type: http, username: tqqlqvxj@mayorlogistic.com, password: 25d55ad283aa400af464c76d713c07ad, tls: true, skip-cert-verify: true, udp: true}
+  - {name: New York, server: 66.55.65.54, port: 8330, client-fingerprint: chrome, type: http, username: tqqlqvxj@mayorlogistic.com, password: 25d55ad283aa400af464c76d713c07ad, tls: true, skip-cert-verify: true, udp: true}
+  - {name: 🇸🇬 Singapore, server: singapore.sqx001.com, port: 8330, client-fingerprint: chrome, type: http, username: tqqlqvxj@mayorlogistic.com, password: 25d55ad283aa400af464c76d713c07ad, tls: true, skip-cert-verify: true, udp: true}
+  - {name: 🇦🇺 Sydney, server: 45.77.239.139, port: 8330, client-fingerprint: chrome, type: http, username: tqqlqvxj@mayorlogistic.com, password: 25d55ad283aa400af464c76d713c07ad, tls: true, skip-cert-verify: true, udp: true}
+  - {name: Almaty, server: 77.91.75.132, port: 8310, client-fingerprint: chrome, type: http, username: tqqlqvxj@mayorlogistic.com, password: 25d55ad283aa400af464c76d713c07ad, tls: true, skip-cert-verify: true, udp: true}
+  - {name: 🇭🇰 HongKong2, server: hk02.sqx001.com, port: 8443, client-fingerprint: chrome, type: http, username: tqqlqvxj@mayorlogistic.com, password: 25d55ad283aa400af464c76d713c07ad, tls: true, skip-cert-verify: true, udp: true}
+  - {name: 🇬🇧 London, server: 104.218.164.53, port: 8300, client-fingerprint: chrome, type: http, username: tqqlqvxj@mayorlogistic.com, password: 25d55ad283aa400af464c76d713c07ad, tls: true, skip-cert-verify: true, udp: true}
+  - {name: 🇭🇰 HongKong4, server: edgw0.nnce.kxcdn.net, port: 8443, client-fingerprint: chrome, type: http, username: tqqlqvxj@mayorlogistic.com, password: 25d55ad283aa400af464c76d713c07ad, tls: true, skip-cert-verify: true, udp: true}
+  - {name: 🇭🇰 HongKong5, server: 152.32.133.115, port: 4399, client-fingerprint: chrome, type: http, username: tqqlqvxj@mayorlogistic.com, password: 25d55ad283aa400af464c76d713c07ad, tls: true, skip-cert-verify: true, udp: true}
+  - {name: 🇭🇰 Singapore (via HK), server: sbgp.penso.akaedge.net, port: 8444, client-fingerprint: chrome, type: http, username: tqqlqvxj@mayorlogistic.com, password: 25d55ad283aa400af464c76d713c07ad, tls: true, skip-cert-verify: true, udp: true}
+  - {name: Stockholm, server: 103.45.246.184, port: 8300, client-fingerprint: chrome, type: http, username: tqqlqvxj@mayorlogistic.com, password: 25d55ad283aa400af464c76d713c07ad, tls: true, skip-cert-verify: true, udp: true}
+  - {name: Amsterdam, server: 185.229.225.161, port: 5990, client-fingerprint: chrome, type: http, username: tqqlqvxj@mayorlogistic.com, password: 25d55ad283aa400af464c76d713c07ad, tls: true, skip-cert-verify: true, udp: true}
+  - {name: 🇨🇦 Toronto, server: 104.129.128.58, port: 8300, client-fingerprint: chrome, type: http, username: tqqlqvxj@mayorlogistic.com, password: 25d55ad283aa400af464c76d713c07ad, tls: true, skip-cert-verify: true, udp: true}
+  - {name: 🇲🇽 Mexico City, server: 216.238.81.28, port: 8300, client-fingerprint: chrome, type: http, username: tqqlqvxj@mayorlogistic.com, password: 25d55ad283aa400af464c76d713c07ad, tls: true, skip-cert-verify: true, udp: true}
+  - {name: 🇮🇹 Milan, server: 185.47.172.230, port: 8200, client-fingerprint: chrome, type: http, username: tqqlqvxj@mayorlogistic.com, password: 25d55ad283aa400af464c76d713c07ad, tls: true, skip-cert-verify: true, udp: true}
+  - {name: Chicago, server: 146.71.78.145, port: 4999, client-fingerprint: chrome, type: http, username: tqqlqvxj@mayorlogistic.com, password: 25d55ad283aa400af464c76d713c07ad, tls: true, skip-cert-verify: true, udp: true}
+  - {name: Taipei, server: tw01.sqx001.com, port: 8330, client-fingerprint: chrome, type: http, username: tqqlqvxj@mayorlogistic.com, password: 25d55ad283aa400af464c76d713c07ad, tls: true, skip-cert-verify: true, udp: true}
+  - {name: Kuala Lumpur, server: 155.254.60.36, port: 8300, client-fingerprint: chrome, type: http, username: tqqlqvxj@mayorlogistic.com, password: 25d55ad283aa400af464c76d713c07ad, tls: true, skip-cert-verify: true, udp: true}
+  - {name: Santiago, server: 64.176.16.32, port: 8330, client-fingerprint: chrome, type: http, username: tqqlqvxj@mayorlogistic.com, password: 25d55ad283aa400af464c76d713c07ad, tls: true, skip-cert-verify: true, udp: true}
+  - {name: Tel Aviv, server: 185.162.124.132, port: 8300, client-fingerprint: chrome, type: http, username: tqqlqvxj@mayorlogistic.com, password: 25d55ad283aa400af464c76d713c07ad, tls: true, skip-cert-verify: true, udp: true}
+  - {name: 🇯🇵 Tokyo2, server: 156.231.117.17, port: 4399, client-fingerprint: chrome, type: http, username: tqqlqvxj@mayorlogistic.com, password: 25d55ad283aa400af464c76d713c07ad, tls: true, skip-cert-verify: true, udp: true}
+  - {name: Los Angeles2, server: 165.154.206.214, port: 8300, client-fingerprint: chrome, type: http, username: tqqlqvxj@mayorlogistic.com, password: 25d55ad283aa400af464c76d713c07ad, tls: true, skip-cert-verify: true, udp: true}
+  - {name: HoChiMinh2 (ISP), server: 42.119.60.199, port: 8300, client-fingerprint: chrome, type: http, username: tqqlqvxj@mayorlogistic.com, password: 25d55ad283aa400af464c76d713c07ad, tls: true, skip-cert-verify: true, udp: true}
+  - {name: 🇭🇰 HoChiMinh2 (via HK, server: vn5.penso.akaedge.net, port: 8445, client-fingerprint: chrome, type: http, username: tqqlqvxj@mayorlogistic.com, password: 25d55ad283aa400af464c76d713c07ad, tls: true, skip-cert-verify: true, udp: true}
+  - {name: Warsaw, server: 194.87.108.40, port: 8300, client-fingerprint: chrome, type: http, username: tqqlqvxj@mayorlogistic.com, password: 25d55ad283aa400af464c76d713c07ad, tls: true, skip-cert-verify: true, udp: true}
+  - {name: Phnom Penh, server: kh01.sqx001.com, port: 8300, client-fingerprint: chrome, type: http, username: tqqlqvxj@mayorlogistic.com, password: 25d55ad283aa400af464c76d713c07ad, tls: true, skip-cert-verify: true, udp: true}
+  - {name: 🇷🇺 St.Petersburg, server: 194.87.197.196, port: 443, client-fingerprint: chrome, type: http, username: tqqlqvxj@mayorlogistic.com, password: 25d55ad283aa400af464c76d713c07ad, tls: true, skip-cert-verify: true, udp: true}
+  - {name: Dhaka, server: 103.174.50.95, port: 4330, client-fingerprint: chrome, type: http, username: tqqlqvxj@mayorlogistic.com, password: 25d55ad283aa400af464c76d713c07ad, tls: true, skip-cert-verify: true, udp: true}
+  - {name: Istanbul, server: 103.215.218.174, port: 8300, client-fingerprint: chrome, type: http, username: tqqlqvxj@mayorlogistic.com, password: 25d55ad283aa400af464c76d713c07ad, tls: true, skip-cert-verify: true, udp: true}
+  - {name: Johannesburg, server: 139.84.240.81, port: 8300, client-fingerprint: chrome, type: http, username: tqqlqvxj@mayorlogistic.com, password: 25d55ad283aa400af464c76d713c07ad, tls: true, skip-cert-verify: true, udp: true}
+  - {name: Bangkok2, server: 128.1.79.134, port: 8300, client-fingerprint: chrome, type: http, username: tqqlqvxj@mayorlogistic.com, password: 25d55ad283aa400af464c76d713c07ad, tls: true, skip-cert-verify: true, udp: true}
+  - {name: 🇦🇪 Dubai2, server: 165.154.108.92, port: 8330, client-fingerprint: chrome, type: http, username: tqqlqvxj@mayorlogistic.com, password: 25d55ad283aa400af464c76d713c07ad, tls: true, skip-cert-verify: true, udp: true}
+  - {name: Mubai2, server: 152.32.156.119, port: 5201, client-fingerprint: chrome, type: http, username: tqqlqvxj@mayorlogistic.com, password: 25d55ad283aa400af464c76d713c07ad, tls: true, skip-cert-verify: true, udp: true}
+  - {name: Manila, server: 165.154.33.173, port: 8339, client-fingerprint: chrome, type: http, username: tqqlqvxj@mayorlogistic.com, password: 25d55ad283aa400af464c76d713c07ad, tls: true, skip-cert-verify: true, udp: true}
+  - {name: 🇮🇩 Jakarta, server: 165.154.150.51, port: 8443, client-fingerprint: chrome, type: http, username: tqqlqvxj@mayorlogistic.com, password: 25d55ad283aa400af464c76d713c07ad, tls: true, skip-cert-verify: true, udp: true}
+  - {name: 🇧🇷 Sao Paulo, server: 152.32.197.14, port: 8300, client-fingerprint: chrome, type: http, username: tqqlqvxj@mayorlogistic.com, password: 25d55ad283aa400af464c76d713c07ad, tls: true, skip-cert-verify: true, udp: true}
+  - {name: Bahrain, server: 154.205.146.29, port: 8331, client-fingerprint: chrome, type: http, username: tqqlqvxj@mayorlogistic.com, password: 25d55ad283aa400af464c76d713c07ad, tls: true, skip-cert-verify: true, udp: true}
+  - {name: 🇫🇷 Paris, server: 45.143.5.60, port: 8300, client-fingerprint: chrome, type: http, username: tqqlqvxj@mayorlogistic.com, password: 25d55ad283aa400af464c76d713c07ad, tls: true, skip-cert-verify: true, udp: true}

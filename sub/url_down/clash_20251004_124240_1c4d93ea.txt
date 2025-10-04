@@ -1,0 +1,90 @@
+# 来源URL: https://bayoeorescentpossessicoanseparateuneforescenphacommitte.adoptangelaboradvacotionclwonthorughconfrmcompimentdeseertaltar.org/link/W5LGcE4tTlHiocq3?clash=1
+# 保存时间: 2025-10-04 12:42:41.613254
+#!MANAGED-CONFIG https://bayoeorescentpossessicoanseparateuneforescenphacommitte.adoptangelaboradvacotionclwonthorughconfrmcompimentdeseertaltar.org/link/W5LGcE4tTlHiocq3?clash=1
+
+#---------------------------------------------------#
+## 上次更新于：2025-10-04 12:37:58
+#---------------------------------------------------#
+
+port: 7890
+socks-port: 7891
+redir-port: 7892
+allow-lan: false
+mode: Rule
+log-level: silent
+external-controller: '0.0.0.0:9090'
+secret: ''
+proxies:
+  -
+    name: '1 备用登录 管人痴.com'
+    type: ss
+    server: 114.51.41.91
+    port: 30916
+    cipher: rc4-md5
+    password: 015tmS
+    udp: true
+  -
+    name: '1 备用面板 ssr.wtf'
+    type: ss
+    server: 59.43.17.23
+    port: 30916
+    cipher: rc4-md5
+    password: 015tmS
+    udp: true
+  -
+    name: '1 忘记登录需联系客服'
+    type: ss
+    server: 59.43.120.67
+    port: 30916
+    cipher: rc4-md5
+    password: 015tmS
+    udp: true
+  -
+    name: '1 此计划禁止工作室使用 禁止任何商业使用'
+    type: ss
+    server: 114.152.162.31
+    port: 30916
+    cipher: rc4-md5
+    password: 015tmS
+    udp: true
+  -
+    name: '1 请使用全局代理访问官网，非全局会拦截报1020'
+    type: ss
+    server: 116.236.21.7
+    port: 30916
+    cipher: rc4-md5
+    password: 015tmS
+    udp: true
+  -
+    name: 因V2ray重大漏洞问题，暂时下架全部V2节点。请使用ssr/ss连接方式进行使用。
+    type: vmess
+    server: v2-jp01.fjk.wtf
+    port: 681
+    uuid: 04baad69-45b2-3458-9b74-91d92a4fb702
+    alterId: 1
+    cipher: auto
+    udp: true
+  -
+    name: '无Ins购买渠道 Ins购买均为二手倒卖'
+    type: ss
+    server: 127.0.0.8
+    port: 30916
+    cipher: rc4-md5
+    password: 015tmS
+    udp: true
+  -
+    name: '无QQ购买渠道 QQ购买均为二手倒卖'
+    type: ss
+    server: 127.0.0.7
+    port: 30916
+    cipher: rc4-md5
+    password: 015tmS
+    udp: true
+  -
+    name: '无微信购买渠道 微信均为二手倒卖'
+    type: ss
+    server: 127.0.0.6
+    port: 30916
+    cipher: rc4-md5
+    password: 015tmS
+    udp: true
