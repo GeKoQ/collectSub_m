@@ -16,7 +16,7 @@ USER_AGENTS = [
     'Mozilla/5.0 (Macintosh; Intel Mac OS X 13_2) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.2 Safari/605.1.15'
 ]
 
-TG_DOMAINS = ["t.me", "telegram.me", "tgo.li", "tg.rip"]
+TG_DOMAINS = ["t.me"]
 RE_URL = r"https?://[-A-Za-z0-9+&@#/%?=~_|!:,.;]+"
 
 CHECK_URL_LIST = [
