@@ -112,11 +112,17 @@ async def main():
                 proxy_type = parsed.scheme
                 proxy_dict.setdefault(proxy_type, []).append(line)
         
-        # 写入文件
-        for proxy_type, lines in proxy_dict.items():
+        # 写入文件（追加模式，并去重）
+        for proxy_type, new_lines in proxy_dict.items():
             file_path = os.path.join('pool', f"{proxy_type}.txt")
+            existing_lines = set()
+            if os.path.exists(file_path):
+                with open(file_path, 'r', encoding='utf-8') as f:
+                    existing_lines = set(line.strip() for line in f if line.strip())
+            new_set = set(line.strip() for line in new_lines if line.strip())
+            all_lines = existing_lines.union(new_set)
             with open(file_path, 'w', encoding='utf-8') as f:
-                f.write('\n'.join(lines) + '\n')
+                f.write('\n'.join(all_lines) + '\n')
 
 # 运行主函数
 asyncio.run(main())
