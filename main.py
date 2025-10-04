@@ -14,6 +14,15 @@ RE_URL = r"https?://[-A-Za-z0-9+&@#/%?=~_|!:,.;]+[-A-Za-z0-9+&@#/%=~_|]"
 CHECK_NODE_URL_STR = "https://{}/sub?target={}&url={}&insert=false&config=config%2FACL4SSR.ini"
 CHECK_URL_LIST = ['api.dler.io', 'sub.xeton.dev', 'sub.id9.cc', 'sub.maoxiongnet.com']
 
+# 修改：User-Agent 列表，顺序测试
+USER_AGENTS = [
+    'v2rayNG/1.10.23',
+    'NekoBox/Android/1.4.0(Prefer ClashMeta Format)',
+    'sing-box',
+    'ClashForWindows',
+    'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36 Edg/122.0.0.0'
+]
+
 # -------------------------------
 # 配置文件操作（保持原样）
 # -------------------------------
@@ -53,30 +62,46 @@ def get_config_channels(config_file='config.yaml'):
     return new_list
 
 # -------------------------------
-# 异步 HTTP 请求辅助函数（修改：添加 CancelledError 处理）
+# 异步 HTTP 请求辅助函数（修改：顺序尝试多个 User-Agent）
 # -------------------------------
 async def fetch_content(url, session, method='GET', headers=None, timeout=15):
-    """获取指定 URL 的文本内容"""
-    try:
-        async with session.request(method, url, headers=headers, timeout=timeout) as response:
-            if response.status == 200:
-                text = await response.text()
-                return text
-            else:
-                logger.warning(f"URL {url} 返回状态 {response.status}")
-                return None
-    except asyncio.TimeoutError:
-        logger.warning(f"请求 {url} 超时")
-        return None
-    except asyncio.CancelledError:
-        logger.warning(f"请求 {url} 被取消")
-        return None
-    except Exception as e:
-        logger.error(f"请求 {url} 异常: {e}")
-        return None
+    """获取指定 URL 的文本内容，顺序尝试 User-Agent"""
+    base_headers = {
+        'Accept': '*/*',
+        'Accept-Encoding': 'gzip, deflate'
+    }
+    if headers:
+        base_headers.update(headers)
+    
+    for ua_index, user_agent in enumerate(USER_AGENTS):
+        request_headers = base_headers.copy()
+        request_headers['User-Agent'] = user_agent
+        
+        try:
+            async with session.request(method, url, headers=request_headers, timeout=timeout) as response:
+                if response.status == 200:
+                    text = await response.text()
+                    logger.debug(f"请求 {url} 成功，使用 UA: {user_agent} (第 {ua_index + 1} 个)")
+                    return text
+                else:
+                    logger.warning(f"URL {url} 返回状态 {response.status}，使用 UA: {user_agent} (第 {ua_index + 1} 个)")
+        except asyncio.TimeoutError:
+            logger.warning(f"请求 {url} 超时，使用 UA: {user_agent} (第 {ua_index + 1} 个)")
+        except asyncio.CancelledError:
+            logger.warning(f"请求 {url} 被取消，使用 UA: {user_agent} (第 {ua_index + 1} 个)")
+            return None
+        except Exception as e:
+            logger.error(f"请求 {url} 异常: {e}，使用 UA: {user_agent} (第 {ua_index + 1} 个)")
+        
+        # 除了最后一个，稍作延迟再试下一个
+        if ua_index < len(USER_AGENTS) - 1:
+            await asyncio.sleep(0.5)
+    
+    logger.error(f"所有 User-Agent 尝试失败: {url}")
+    return None
 
 # -------------------------------
-# 新增：订阅解析函数
+# 新增：订阅解析函数（保持原样）
 # -------------------------------
 async def parse_subscription_content(content, sub_type):
     """
@@ -280,14 +305,15 @@ async def download_and_process_all_txt(all_txt_path, sub_dir='sub'):
             unique_links = sorted(set(links))
             if unique_links:
                 file_path = os.path.join(sub_dir, f"{proto}_links.txt")
-                with open(file_path, 'w', encoding='utf-8') as f:
-                    f.write("\n".join(unique_links))  # 去重排序
-                logger.info(f"保存 {len(unique_links)} 个 {proto} 链接到 {file_path}")
-
-    logger.info("✅ 下载和分类完成！检查 sub/ 文件夹")
+                # 修改：追加模式 ('a')，并处理首次写入
+                with open(file_path, 'a', encoding='utf-8') as f:
+                   if os.path.getsize(file_path) == 0:  # 如果文件为空，添加标题
+                       f.write(f"# {proto.upper()} Links (Updated: {asyncio.get_event_loop().time()})\n\n")
+                   f.write("\n".join(unique_links) + "\n")  # 追加链接，每行一个
+                logger.info(f"追加保存 {len(unique_links)} 个 {proto} 链接到 {file_path}")
 
 # -------------------------------
-# 频道抓取及订阅检查（保持原样，但更新 fetch_content 调用）
+# 频道抓取及订阅检查（修改：使用顺序 User-Agent）
 # -------------------------------
 async def get_channel_urls(channel_url, session):
     """从 Telegram 频道页面抓取所有订阅链接，并过滤无关链接"""
@@ -311,134 +337,143 @@ async def sub_check(url, session):
       - 增加重试机制和更好的错误处理
     返回一个字典：{"url": ..., "type": ..., "info": ...}
     """
-    headers = {
-        'User-Agent': 'ClashforWindows/0.18.1',
+    base_headers = {
         'Accept': '*/*',
         'Accept-Encoding': 'gzip, deflate'
     }
 
-    # 重试机制
+    # 重试机制（包括 UA 尝试）
     for attempt in range(2):
-        try:
-            async with session.get(url, headers=headers, timeout=12) as response:
-                if response.status == 200:
-                    text = await response.text()
+        success = False
+        for ua_index, user_agent in enumerate(USER_AGENTS):
+            headers = base_headers.copy()
+            headers['User-Agent'] = user_agent
+            
+            try:
+                async with session.get(url, headers=headers, timeout=12) as response:
+                    if response.status == 200:
+                        text = await response.text()
 
-                    # 检查内容是否为空或过短
-                    if not text or len(text.strip()) < 10:
-                        logger.debug(f"订阅 {url} 内容为空或过短")
+                        # 检查内容是否为空或过短
+                        if not text or len(text.strip()) < 10:
+                            logger.debug(f"订阅 {url} 内容为空或过短，使用 UA: {user_agent}")
+                            continue  # 尝试下一个 UA
+
+                        result = {"url": url, "type": None, "info": None}
+
+                        # 判断机场订阅（检查流量信息）
+                        sub_info = response.headers.get('subscription-userinfo')
+                        if sub_info:
+                            nums = re.findall(r'\d+', sub_info)
+                            if len(nums) >= 3:
+                                upload, download, total = map(int, nums[:3])
+                                if total > 0:  # 确保总流量大于0
+                                    unused = (total - upload - download) / (1024 ** 3)
+                                    if unused > 0:
+                                        result["type"] = "机场订阅"
+                                        result["info"] = f"可用流量: {round(unused, 2)} GB"
+                                        logger.debug(f"订阅 {url} 成功 (机场)，使用 UA: {user_agent}")
+                                        return result
+
+                        # 判断 clash 订阅 - 更严格的检查
+                        if "proxies:" in text and ("name:" in text or "server:" in text):
+                            proxy_count = text.count("- name:")
+                            if proxy_count > 0:
+                                result["type"] = "clash订阅"
+                                result["info"] = f"包含 {proxy_count} 个节点"
+                                logger.debug(f"订阅 {url} 成功 (clash)，使用 UA: {user_agent}")
+                                return result
+
+                        # 判断 v2 订阅，通过 base64 解码检测
+                        try:
+                            # 检查是否可能是base64编码（更宽松的检查）
+                            text_clean = text.strip().replace('\n', '').replace('\r', '')
+                            if len(text_clean) > 20:
+                                try:
+                                    # 尝试解码
+                                    decoded = base64.b64decode(text_clean).decode('utf-8', errors='ignore')
+                                    protocols = ['ss://', 'ssr://', 'vmess://', 'trojan://', 'vless://']
+                                    found_protocols = [proto for proto in protocols if proto in decoded]
+
+                                    if found_protocols:
+                                        node_count = sum(decoded.count(proto) for proto in found_protocols)
+                                        if node_count > 0:
+                                            result["type"] = "v2订阅"
+                                            result["info"] = f"包含 {node_count} 个节点 (base64)"
+                                            logger.debug(f"订阅 {url} 成功 (v2 base64)，使用 UA: {user_agent}")
+                                            return result
+                                    else:
+                                        # 检查解码后是否包含配置关键字
+                                        config_keywords = ['server', 'port', 'password', 'method', 'host', 'path']
+                                        if any(keyword in decoded.lower() for keyword in config_keywords):
+                                            lines = [line.strip() for line in decoded.split('\n') if line.strip()]
+                                            if len(lines) > 0:
+                                                result["type"] = "v2订阅"
+                                                result["info"] = f"包含 {len(lines)} 行配置 (base64)"
+                                                logger.debug(f"订阅 {url} 成功 (v2 config)，使用 UA: {user_agent}")
+                                                return result
+                                except Exception:
+                                    # base64解码失败，继续其他检查
+                                    pass
+                        except Exception as e:
+                            logger.debug(f"订阅 {url} base64检测异常: {e}，使用 UA: {user_agent}")
+                            pass
+
+                        # 检查是否是原始格式的v2订阅
+                        protocols = ['ss://', 'ssr://', 'vmess://', 'trojan://', 'vless://']
+                        found_protocols = [proto for proto in protocols if proto in text]
+                        if found_protocols:
+                            node_count = sum(text.count(proto) for proto in found_protocols)
+                            if node_count > 0:
+                                result["type"] = "v2订阅"
+                                result["info"] = f"包含 {node_count} 个节点 (原始)"
+                                logger.debug(f"订阅 {url} 成功 (v2 原始)，使用 UA: {user_agent}")
+                                return result
+
+                        # 如果内容看起来像配置但不匹配已知格式，记录调试信息
+                        if len(text) > 100:
+                            # 显示内容的前100个字符用于调试
+                            preview = text[:100].replace('\n', '\\n').replace('\r', '\\r')
+                            logger.info(f"⚠️  订阅 {url} 内容不匹配已知格式，使用 UA: {user_agent}")
+                            logger.info(f"   长度: {len(text)} 字符")
+                            logger.info(f"   预览: {preview}...")
+
+                            # 检查是否可能是其他格式
+                            if 'http' in text.lower() or 'server' in text.lower():
+                                logger.info(f"   可能包含服务器配置，但格式未识别")
+
+                        success = True  # 即使不匹配类型，也视为成功（避免无限重试）
                         return None
 
-                    result = {"url": url, "type": None, "info": None}
+                    elif response.status in [403, 404, 410, 500]:
+                        # 这些状态码通常表示永久失败
+                        logger.debug(f"订阅检查 {url} 返回状态 {response.status}，使用 UA: {user_agent}")
+                        continue  # 尝试下一个 UA
+                    else:
+                        logger.warning(f"订阅检查 {url} 返回状态 {response.status}，使用 UA: {user_agent}")
+                        if ua_index < len(USER_AGENTS) - 1:
+                            await asyncio.sleep(0.5)  # 延迟再试下一个 UA
+                            continue
+                        else:
+                            return None
 
-                    # 判断机场订阅（检查流量信息）
-                    sub_info = response.headers.get('subscription-userinfo')
-                    if sub_info:
-                        nums = re.findall(r'\d+', sub_info)
-                        if len(nums) >= 3:
-                            upload, download, total = map(int, nums[:3])
-                            if total > 0:  # 确保总流量大于0
-                                unused = (total - upload - download) / (1024 ** 3)
-                                if unused > 0:
-                                    result["type"] = "机场订阅"
-                                    result["info"] = f"可用流量: {round(unused, 2)} GB"
-                                    return result
+            except asyncio.TimeoutError:
+                logger.debug(f"订阅检查 {url} 超时，使用 UA: {user_agent}，尝试 {attempt + 1}/2")
+                continue  # 尝试下一个 UA
+            except Exception as e:
+                logger.debug(f"订阅检查 {url} 异常: {e}，使用 UA: {user_agent}，尝试 {attempt + 1}/2")
+                continue  # 尝试下一个 UA
 
-                    # 判断 clash 订阅 - 更严格的检查
-                    if "proxies:" in text and ("name:" in text or "server:" in text):
-                        proxy_count = text.count("- name:")
-                        if proxy_count > 0:
-                            result["type"] = "clash订阅"
-                            result["info"] = f"包含 {proxy_count} 个节点"
-                            return result
+        if success:
+            break  # 如果成功，跳出重试循环
 
-                    # 判断 v2 订阅，通过 base64 解码检测
-                    try:
-                        # 检查是否可能是base64编码（更宽松的检查）
-                        text_clean = text.strip().replace('\n', '').replace('\r', '')
-                        if len(text_clean) > 20:
-                            try:
-                                # 尝试解码
-                                decoded = base64.b64decode(text_clean).decode('utf-8', errors='ignore')
-                                protocols = ['ss://', 'ssr://', 'vmess://', 'trojan://', 'vless://']
-                                found_protocols = [proto for proto in protocols if proto in decoded]
-
-                                if found_protocols:
-                                    node_count = sum(decoded.count(proto) for proto in found_protocols)
-                                    if node_count > 0:
-                                        result["type"] = "v2订阅"
-                                        result["info"] = f"包含 {node_count} 个节点 (base64)"
-                                        logger.debug(f"订阅 {url} 识别为base64编码的v2订阅，包含 {node_count} 个节点")
-                                        return result
-                                else:
-                                    # 检查解码后是否包含配置关键字
-                                    config_keywords = ['server', 'port', 'password', 'method', 'host', 'path']
-                                    if any(keyword in decoded.lower() for keyword in config_keywords):
-                                        lines = [line.strip() for line in decoded.split('\n') if line.strip()]
-                                        if len(lines) > 0:
-                                            result["type"] = "v2订阅"
-                                            result["info"] = f"包含 {len(lines)} 行配置 (base64)"
-                                            logger.debug(f"订阅 {url} 识别为base64编码的配置文件")
-                                            return result
-                            except Exception:
-                                # base64解码失败，继续其他检查
-                                pass
-                    except Exception as e:
-                        logger.debug(f"订阅 {url} base64检测异常: {e}")
-                        pass
-
-                    # 检查是否是原始格式的v2订阅
-                    protocols = ['ss://', 'ssr://', 'vmess://', 'trojan://', 'vless://']
-                    found_protocols = [proto for proto in protocols if proto in text]
-                    if found_protocols:
-                        node_count = sum(text.count(proto) for proto in found_protocols)
-                        if node_count > 0:
-                            result["type"] = "v2订阅"
-                            result["info"] = f"包含 {node_count} 个节点 (原始)"
-                            logger.debug(f"订阅 {url} 识别为原始格式的v2订阅")
-                            return result
-
-
-                    # 如果内容看起来像配置但不匹配已知格式，记录调试信息
-                    if len(text) > 100:
-                        # 显示内容的前100个字符用于调试
-                        preview = text[:100].replace('\n', '\\n').replace('\r', '\\r')
-                        logger.info(f"⚠️  订阅 {url} 内容不匹配已知格式")
-                        logger.info(f"   长度: {len(text)} 字符")
-                        logger.info(f"   预览: {preview}...")
-
-                        # 检查是否可能是其他格式
-                        if 'http' in text.lower() or 'server' in text.lower():
-                            logger.info(f"   可能包含服务器配置，但格式未识别")
-
-                    return None
-
-                elif response.status in [403, 404, 410, 500]:
-                    # 这些状态码通常表示永久失败
-                    logger.debug(f"订阅检查 {url} 返回状态 {response.status}")
-                    return None
-                else:
-                    logger.warning(f"订阅检查 {url} 返回状态 {response.status}")
-                    if attempt == 0:  # 第一次失败，重试
-                        await asyncio.sleep(1)
-                        continue
-                    return None
-
-        except asyncio.TimeoutError:
-            logger.debug(f"订阅检查 {url} 超时，尝试 {attempt + 1}/2")
-            if attempt == 0:
-                await asyncio.sleep(1)
-                continue
-        except Exception as e:
-            logger.debug(f"订阅检查 {url} 异常: {e}，尝试 {attempt + 1}/2")
-            if attempt == 0:
-                await asyncio.sleep(1)
-                continue
+        if attempt == 0:  # 第一次失败，重试整个过程
+            await asyncio.sleep(1)
 
     return None
 
 # -------------------------------
-# 节点有效性检测（修改：添加异常处理）
+# 节点有效性检测（修改：添加异常处理，并顺序尝试 User-Agent）
 # -------------------------------
 async def url_check_valid(url, target, session):
     """
@@ -449,53 +484,67 @@ async def url_check_valid(url, target, session):
     encoded_url = quote(url, safe='')
 
     for check_base in CHECK_URL_LIST:
-        check_url = CHECK_NODE_URL_STR.format(check_base, target, encoded_url)
-        try:
-            async with session.get(check_url, timeout=20) as resp:
-                if resp.status == 200:
-                    content = await resp.text()
+        success = False
+        for ua_index, user_agent in enumerate(USER_AGENTS):
+            headers = {'User-Agent': user_agent}
+            check_url = CHECK_NODE_URL_STR.format(check_base, target, encoded_url)
+            try:
+                async with session.get(check_url, headers=headers, timeout=20) as resp:
+                    if resp.status == 200:
+                        content = await resp.text()
 
-                    # 检查返回内容是否有效
-                    if not content or len(content.strip()) < 50:
-                        logger.debug(f"节点检测 {url} 在 {check_base} 返回内容过短")
-                        continue
+                        # 检查返回内容是否有效
+                        if not content or len(content.strip()) < 50:
+                            logger.debug(f"节点检测 {url} 在 {check_base} 返回内容过短，使用 UA: {user_agent}")
+                            continue  # 尝试下一个 UA
 
-                    # 根据目标类型验证内容
-                    if target == "clash":
-                        if "proxies:" in content and ("name:" in content or "server:" in content):
-                            proxy_count = content.count("- name:")
-                            if proxy_count > 0:
-                                logger.debug(f"节点检测 {url} 在 {check_base} 成功，包含 {proxy_count} 个节点")
+                        # 根据目标类型验证内容
+                        if target == "clash":
+                            if "proxies:" in content and ("name:" in content or "server:" in content):
+                                proxy_count = content.count("- name:")
+                                if proxy_count > 0:
+                                    logger.debug(f"节点检测 {url} 在 {check_base} 成功，包含 {proxy_count} 个节点，使用 UA: {user_agent}")
+                                    return url
+                        elif target == "loon":
+                            # Loon格式通常包含[Proxy]段落
+                            if "[Proxy]" in content or "=" in content:
+                                logger.debug(f"节点检测 {url} 在 {check_base} 成功 (Loon格式)，使用 UA: {user_agent}")
                                 return url
-                    elif target == "loon":
-                        # Loon格式通常包含[Proxy]段落
-                        if "[Proxy]" in content or "=" in content:
-                            logger.debug(f"节点检测 {url} 在 {check_base} 成功 (Loon格式)")
-                            return url
-                    elif target == "v2ray":
-                        # V2Ray格式可能是JSON或其他格式
-                        if len(content.strip()) > 100:  # 基本长度检查
-                            logger.debug(f"节点检测 {url} 在 {check_base} 成功 (V2Ray格式)")
-                            return url
+                        elif target == "v2ray":
+                            # V2Ray格式可能是JSON或其他格式
+                            if len(content.strip()) > 100:  # 基本长度检查
+                                logger.debug(f"节点检测 {url} 在 {check_base} 成功 (V2Ray格式)，使用 UA: {user_agent}")
+                                return url
+                        else:
+                            # 其他格式，基本长度检查
+                            if len(content.strip()) > 100:
+                                logger.debug(f"节点检测 {url} 在 {check_base} 成功，使用 UA: {user_agent}")
+                                return url
+
+                        logger.debug(f"节点检测 {url} 在 {check_base} 内容格式不匹配，使用 UA: {user_agent}")
+                        success = True  # 视为成功，继续下一个检测点
+                        break  # 跳出 UA 循环
+
                     else:
-                        # 其他格式，基本长度检查
-                        if len(content.strip()) > 100:
-                            logger.debug(f"节点检测 {url} 在 {check_base} 成功")
-                            return url
+                        logger.debug(f"节点检测 {url} 在 {check_base} 返回状态 {resp.status}，使用 UA: {user_agent}")
+                        if ua_index < len(USER_AGENTS) - 1:
+                            await asyncio.sleep(0.5)
+                            continue
+                        else:
+                            break  # UA 用完，尝试下一个 check_base
 
-                    logger.debug(f"节点检测 {url} 在 {check_base} 内容格式不匹配")
-                else:
-                    logger.debug(f"节点检测 {url} 在 {check_base} 返回状态 {resp.status}")
+            except asyncio.TimeoutError:
+                logger.debug(f"节点检测 {url} 在 {check_base} 超时，使用 UA: {user_agent}")
+                continue  # 尝试下一个 UA
+            except asyncio.CancelledError:
+                logger.debug(f"节点检测 {url} 在 {check_base} 被取消，使用 UA: {user_agent}")
+                return None
+            except Exception as e:
+                logger.debug(f"节点检测 {url} 在 {check_base} 异常: {e}，使用 UA: {user_agent}")
+                continue  # 尝试下一个 UA
 
-        except asyncio.TimeoutError:
-            logger.debug(f"节点检测 {url} 在 {check_base} 超时")
-            continue
-        except asyncio.CancelledError:
-            logger.debug(f"节点检测 {url} 在 {check_base} 被取消")
-            return None
-        except Exception as e:
-            logger.debug(f"节点检测 {url} 在 {check_base} 异常: {e}")
-            continue
+        if success:
+            break  # 如果成功，跳出 check_base 循环
 
     logger.debug(f"节点检测 {url} 在所有检测点都失败")
     return None
