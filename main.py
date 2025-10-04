@@ -12,7 +12,7 @@ import json  # 新增：用于可能的 JSON 解析
 # 全局配置（保持原样）
 RE_URL = r"https?://[-A-Za-z0-9+&@#/%?=~_|!:,.;]+[-A-Za-z0-9+&@#/%=~_|]"
 CHECK_NODE_URL_STR = "https://{}/sub?target={}&url={}&insert=false&config=config%2FACL4SSR.ini"
-CHECK_URL_LIST = ['api.dler.io', 'sub.xeton.dev', 'sub.id9.cc', 'sub.maoxiongnet.com']
+CHECK_URL_LIST = ['sub.789.st', 'sub.xeton.dev', 'subconverters.com', 'subapi.cmliussss.net', 'url.v1.mk']
 
 # 修改：User-Agent 列表，顺序测试
 USER_AGENTS = [
