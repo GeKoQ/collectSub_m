@@ -8,8 +8,7 @@ import re
 import datetime
 import sys
 
-# ========== 全局配置 ==========
-
+# ========== 配置 ==========
 USER_AGENTS = [
     'meta/0.2.0.5.Meta',
     'v2rayN/7.15.0',
@@ -19,9 +18,19 @@ USER_AGENTS = [
 
 TG_DOMAINS = ["t.me", "telegram.me", "tgo.li", "tg.rip"]
 RE_URL = r"https?://[-A-Za-z0-9+&@#/%?=~_|!:,.;]+"
-CHECK_URL_LIST = ['sub.789.st', 'sub.xeton.dev', 'subconverters.com', 'subapi.cmliussss.net', 'url.v1.mk']
-target = 'mixed'
+
+CHECK_URL_LIST = [
+    'sub.789.st',
+    'sub.xeton.dev',
+    'subconverters.com',
+    'subapi.cmliussss.net',
+    'url.v1.mk'
+]
+TARGET = 'mixed'
 CHECK_NODE_URL_STR = "https://{}/sub?target={}&url={}&insert=false"
+
+# 代理支持
+PROXY = os.getenv("HTTP_PROXY") or os.getenv("HTTPS_PROXY") or None
 
 # ========== 日志系统 ==========
 def init_logger():
@@ -42,7 +51,6 @@ class Logger:
         self.stream.flush()
 
 init_logger()
-
 print(f"\n🚀 启动任务时间: {datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
 
 # ========== 加载配置 ==========
@@ -71,7 +79,7 @@ async def fetch_html(session, url):
     for ua in USER_AGENTS:
         try:
             headers = {"User-Agent": ua}
-            async with session.get(url, headers=headers, timeout=aiohttp.ClientTimeout(total=20)) as r:
+            async with session.get(url, headers=headers, timeout=aiohttp.ClientTimeout(total=20), proxy=PROXY) as r:
                 text = await r.text()
                 if r.status != 200:
                     print(f"⚠️ 状态码 {r.status} ({url})")
@@ -86,7 +94,6 @@ async def fetch_html(session, url):
     return ""
 
 async def extract_sub_links(session, channel):
-    """正则方式提取 Telegram 频道订阅"""
     all_links = []
     for domain in TG_DOMAINS:
         url = f"https://{domain}/s/{channel}"
@@ -126,25 +133,46 @@ async def process_tgchannels(session, tgchannels):
 
 # ========== 订阅转换 ==========
 async def convert_sub(session, sub_url, domain):
-    api_url = CHECK_NODE_URL_STR.format(domain, target, sub_url)
+    api_url = CHECK_NODE_URL_STR.format(domain, TARGET, sub_url)
     try:
-        async with session.get(api_url, timeout=aiohttp.ClientTimeout(total=100)) as response:
-            if response.status == 200:
-                content = (await response.text()).strip()
-                if "<html" in content.lower() or "error" in content.lower():
-                    save_null_data(api_url, content)
-                    return []
-                if len(content) % 4:
-                    content += '=' * (4 - len(content) % 4)
-                try:
-                    decoded = base64.b64decode(content).decode('utf-8', errors='ignore')
-                except Exception as e:
-                    save_null_data(api_url, str(e))
-                    return []
-                return [line for line in decoded.splitlines() if line.strip()]
-    except Exception as e:
-        print(f"[错误] convert_sub({domain}) 出错: {e}")
+        async with session.get(api_url, timeout=aiohttp.ClientTimeout(total=100), proxy=PROXY) as response:
+            status = response.status
+            content = await response.text()
+            content = content.strip()
+
+            if status != 200:
+                print(f"[错误] {api_url} 返回状态码 {status}")
+                save_null_data(api_url, f"状态码 {status}\n{content[:500]}")
+                return []
+
+            if "<html" in content.lower() or "error" in content.lower():
+                print(f"[警告] {api_url} 返回 HTML 或错误信息")
+                save_null_data(api_url, content[:500])
+                return []
+
+            if len(content) % 4:
+                content += "=" * (4 - len(content) % 4)
+
+            try:
+                decoded = base64.b64decode(content).decode('utf-8', errors='ignore')
+            except Exception as e:
+                print(f"[错误] Base64 解码失败: {api_url} -> {e}")
+                save_null_data(api_url, content[:500])
+                return []
+
+            lines = [line.strip() for line in decoded.splitlines() if line.strip()]
+            return lines
+
+    except asyncio.TimeoutError:
+        print(f"[错误] 请求超时: {api_url}")
+        save_null_data(api_url, "请求超时")
+    except aiohttp.ClientConnectorError as e:
+        print(f"[错误] 连接失败: {api_url} -> {e}")
         save_null_data(api_url, str(e))
+    except Exception as e:
+        print(f"[错误] convert_sub({domain}) 出错: {repr(e)}")
+        save_null_data(api_url, str(e))
+
     return []
 
 async def process_subscriptions(session, subscriptions):
@@ -160,9 +188,13 @@ async def process_subscriptions(session, subscriptions):
 async def main():
     async with aiohttp.ClientSession() as session:
         # Step 1: 抓取 Telegram 频道
-        print(f"\n📡 开始抓取 Telegram 频道（共 {len(tgchannels)} 个）")
-        new_links = await process_tgchannels(session, tgchannels)
-        print(f"✅ 抓取完成，共发现 {len(new_links)} 条 Telegram 链接")
+        if tgchannels:
+            print(f"\n📡 开始抓取 Telegram 频道（共 {len(tgchannels)} 个）")
+            new_links = await process_tgchannels(session, tgchannels)
+            print(f"✅ 抓取完成，共发现 {len(new_links)} 条 Telegram 链接")
+        else:
+            print("⚠️ tgchannels 为空，跳过抓取")
+            new_links = []
 
         # Step 2: 更新 pool.yaml
         all_subs = list(set(subscriptions + new_links))
