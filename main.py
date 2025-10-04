@@ -302,12 +302,46 @@ async def download_and_process_all_txt(all_txt_path, sub_dir='sub'):
             unique_links = sorted(set(links))
             if unique_links:
                 file_path = os.path.join(sub_dir, f"{proto}_links.txt")
-                # 修改：追加模式 ('a')，并处理首次写入
+                # 先追加新链接（包括首次写入的标题）
+                header_added = False
+                if not os.path.exists(file_path) or os.path.getsize(file_path) == 0:
+                    with open(file_path, 'w', encoding='utf-8') as f:
+                        f.write(f"# {proto.upper()} Links (Updated: {asyncio.get_event_loop().time()})\n\n")
+                    header_added = True
                 with open(file_path, 'a', encoding='utf-8') as f:
-                   if os.path.getsize(file_path) == 0:  # 如果文件为空，添加标题
-                       f.write(f"# {proto.upper()} Links (Updated: {asyncio.get_event_loop().time()})\n\n")
-                   f.write("\n".join(unique_links) + "\n")  # 追加链接，每行一个
-                logger.info(f"追加保存 {len(unique_links)} 个 {proto} 链接到 {file_path}")
+                    f.write("\n".join(unique_links) + "\n")
+                
+                # 追加后，去重整个文件
+                with open(file_path, 'r', encoding='utf-8') as f:
+                    lines = f.readlines()
+                
+                # 保留标题行（假设第一行是标题，第二行是空行），然后去重后续链接行
+                header_lines = []
+                link_lines = []
+                i = 0
+                if lines and lines[0].startswith('#'):
+                    header_lines.append(lines[0].rstrip('\n'))
+                    i = 1
+                    if i < len(lines) and not lines[i].strip():
+                        header_lines.append(lines[i].rstrip('\n'))
+                        i += 1
+                
+                # 收集所有链接行，去重
+                for line in lines[i:]:
+                    stripped = line.strip()
+                    if stripped and not stripped.startswith('#'):
+                        link_lines.append(stripped)
+                
+                unique_link_lines = sorted(set(link_lines))
+                
+                # 重写文件：标题 + 空行 + 去重链接
+                with open(file_path, 'w', encoding='utf-8') as f:
+                    if header_lines:
+                        f.write('\n'.join(header_lines) + '\n\n')
+                    f.write('\n'.join(unique_link_lines) + '\n')
+                
+                total_unique = len(unique_link_lines)
+                logger.info(f"追加并去重后保存 {total_unique} 个唯一 {proto} 链接到 {file_path}")
 
 # -------------------------------
 # 频道抓取及订阅检查（修改：使用顺序 User-Agent）
