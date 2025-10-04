@@ -33,7 +33,7 @@ CONFIG = {
     ],
     'request_timeout': 5,
     'max_retries': 4,
-    'max_concurrent_threads': 20
+    'max_concurrent_threads': 100
 }
 
 # 创建sub目录
