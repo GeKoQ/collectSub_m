@@ -1,0 +1,218 @@
+# 来源URL: https://fs.v2rayse.com/share/20250622/ix4unxwzzc.yaml
+# 保存时间: 2025-10-04 12:25:47.553969
+# 模版名称：ACL4SSR.ini
+# 模版最后更新日期：2025/02/11 01:22:37
+# 配置生成日期：2025-06-22 15:13:45
+
+mixed-port: 7890
+allow-lan: false
+mode: rule
+log-level: info
+ipv6: false
+external-controller: 0.0.0.0:9090
+dns:
+  enable: true
+  listen: 0.0.0.0:53
+  ipv6: false
+  default-nameserver:
+    - 223.5.5.5
+    - 114.114.114.114
+  nameserver:
+    - 223.5.5.5
+    - 114.114.114.114
+    - 119.29.29.29
+    - 180.76.76.76
+  enhanced-mode: fake-ip
+  fake-ip-range: 198.18.0.1/16
+  fake-ip-filter:
+    - '*.lan'
+    - '*.localdomain'
+    - '*.example'
+    - '*.invalid'
+    - '*.localhost'
+    - '*.test'
+    - '*.local'
+    - '*.home.arpa'
+    - router.asus.com
+    - localhost.sec.qq.com
+    - localhost.ptlogin2.qq.com
+    - +.msftconnecttest.com
+tun:
+  enable: true
+  stack: system
+  auto-route: true
+  auto-detect-interface: true
+  dns-hijack:
+    - 114.114.114.114
+    - 180.76.76.76
+    - 119.29.29.29
+    - 223.5.5.5
+    - 8.8.8.8
+    - 8.8.4.4
+    - 1.1.1.1
+    - 1.0.0.1
+proxies:
+  - name: 🇯🇵日本 04_1
+    type: hysteria2
+    server: jp.aeccssssss.xyz
+    port: 6398
+    tls: false
+    password: e1601e61-ac1a-41b9-b792-46c92466d7c6
+    obfs: salamander
+    obfs-password: ZDQxZDhjZDk4ZjAwYjIwNA==
+    skip-cert-verify: true
+    fast-open: false
+    ip-version: dual
+    udp: true
+  - name: 🇯🇵日本 05_1
+    type: hysteria2
+    server: jp2.aeccssssss.xyz
+    port: 6398
+    tls: false
+    password: e1601e61-ac1a-41b9-b792-46c92466d7c6
+    obfs: salamander
+    obfs-password: ZDQxZDhjZDk4ZjAwYjIwNA==
+    skip-cert-verify: true
+    fast-open: false
+    ip-version: dual
+    udp: true
+  - name: 🇯🇵日本 06
+    type: vmess
+    server: jp3.aeccssssss.xyz
+    port: 56225
+    uuid: e1601e61-ac1a-41b9-b792-46c92466d7c6
+    network: ws
+    tls: false
+    ip-version: dual
+    udp: true
+    alterId: 0
+    cipher: auto
+  - name: 🇯🇵日本 02
+    type: ss
+    server: jp2asdfghjtyhj.aeccssssss.xyz
+    port: 57805
+    tls: false
+    password: e1601e61-ac1a-41b9-b792-46c92466d7c6
+    ip-version: dual
+    udp: true
+    cipher: chacha20-ietf-poly1305
+  - name: 🇯🇵日本 03
+    type: ss
+    server: jp3asdfghjtyhj.aeccssssss.xyz
+    port: 57805
+    tls: false
+    password: e1601e61-ac1a-41b9-b792-46c92466d7c6
+    ip-version: dual
+    udp: true
+    cipher: chacha20-ietf-poly1305
+  - name: 🇯🇵日本 01
+    type: ss
+    server: jp1asdfghjtyhj.aeccssssss.xyz
+    port: 57805
+    tls: false
+    password: e1601e61-ac1a-41b9-b792-46c92466d7c6
+    ip-version: dual
+    udp: true
+    cipher: chacha20-ietf-poly1305
+  - name: 🇯🇵日本 04_2
+    type: ss
+    server: jp4asdfghjtyhj.aeccssssss.xyz
+    port: 57805
+    tls: false
+    password: e1601e61-ac1a-41b9-b792-46c92466d7c6
+    ip-version: dual
+    udp: true
+    cipher: chacha20-ietf-poly1305
+  - name: 🇯🇵日本 05_2
+    type: ss
+    server: jp5asdfghjtyhj.aeccssssss.xyz
+    port: 57805
+    tls: false
+    password: e1601e61-ac1a-41b9-b792-46c92466d7c6
+    ip-version: dual
+    udp: true
+    cipher: chacha20-ietf-poly1305
+  - name: 🇺🇸美国 04
+    type: hysteria2
+    server: us.aeccssssss.xyz
+    port: 6398
+    tls: false
+    password: e1601e61-ac1a-41b9-b792-46c92466d7c6
+    obfs: salamander
+    obfs-password: ZDQxZDhjZDk4ZjAwYjIwNA==
+    skip-cert-verify: true
+    fast-open: false
+    ip-version: dual
+    udp: true
+  - name: 🇺🇸美国 05
+    type: hysteria2
+    server: us.aeccssssss.xyz
+    port: 6398
+    tls: false
+    password: e1601e61-ac1a-41b9-b792-46c92466d7c6
+    obfs: salamander
+    obfs-password: ZDQxZDhjZDk4ZjAwYjIwNA==
+    skip-cert-verify: true
+    fast-open: false
+    ip-version: dual
+    udp: true
+  - name: 🇰🇷韩国 04
+    type: hysteria2
+    server: kr.aeccssssss.xyz
+    port: 6398
+    tls: false
+    password: e1601e61-ac1a-41b9-b792-46c92466d7c6
+    obfs: salamander
+    obfs-password: ZDQxZDhjZDk4ZjAwYjIwNA==
+    skip-cert-verify: true
+    fast-open: false
+    ip-version: dual
+    udp: true
+  - name: 🇰🇷韩国 05
+    type: hysteria2
+    server: kr.aeccssssss.xyz
+    port: 6398
+    tls: false
+    password: e1601e61-ac1a-41b9-b792-46c92466d7c6
+    obfs: salamander
+    obfs-password: ZDQxZDhjZDk4ZjAwYjIwNA==
+    skip-cert-verify: true
+    fast-open: false
+    ip-version: dual
+    udp: true
+  - name: 🇸🇬新加坡 04
+    type: hysteria2
+    server: sg.aeccssssss.xyz
+    port: 6398
+    tls: false
+    password: e1601e61-ac1a-41b9-b792-46c92466d7c6
+    obfs: salamander
+    obfs-password: ZDQxZDhjZDk4ZjAwYjIwNA==
+    skip-cert-verify: true
+    fast-open: false
+    ip-version: dual
+    udp: true
+  - name: 🇸🇬新加坡 05
+    type: hysteria2
+    server: sg.aeccssssss.xyz
+    port: 6398
+    tls: false
+    password: e1601e61-ac1a-41b9-b792-46c92466d7c6
+    obfs: salamander
+    obfs-password: ZDQxZDhjZDk4ZjAwYjIwNA==
+    skip-cert-verify: true
+    fast-open: false
+    ip-version: dual
+    udp: true
+  - name: 🇩🇪德国
+    type: hysteria2
+    server: de.aeccssssss.xyz
+    port: 6398
+    tls: false
+    password: e1601e61-ac1a-41b9-b792-46c92466d7c6
+    obfs: salamander
+    obfs-password: ZDQxZDhjZDk4ZjAwYjIwNA==
+    skip-cert-verify: true
+    fast-open: false
+    ip-version: dual
+    udp: true

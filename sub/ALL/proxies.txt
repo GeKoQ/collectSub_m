@@ -76,3 +76,8 @@
 {
 }
 },
+"remarks": "\ud83d\udcca Data left: 1.57 TB"
+"tag": "\ud83d\udcca Data left: 1.57 TB",
+Error fetching content: atob() called with invalid base64-encoded data. (Only whitespace, '+', '/', alphanumeric ASCII, and up to two terminal '=' signs when the input data length is divisible by 4 are allowed.)
+{"version":1,"remarks":"Shadowsocks-Rust","servers":[{"id":"d7a67d6e-cbd6-4db5-9d46-bb6702ba549b","remarks":"Server #1","server":"64.69.34.166","server_port":10742,"password":"OTczYzYwNDEtNGRlNS00NjViLWJjYzQtMmQ2NjE1OQo=","method":"2022-blake3-chacha20-poly1305","bytes_used":394155035,"bytes_remaining":0},{"id":"d6956ffa-5531-4aed-a669-3223e6a3e04e","remarks":"Server #2","server":"loveguihai.asia","server_port":443,"password":"MjJmYjYwMDMtYTIy","method":"none","plugin":"v2ray-plugin","plugin_opts":"tls;host=loveguihai.asia;path=4886934f5a20ab031068fdf807605edd6749a82c","bytes_used":3457803050,"bytes_remaining":0},{"id":"d741d90b-b0c3-45b5-9eb2-9aafa702d233","remarks":"Server #3","server":"64.69.34.166","server_port":4829,"password":"admin","method":"aes-256-gcm","bytes_used":0,"bytes_remaining":0}],"status":"Succeed"}
+{"version":4,"sub_name":"\u5c0f\u673a\u573a","email":"3134625844@qq.com","user_name":"\u5341\u4e03","class":2,"class_expire_date":"2025-11-14 18:05:03","total_traffic":161061273600,"used_upload_traffic":2407946229,"used_download_traffic":42561684183,"sub_url":{"sing-box":"https:\/\/open.10086.quest\/sub\/481dcb9f9347c227\/singbox","clash":"https:\/\/open.10086.quest\/sub\/481dcb9f9347c227\/clash"}}

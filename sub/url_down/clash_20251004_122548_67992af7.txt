@@ -1,0 +1,377 @@
+# 来源URL: https://subapi.v1.mk/remoteconfig/2025/09/0919/c425221beee6c6e54573d201dc47be6b.ini
+# 保存时间: 2025-10-04 12:25:48.782935
+mixed-port: 7890
+allow-lan: false
+bind-address: "*"
+log-level: info
+hosts:
+  mtalk.google.com: 108.177.125.188
+  raw.githubusercontent.com: 151.101.76.133
+dns:
+  enable: true
+  ipv6: true
+  listen: 127.0.0.1:5334
+  default-nameserver:
+    - tls://223.5.5.5
+  proxy-server-nameserver:
+    - https://doh.pub/dns-query
+    - https://dns.alidns.com/dns-query
+  enhanced-mode: normal
+  fake-ip-range: 198.18.0.1/16
+  use-hosts: false
+  use-system-hosts: false
+  fake-ip-filter:
+    - "*"
+    - +.lan
+    - +.local
+    - time.*.com
+    - ntp.*.com
+    - +.market.xiaomi.com
+  nameserver:
+    - https://doh.pub/dns-query
+    - https://dns.alidns.com/dns-query
+  respect-rules: false
+proxies:
+  - name: 剩余流量：200 GB
+    type: ss
+    server: a.myzxdy.top
+    port: 40000
+    cipher: chacha20-ietf-poly1305
+    password: cc542dec-782b-4081-a12b-51cc6dbfa3fd
+    udp: true
+  - name: 距离下次重置剩余：23 天
+    type: ss
+    server: a.myzxdy.top
+    port: 40000
+    cipher: chacha20-ietf-poly1305
+    password: cc542dec-782b-4081-a12b-51cc6dbfa3fd
+    udp: true
+  - name: 套餐到期：2025-10-12
+    type: ss
+    server: a.myzxdy.top
+    port: 40000
+    cipher: chacha20-ietf-poly1305
+    password: cc542dec-782b-4081-a12b-51cc6dbfa3fd
+    udp: true
+  - name: 官网:boostqz.com
+    type: ss
+    server: a.myzxdy.top
+    port: 40000
+    cipher: chacha20-ietf-poly1305
+    password: cc542dec-782b-4081-a12b-51cc6dbfa3fd
+    udp: true
+  - name: 🇭🇰 香港1
+    type: ss
+    server: a.myzxdy.top
+    port: 40001
+    cipher: chacha20-ietf-poly1305
+    password: cc542dec-782b-4081-a12b-51cc6dbfa3fd
+    udp: true
+  - name: 🇭🇰 香港2
+    type: ss
+    server: a.myzxdy.top
+    port: 40002
+    cipher: chacha20-ietf-poly1305
+    password: cc542dec-782b-4081-a12b-51cc6dbfa3fd
+    udp: true
+  - name: 🇭🇰 香港3
+    type: ss
+    server: a.myzxdy.top
+    port: 40003
+    cipher: chacha20-ietf-poly1305
+    password: cc542dec-782b-4081-a12b-51cc6dbfa3fd
+    udp: true
+  - name: 🇭🇰 香港4
+    type: ss
+    server: a.myzxdy.top
+    port: 40004
+    cipher: chacha20-ietf-poly1305
+    password: cc542dec-782b-4081-a12b-51cc6dbfa3fd
+    udp: true
+  - name: 🇭🇰 香港5
+    type: ss
+    server: a.myzxdy.top
+    port: 40005
+    cipher: chacha20-ietf-poly1305
+    password: cc542dec-782b-4081-a12b-51cc6dbfa3fd
+    udp: true
+  - name: 🇭🇰 香港6
+    type: ss
+    server: a.myzxdy.top
+    port: 40006
+    cipher: chacha20-ietf-poly1305
+    password: cc542dec-782b-4081-a12b-51cc6dbfa3fd
+    udp: true
+  - name: 🇭🇰 香港7
+    type: ss
+    server: a.myzxdy.top
+    port: 40007
+    cipher: chacha20-ietf-poly1305
+    password: cc542dec-782b-4081-a12b-51cc6dbfa3fd
+    udp: true
+  - name: 🇭🇰 香港8
+    type: ss
+    server: a.myzxdy.top
+    port: 40008
+    cipher: chacha20-ietf-poly1305
+    password: cc542dec-782b-4081-a12b-51cc6dbfa3fd
+    udp: true
+  - name: 🇯🇵 日本1-GPT
+    type: ss
+    server: b.myzxdy.top
+    port: 40031
+    cipher: chacha20-ietf-poly1305
+    password: cc542dec-782b-4081-a12b-51cc6dbfa3fd
+    udp: true
+  - name: 🇯🇵 日本2-GPT
+    type: ss
+    server: b.myzxdy.top
+    port: 40032
+    cipher: chacha20-ietf-poly1305
+    password: cc542dec-782b-4081-a12b-51cc6dbfa3fd
+    udp: true
+  - name: 🇯🇵 日本3-GPT
+    type: ss
+    server: b.myzxdy.top
+    port: 40033
+    cipher: chacha20-ietf-poly1305
+    password: cc542dec-782b-4081-a12b-51cc6dbfa3fd
+    udp: true
+  - name: 🇯🇵 日本4-GPT
+    type: ss
+    server: b.myzxdy.top
+    port: 40034
+    cipher: chacha20-ietf-poly1305
+    password: cc542dec-782b-4081-a12b-51cc6dbfa3fd
+    udp: true
+  - name: 🇯🇵 日本5-GPT
+    type: ss
+    server: b.myzxdy.top
+    port: 40035
+    cipher: chacha20-ietf-poly1305
+    password: cc542dec-782b-4081-a12b-51cc6dbfa3fd
+    udp: true
+  - name: 🇯🇵 日本6-GPT
+    type: ss
+    server: b.myzxdy.top
+    port: 40036
+    cipher: chacha20-ietf-poly1305
+    password: cc542dec-782b-4081-a12b-51cc6dbfa3fd
+    udp: true
+  - name: 🇯🇵 日本7-GPT
+    type: ss
+    server: b.myzxdy.top
+    port: 40037
+    cipher: chacha20-ietf-poly1305
+    password: cc542dec-782b-4081-a12b-51cc6dbfa3fd
+    udp: true
+  - name: 🇯🇵 日本8-GPT
+    type: ss
+    server: b.myzxdy.top
+    port: 40038
+    cipher: chacha20-ietf-poly1305
+    password: cc542dec-782b-4081-a12b-51cc6dbfa3fd
+    udp: true
+  - name: 🇹🇼 台湾1-GPT
+    type: ss
+    server: a.myzxdy.top
+    port: 40021
+    cipher: chacha20-ietf-poly1305
+    password: cc542dec-782b-4081-a12b-51cc6dbfa3fd
+    udp: true
+  - name: 🇹🇼 台湾2-GPT
+    type: ss
+    server: a.myzxdy.top
+    port: 40022
+    cipher: chacha20-ietf-poly1305
+    password: cc542dec-782b-4081-a12b-51cc6dbfa3fd
+    udp: true
+  - name: 🇹🇼 台湾3-GPT
+    type: ss
+    server: a.myzxdy.top
+    port: 40023
+    cipher: chacha20-ietf-poly1305
+    password: cc542dec-782b-4081-a12b-51cc6dbfa3fd
+    udp: true
+  - name: 🇹🇼 台湾4-GPT
+    type: ss
+    server: a.myzxdy.top
+    port: 40024
+    cipher: chacha20-ietf-poly1305
+    password: cc542dec-782b-4081-a12b-51cc6dbfa3fd
+    udp: true
+  - name: 🇸🇬 新加坡1
+    type: ss
+    server: a.myzxdy.top
+    port: 40011
+    cipher: chacha20-ietf-poly1305
+    password: cc542dec-782b-4081-a12b-51cc6dbfa3fd
+    udp: true
+  - name: 🇸🇬 新加坡2
+    type: ss
+    server: a.myzxdy.top
+    port: 40012
+    cipher: chacha20-ietf-poly1305
+    password: cc542dec-782b-4081-a12b-51cc6dbfa3fd
+    udp: true
+  - name: 🇸🇬 新加坡3
+    type: ss
+    server: a.myzxdy.top
+    port: 40013
+    cipher: chacha20-ietf-poly1305
+    password: cc542dec-782b-4081-a12b-51cc6dbfa3fd
+    udp: true
+  - name: 🇸🇬 新加坡4
+    type: ss
+    server: a.myzxdy.top
+    port: 40014
+    cipher: chacha20-ietf-poly1305
+    password: cc542dec-782b-4081-a12b-51cc6dbfa3fd
+    udp: true
+  - name: 🇸🇬 新加坡5
+    type: ss
+    server: a.myzxdy.top
+    port: 40015
+    cipher: chacha20-ietf-poly1305
+    password: cc542dec-782b-4081-a12b-51cc6dbfa3fd
+    udp: true
+  - name: 🇸🇬 新加坡6
+    type: ss
+    server: a.myzxdy.top
+    port: 40016
+    cipher: chacha20-ietf-poly1305
+    password: cc542dec-782b-4081-a12b-51cc6dbfa3fd
+    udp: true
+  - name: 🇸🇬 新加坡7
+    type: ss
+    server: a.myzxdy.top
+    port: 40017
+    cipher: chacha20-ietf-poly1305
+    password: cc542dec-782b-4081-a12b-51cc6dbfa3fd
+    udp: true
+  - name: 🇸🇬 新加坡8
+    type: ss
+    server: a.myzxdy.top
+    port: 40018
+    cipher: chacha20-ietf-poly1305
+    password: cc542dec-782b-4081-a12b-51cc6dbfa3fd
+    udp: true
+  - name: 🇺🇸 美国1
+    type: ss
+    server: b.myzxdy.top
+    port: 40041
+    cipher: chacha20-ietf-poly1305
+    password: cc542dec-782b-4081-a12b-51cc6dbfa3fd
+    udp: true
+  - name: 🇺🇸 美国2
+    type: ss
+    server: b.myzxdy.top
+    port: 40042
+    cipher: chacha20-ietf-poly1305
+    password: cc542dec-782b-4081-a12b-51cc6dbfa3fd
+    udp: true
+  - name: 🇺🇸 美国3
+    type: ss
+    server: b.myzxdy.top
+    port: 40043
+    cipher: chacha20-ietf-poly1305
+    password: cc542dec-782b-4081-a12b-51cc6dbfa3fd
+    udp: true
+  - name: 🇺🇸 美国4
+    type: ss
+    server: b.myzxdy.top
+    port: 40044
+    cipher: chacha20-ietf-poly1305
+    password: cc542dec-782b-4081-a12b-51cc6dbfa3fd
+    udp: true
+  - name: 🇭🇰 香港9
+    type: ss
+    server: a.myzxdy.top
+    port: 40009
+    cipher: chacha20-ietf-poly1305
+    password: cc542dec-782b-4081-a12b-51cc6dbfa3fd
+    udp: true
+  - name: 🇭🇰 香港10
+    type: ss
+    server: a.myzxdy.top
+    port: 40010
+    cipher: chacha20-ietf-poly1305
+    password: cc542dec-782b-4081-a12b-51cc6dbfa3fd
+    udp: true
+  - name: 🇭🇰 香港11
+    type: ss
+    server: a.myzxdy.top
+    port: 40101
+    cipher: chacha20-ietf-poly1305
+    password: cc542dec-782b-4081-a12b-51cc6dbfa3fd
+    udp: true
+  - name: 🇭🇰 香港12
+    type: ss
+    server: a.myzxdy.top
+    port: 40102
+    cipher: chacha20-ietf-poly1305
+    password: cc542dec-782b-4081-a12b-51cc6dbfa3fd
+    udp: true
+  - name: 🇭🇰 香港13
+    type: ss
+    server: a.myzxdy.top
+    port: 40103
+    cipher: chacha20-ietf-poly1305
+    password: cc542dec-782b-4081-a12b-51cc6dbfa3fd
+    udp: true
+  - name: 🇭🇰 香港14
+    type: ss
+    server: a.myzxdy.top
+    port: 40104
+    cipher: chacha20-ietf-poly1305
+    password: cc542dec-782b-4081-a12b-51cc6dbfa3fd
+    udp: true
+  - name: 🇭🇰 香港15
+    type: ss
+    server: a.myzxdy.top
+    port: 40105
+    cipher: chacha20-ietf-poly1305
+    password: cc542dec-782b-4081-a12b-51cc6dbfa3fd
+    udp: true
+  - name: 🇭🇰 香港16
+    type: ss
+    server: a.myzxdy.top
+    port: 40106
+    cipher: chacha20-ietf-poly1305
+    password: cc542dec-782b-4081-a12b-51cc6dbfa3fd
+    udp: true
+  - name: 🇬🇧 英国-3倍率
+    type: ss
+    server: a.myzxdy.top
+    port: 40051
+    cipher: chacha20-ietf-poly1305
+    password: cc542dec-782b-4081-a12b-51cc6dbfa3fd
+    udp: true
+  - name: 🇲🇾 马来西亚-3倍率
+    type: ss
+    server: a.myzxdy.top
+    port: 40052
+    cipher: chacha20-ietf-poly1305
+    password: cc542dec-782b-4081-a12b-51cc6dbfa3fd
+    udp: true
+  - name: 🇹🇷 土耳其-5倍率
+    type: ss
+    server: a.myzxdy.top
+    port: 40053
+    cipher: chacha20-ietf-poly1305
+    password: cc542dec-782b-4081-a12b-51cc6dbfa3fd
+    udp: true
+  - name: 🇦🇷 阿根廷-5倍率
+    type: ss
+    server: b.myzxdy.top
+    port: 40054
+    cipher: chacha20-ietf-poly1305
+    password: cc542dec-782b-4081-a12b-51cc6dbfa3fd
+    udp: true
+  - name: 🇦🇺 澳洲-3倍率
+    type: ss
+    server: b.myzxdy.top
+    port: 40055
+    cipher: chacha20-ietf-poly1305
+    password: cc542dec-782b-4081-a12b-51cc6dbfa3fd
+    udp: true
