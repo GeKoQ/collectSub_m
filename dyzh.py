@@ -16,7 +16,11 @@ USER_AGENTS = [
     'Mozilla/5.0 (Macintosh; Intel Mac OS X 13_2) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.2 Safari/605.1.15'
 ]
 
+# === 新增功能开始 ===
+# 扩展支持的 Telegram 镜像域名
 TG_DOMAINS = ["t.me"]
+# === 新增功能结束 ===
+
 RE_URL = r"https?://[-A-Za-z0-9+&@#/%?=~_|!:,.;]+"
 
 CHECK_URL_LIST = [
@@ -81,9 +85,28 @@ def save_null_data(source_url, content):
     except Exception as e:
         print(f"[错误] 无法写入 NULL.txt: {e}")
 
+# === 新增功能开始 ===
+# 新增 NULL.txt 清理函数
+def clean_null_file():
+    null_path = os.path.join("pool", "NULL.txt")
+    if not os.path.exists(null_path):
+        return
+    try:
+        with open(null_path, "r", encoding="utf-8") as f:
+            lines = f.readlines()
+        # 删除不以协议开头的行
+        pattern = re.compile(r'^(?!(socks|http|ss|vmess|vless|trojan|hy|tuic|anytls|sn)).*$', re.IGNORECASE)
+        kept_lines = [l for l in lines if not pattern.match(l.strip())]
+        with open(null_path, "w", encoding="utf-8") as f:
+            f.writelines(kept_lines)
+        print(f"🧹 已清理 NULL.txt，删除 {len(lines) - len(kept_lines)} 行无效内容")
+    except Exception as e:
+        print(f"[错误] 清理 NULL.txt 失败: {e}")
+# === 新增功能结束 ===
+
 # ========== Telegram 抓取 ==========
 async def fetch_with_proxies(session, url):
-    tried_proxies = PROXY_LIST + [None]  # 最后尝试直连
+    tried_proxies = PROXY_LIST + [None]
     for proxy in tried_proxies:
         for ua in USER_AGENTS:
             try:
@@ -110,17 +133,14 @@ async def extract_sub_links(session, channel):
         html = await fetch_with_proxies(session, url)
         if not html:
             continue
-
         urls = re.findall(RE_URL, html)
         for u in urls:
             if re.search(r'(sub|clash|v2ray|vmess|ss|trojan|subscribe)', u, re.IGNORECASE):
                 if "t.me" not in u and "cdn-telegram" not in u:
                     all_links.append(u)
-
         if all_links:
             print(f"🎯 成功提取 {len(all_links)} 条链接 ✅")
             return list(set(all_links))
-
     print(f"❌ 所有镜像失败: {channel}")
     return []
 
@@ -135,7 +155,7 @@ async def process_tgchannels(session, tgchannels):
 # ========== 订阅转换 ==========
 async def convert_sub(session, sub_url, domain):
     api_url = CHECK_NODE_URL_STR.format(domain, TARGET, sub_url)
-    tried_proxies = PROXY_LIST + [None]  # 最后尝试直连
+    tried_proxies = PROXY_LIST + [None]
     for proxy in tried_proxies:
         try:
             async with session.get(api_url, timeout=aiohttp.ClientTimeout(total=100), proxy=proxy) as response:
@@ -180,15 +200,30 @@ async def main():
             print("⚠️ tgchannels 为空，跳过抓取")
             new_links = []
 
-        # Step 2: 更新 pool.yaml
+        # === 新增功能开始 ===
+        # Step 2: 更新 pool.yaml（并过滤无效链接）
         all_subs = list(set(subscriptions + new_links))
-        config["subscriptions"] = all_subs
+        filtered_subs, removed = [], []
+
+        for sub in all_subs:
+            if re.search(r'\b(?:[\w-]+\.)*telesco\.pe\b', sub, re.IGNORECASE):
+                removed.append(sub)
+                continue
+            if re.search(r'\.(?:apk|apks|exe|jpg)$', sub, re.IGNORECASE):
+                removed.append(sub)
+                continue
+            filtered_subs.append(sub)
+
+        config["subscriptions"] = filtered_subs
         with open("pool.yaml", "w", encoding="utf-8") as f:
             yaml.safe_dump(config, f, allow_unicode=True, sort_keys=False)
 
+        print(f"🧾 已更新 pool.yaml：保留 {len(filtered_subs)} 条订阅，过滤掉 {len(removed)} 条无效链接")
+        # === 新增功能结束 ===
+
         # Step 3: 转换订阅
-        print(f"\n🔄 开始转换 {len(all_subs)} 条订阅...")
-        proxy_lines = await process_subscriptions(session, all_subs)
+        print(f"\n🔄 开始转换 {len(filtered_subs)} 条订阅...")
+        proxy_lines = await process_subscriptions(session, filtered_subs)
         print(f"✅ 转换完成，共解析出 {len(proxy_lines)} 条节点")
 
         # Step 4: 分类保存
@@ -211,6 +246,11 @@ async def main():
             with open(file_path, "w", encoding="utf-8") as f:
                 f.write("\n".join(all_lines) + "\n")
             print(f"💾 写入 {proto}.txt，共 {len(all_lines)} 条")
+
+        # === 新增功能开始 ===
+        # Step 5: 清理 NULL.txt
+        clean_null_file()
+        # === 新增功能结束 ===
 
         print("\n✅ 全部完成！日志已保存到 logs/log.txt")
 
