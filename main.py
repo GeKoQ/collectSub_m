@@ -123,7 +123,7 @@ async def sub_check(url, session):
                                 unused = (total - upload - download) / (1024 ** 3)
                                 if unused > 0:
                                     result["type"] = "机场订阅"
-                                    result["info"] = f"可用流量: {round(unused, 2)} GB\n"
+                                    result["info"] = f"可用流量: {round(unused, 2)} GB"
                                     return result
                     
                     # 判断 clash 订阅 - 更严格的检查
@@ -403,7 +403,7 @@ async def validate_existing_subscriptions(config, session):
             if result["type"] == "机场订阅":
                 valid_existing["机场订阅"].append(url)
                 if result["info"]:
-                    valid_existing["开心玩耍"].append(f'{result["info"]} {url}')
+                    valid_existing["开心玩耍"].append(f'{result["info"]}\n{url}')
             elif result["type"] == "clash订阅":
                 valid_existing["clash订阅"].append(url)
             elif result["type"] == "v2订阅":
