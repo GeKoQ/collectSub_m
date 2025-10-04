@@ -123,7 +123,7 @@ async def sub_check(url, session):
                                 unused = (total - upload - download) / (1024 ** 3)
                                 if unused > 0:
                                     result["type"] = "机场订阅"
-                                    result["info"] = f"可用流量: {round(unused, 2)} GB"
+                                    result["info"] = f"可用流量: {round(unused, 2)} GB\n"
                                     return result
                     
                     # 判断 clash 订阅 - 更严格的检查
