@@ -19,7 +19,7 @@ async def extract_sub_links(session, channel):
     url = f"https://t.me/s/{channel}"
     headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'}
     try:
-        async with session.get(url, headers=headers, timeout=aiohttp.ClientTimeout(total=30)) as response:
+        async with session.get(url, headers=headers, timeout=aiohttp.ClientTimeout(total=100)) as response:
             response.raise_for_status()
             text = await response.text()
             soup = BeautifulSoup(text, 'html.parser')
@@ -48,13 +48,13 @@ async def process_tgchannels(session, tgchannels):
 # 转换设置
 CHECK_URL_LIST = ['sub.789.st', 'sub.xeton.dev', 'subconverters.com', 'subapi.cmliussss.net', 'url.v1.mk']
 target = 'v2ray'
-CHECK_NODE_URL_STR = "https://{}/sub?target={}&url={}&insert=false&config=config%2FACL4SSR.ini"
+CHECK_NODE_URL_STR = "https://{}/sub?target={}&url={}&insert=false&config=config%2FACL4SSR.ini&list=true"
 
 # 异步函数：转换订阅
 async def convert_sub(session, sub_url, domain):
     api_url = CHECK_NODE_URL_STR.format(domain, target, sub_url)
     try:
-        async with session.get(api_url, timeout=aiohttp.ClientTimeout(total=30)) as response:
+        async with session.get(api_url, timeout=aiohttp.ClientTimeout(total=100)) as response:
             if response.status == 200:
                 content = await response.text()
                 content = content.strip()
