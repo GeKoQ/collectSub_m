@@ -29,8 +29,15 @@ CHECK_URL_LIST = [
 TARGET = 'mixed'
 CHECK_NODE_URL_STR = "https://{}/sub?target={}&url={}&insert=false"
 
-# 代理支持
-PROXY = os.getenv("HTTP_PROXY") or os.getenv("HTTPS_PROXY") or None
+# ========== 多代理设置 ==========
+def get_proxy_list():
+    http_list = os.getenv("HTTP_PROXY", "").split(",")
+    https_list = os.getenv("HTTPS_PROXY", "").split(",")
+    socks5_list = os.getenv("SOCKS5_PROXY", "").split(",")
+    proxies = [p for p in http_list + https_list + socks5_list if p]
+    return proxies or [None]
+
+PROXY_LIST = get_proxy_list()
 
 # ========== 日志系统 ==========
 def init_logger():
@@ -75,22 +82,23 @@ def save_null_data(source_url, content):
         print(f"[错误] 无法写入 NULL.txt: {e}")
 
 # ========== Telegram 抓取 ==========
-async def fetch_html(session, url):
-    for ua in USER_AGENTS:
-        try:
-            headers = {"User-Agent": ua}
-            async with session.get(url, headers=headers, timeout=aiohttp.ClientTimeout(total=20), proxy=PROXY) as r:
-                text = await r.text()
-                if r.status != 200:
-                    print(f"⚠️ 状态码 {r.status} ({url})")
-                    continue
-                if any(x in text for x in ["Just a moment", "enable JavaScript", "Cloudflare"]):
-                    print(f"🚫 UA [{ua[:20]}] 被 Cloudflare 拦截")
-                    continue
-                return text
-        except Exception as e:
-            print(f"⚠️ 请求失败 UA[{ua[:25]}]: {e}")
-            save_null_data(url, str(e))
+async def fetch_with_proxies(session, url):
+    for proxy in PROXY_LIST:
+        for ua in USER_AGENTS:
+            try:
+                headers = {"User-Agent": ua}
+                async with session.get(url, headers=headers, timeout=aiohttp.ClientTimeout(total=20), proxy=proxy) as r:
+                    text = await r.text()
+                    if r.status != 200:
+                        print(f"⚠️ 状态码 {r.status} ({url}) 使用代理 {proxy}")
+                        continue
+                    if any(x in text for x in ["Just a moment", "enable JavaScript", "Cloudflare"]):
+                        print(f"🚫 UA [{ua[:20]}] 被 Cloudflare 拦截 使用代理 {proxy}")
+                        continue
+                    return text
+            except Exception as e:
+                print(f"⚠️ 请求失败 UA[{ua[:20]}] 代理 {proxy} -> {e}")
+                save_null_data(url, str(e))
     return ""
 
 async def extract_sub_links(session, channel):
@@ -98,7 +106,7 @@ async def extract_sub_links(session, channel):
     for domain in TG_DOMAINS:
         url = f"https://{domain}/s/{channel}"
         print(f"\n🌐 正在访问 {url}")
-        html = await fetch_html(session, url)
+        html = await fetch_with_proxies(session, url)
         if not html:
             continue
 
@@ -134,45 +142,27 @@ async def process_tgchannels(session, tgchannels):
 # ========== 订阅转换 ==========
 async def convert_sub(session, sub_url, domain):
     api_url = CHECK_NODE_URL_STR.format(domain, TARGET, sub_url)
-    try:
-        async with session.get(api_url, timeout=aiohttp.ClientTimeout(total=100), proxy=PROXY) as response:
-            status = response.status
-            content = await response.text()
-            content = content.strip()
-
-            if status != 200:
-                print(f"[错误] {api_url} 返回状态码 {status}")
-                save_null_data(api_url, f"状态码 {status}\n{content[:500]}")
-                return []
-
-            if "<html" in content.lower() or "error" in content.lower():
-                print(f"[警告] {api_url} 返回 HTML 或错误信息")
-                save_null_data(api_url, content[:500])
-                return []
-
-            if len(content) % 4:
-                content += "=" * (4 - len(content) % 4)
-
-            try:
-                decoded = base64.b64decode(content).decode('utf-8', errors='ignore')
-            except Exception as e:
-                print(f"[错误] Base64 解码失败: {api_url} -> {e}")
-                save_null_data(api_url, content[:500])
-                return []
-
-            lines = [line.strip() for line in decoded.splitlines() if line.strip()]
-            return lines
-
-    except asyncio.TimeoutError:
-        print(f"[错误] 请求超时: {api_url}")
-        save_null_data(api_url, "请求超时")
-    except aiohttp.ClientConnectorError as e:
-        print(f"[错误] 连接失败: {api_url} -> {e}")
-        save_null_data(api_url, str(e))
-    except Exception as e:
-        print(f"[错误] convert_sub({domain}) 出错: {repr(e)}")
-        save_null_data(api_url, str(e))
-
+    for proxy in PROXY_LIST:
+        try:
+            async with session.get(api_url, timeout=aiohttp.ClientTimeout(total=100), proxy=proxy) as response:
+                status = response.status
+                content = (await response.text()).strip()
+                if status != 200:
+                    print(f"[错误] {api_url} 返回状态码 {status} 代理 {proxy}")
+                    continue
+                if "<html" in content.lower() or "error" in content.lower():
+                    continue
+                if len(content) % 4:
+                    content += "=" * (4 - len(content) % 4)
+                try:
+                    decoded = base64.b64decode(content).decode('utf-8', errors='ignore')
+                    return [line.strip() for line in decoded.splitlines() if line.strip()]
+                except Exception as e:
+                    print(f"[错误] Base64 解码失败 {api_url} 代理 {proxy} -> {e}")
+                    continue
+        except Exception as e:
+            print(f"[错误] convert_sub({domain}) 出错 代理 {proxy} -> {repr(e)}")
+    save_null_data(api_url, "全部代理请求失败")
     return []
 
 async def process_subscriptions(session, subscriptions):
