@@ -44,7 +44,7 @@ jobs:
     - name: 执行任务
       run: |
         python ./main.py
-        python ./url_download.py
+
 
     - name: Commit
       run: |
