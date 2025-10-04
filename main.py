@@ -16,11 +16,8 @@ CHECK_URL_LIST = ['api.dler.io', 'sub.xeton.dev', 'sub.id9.cc', 'sub.maoxiongnet
 
 # 修改：User-Agent 列表，顺序测试
 USER_AGENTS = [
-    'v2rayNG/1.10.23',
-    'NekoBox/Android/1.4.0(Prefer ClashMeta Format)',
-    'sing-box',
-    'ClashForWindows',
-    'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36 Edg/122.0.0.0'
+    'meta/0.2.0.5.Meta',
+    'v2rayN/7.15.0'
 ]
 
 # -------------------------------
