@@ -1,0 +1,78 @@
+"1.1.1.1",
+"8.8.8.8"
+"address": "127.0.0.1",
+"address": "dir.lightnright.com",
+"auth": "noauth",
+"destOverride": [
+"dns": {
+"domain": [
+"domain:ir",
+"domainStrategy": "IPIfNonMatch",
+"enabled": true
+"encryption": "none",
+"fakedns"
+"flow": ""
+"geoip:ir",
+"geoip:private"
+"geosite:category-ads-all"
+"geosite:private"
+"http",
+"id": "cf960a9b-f4e4-d580-d8e9-1c321dbff4a7",
+"inbounds": [
+"ip": [
+"log": {
+"loglevel": "warning"
+"network": null
+"outboundTag": "block"
+"outboundTag": "direct"
+"outbounds": [
+"policy": {
+"port": 1,
+"port": 10808,
+"port": 10809,
+"port": 2,
+"port": 5228,
+"port": 8883,
+"protocol": "blackhole"
+"protocol": "freedom"
+"protocol": "http",
+"protocol": "socks",
+"protocol": "vless",
+"protocol": "vmess",
+"queryStrategy": "UseIP",
+"regexp:.*\\.ir",
+"remarks": "\ud83c\uddf8\ud83c\uddea Homa t"
+"remarks": "\ud83c\uddf8\ud83c\uddea Homa tt"
+"remarks": "\ud83c\udf81 @JavidnamanIran"
+"remarks": "\ud83d\udcca Data left: 1.59 TB"
+"routing": {
+"rules": [
+"security": "auto"
+"servers": [
+"settings": {
+"sniffing": {
+"stats": {},
+"statsOutboundDownlink": true,
+"statsOutboundUplink": true
+"streamSettings": {
+"system": {
+"tag": "\ud83c\uddf8\ud83c\uddea Homa t",
+"tag": "\ud83c\uddf8\ud83c\uddea Homa tt",
+"tag": "\ud83c\udf81 @JavidnamanIran",
+"tag": "\ud83d\udcca Data left: 1.59 TB",
+"tag": "block",
+"tag": "direct",
+"tag": "dns_out"
+"tag": "http"
+"tag": "socks"
+"tls",
+"udp": true,
+"userLevel": 8
+"users": [
+"vnext": [
+[
+]
+],
+{
+}
+},
