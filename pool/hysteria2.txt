@@ -447,6 +447,7 @@ hysteria2://70171110-cbef-4945-96fa-cc4803680adf@yg.foldjc.top:37011?insecure=1&
 hysteria2://70197404-7b40-45e4-bb9c-8bc8995012ae@fra-nb-01.linlujs.pw:24568?insecure=0#DE-telegram-%40ISVvpn%20%20%F0%9F%8C%90%20%D9%84%D9%88%DA%A9%DB%8C%D8%B4%D9%86%3A...
 hysteria2://70197404-7b40-45e4-bb9c-8bc8995012ae@us-nb-01.linlujs.pw:25684?insecure=0#usa-telegram-%40ISVvpn
 hysteria2://7038e834-4587-425d-81af-a12d8779a6bd@xg1.xiaohuolongjc.top:37771?insecure=1&sni=xg1.xiaohuolongjc.top#HK_7%20%7C%20%E2%AC%87%EF%B8%8F%201.1MB%2Fs
+hysteria2://712bdc36-24be-11ee-be53-f23c9313b177@045bb147-t3z5s0-tckngf-5fdt.la.shifen.uk:1743?insecure=0#%E7%9B%B4%E8%BF%9E%20%7C%20%E6%B4%9B%E6%9D%89%E7%9F%B6%E4%BA%8C%E5%8F%B7
 hysteria2://712bdc36-24be-11ee-be53-f23c9313b177@4ea85f4d-t3zs00-tcl9of-5fdt.la.shifen.uk:1743?insecure=0#%E7%9B%B4%E8%BF%9E%20%7C%20%E6%B4%9B%E6%9D%89%E7%9F%B6%E4%BA%8C%E5%8F%B7
 hysteria2://712bdc36-24be-11ee-be53-f23c9313b177@e51e2e70-t3xxc0-tcl9of-5fdt.la.shifen.uk:1743?insecure=0#%E7%9B%B4%E8%BF%9E%20%7C%20%E6%B4%9B%E6%9D%89%E7%9F%B6%E4%BA%8C%E5%8F%B7
 hysteria2://71504eaf-29ac-4190-89d1-dd9ce2c9ee14@151.243.168.31:51120?insecure=1&obfs=salamander&obfs-password=salamander&sni=Ab.ac#US_31%20%7C%20%E2%AC%87%EF%B8%8F%201.3MB%2Fs
@@ -1155,6 +1156,7 @@ hysteria2://cb223828-57af-4aa0-be36-79e0439a1d62@xg.jjzcloud.top:57338?insecure=
 hysteria2://cb26a23c-6aeb-42d3-b528-2c0d02cd9260@rb1.xiaohuolongjc.top:37771?insecure=1&sni=rb1.xiaohuolongjc.top#%E2%9D%93Other_30%20%7C%20%E2%AC%87%EF%B8%8F%201.2MB%2Fs
 hysteria2://cb26a23c-6aeb-42d3-b528-2c0d02cd9260@xjp1.xiaohuolongjc.top:37771?insecure=1&sni=xjp1.xiaohuolongjc.top#US_26%20%7C%20%E2%AC%87%EF%B8%8F%201.1MB%2Fs
 hysteria2://cbb15894-f6ad-11ef-afd8-f23c9313b177@0ce83150-t3xxc0-t3p7b8-ckzn.la.shifen.uk:1743?insecure=0#%E7%9B%B4%E8%BF%9E%20%7C%20%E6%B4%9B%E6%9D%89%E7%9F%B6%E4%BA%8C%E5%8F%B7
+hysteria2://cbb15894-f6ad-11ef-afd8-f23c9313b177@47d585a2-t3zs00-t3p7b8-ckzn.la.shifen.uk:1743?insecure=0#%E7%9B%B4%E8%BF%9E%20%7C%20%E6%B4%9B%E6%9D%89%E7%9F%B6%E4%BA%8C%E5%8F%B7
 hysteria2://cbb15894-f6ad-11ef-afd8-f23c9313b177@da96d504-t3xb40-t3ol38-ckzn.la.shifen.uk:1743?insecure=0#%E7%9B%B4%E8%BF%9E%20%7C%20%E6%B4%9B%E6%9D%89%E7%9F%B6%E4%BA%8C%E5%8F%B7
 hysteria2://cbf78f43-45db-4985-b4f8-e16191f50033@45.11.1.62:50000?insecure=1&sni=www.microsoft.com#JP_24%20%7C%20%E2%AC%87%EF%B8%8F%201.1MB%2Fs
 hysteria2://cbf78f43-45db-4985-b4f8-e16191f50033@45.11.1.62:50000?insecure=1&sni=www.microsoft.com#JP_3%20%7C%20%E2%AC%87%EF%B8%8F%201.3MB%2Fs
@@ -1213,6 +1215,7 @@ hysteria2://de8854c7-fa17-4266-ae18-50a9732a0c4e@us2.1010991.xyz:3001?insecure=1
 hysteria2://df000c4c-10d8-4bd5-8586-ff0513a601e3@45.11.1.62:50000?insecure=1&sni=www.microsoft.com#JP_4%20%7C%20%E2%AC%87%EF%B8%8F%201.3MB%2Fs
 hysteria2://df36ace8-640b-42bb-8169-198901af6d9e@185.184.68.7.sslip.io:46129?insecure=1&obfs=salamander&obfs-password=salamander#%40Daily_Configs%20%2313
 hysteria2://df7bed3c-06eb-11f0-8ebc-f23c93141fad@206c6970-t34ao0-t9lxaa-1glq.la.shifen.uk:1743?insecure=1&sni=206c6970-t34ao0-t9lxaa-1glq.la.shifen.uk#US_47%20%7C%20%E2%AC%87%EF%B8%8F%209.8MB%2Fs
+hysteria2://df7bed3c-06eb-11f0-8ebc-f23c93141fad@cc0b4d2d-t3z5s0-t9lb2a-1glq.la.shifen.uk:1743?insecure=0#%E7%9B%B4%E8%BF%9E%20%7C%20%E6%B4%9B%E6%9D%89%E7%9F%B6%E4%BA%8C%E5%8F%B7
 hysteria2://dongtaiwang.com@108.181.5.130:63015?insecure=1&sni=apple.com#US_2%20%7C%20%E2%AC%87%EF%B8%8F%201.1MB%2Fs
 hysteria2://dongtaiwang.com@2001:bc8:32d7:302::11:20088?insecure=1&sni=apple.com#Unknown_hysteria2_01
 hysteria2://dongtaiwang.com@2001:bc8:32d7:302::11:20088?insecure=1&sni=apple.com#Unknown_hysteria2_11
@@ -1300,6 +1303,7 @@ hysteria2://e575c3da-0d28-4903-835c-f73406efb19a@mg2.jjzcloud.top:57338?insecure
 hysteria2://e575c3da-0d28-4903-835c-f73406efb19a@mg2.jjzcloud.top:57338?insecure=1&sni=mg2.jjzcloud.top#%E7%BE%8E%E5%9B%BD%20062
 hysteria2://e575c3da-0d28-4903-835c-f73406efb19a@xg.jjzcloud.top:57338?insecure=1&sni=xg.jjzcloud.top#%E7%BE%8E%E5%9B%BD%20131
 hysteria2://e575c3da-0d28-4903-835c-f73406efb19a@yd.jjzcloud.top:57338?insecure=1&sni=yd.jjzcloud.top#%E7%BE%8E%E5%9B%BD%20086
+hysteria2://e68d97c8-6386-4d7a-b9cf-1ac4f8a5014a@208.87.242.97:35000,35000-39000?insecure=1&sni=www.apple.com#%E8%B6%85%E4%BD%8E%E4%BB%B7%E4%BB%98%E8%B4%B9%E6%9C%BA%E5%9C%BA%E6%A2%AF%E5%AD%90%E6%8E%A8%E8%8D%90
 hysteria2://e6a347a8-2f87-4c9e-9f5a-935e698f6327@mf1.ylccloud.top:16090?insecure=1&sni=mf1.ylccloud.top#%E7%BE%8E%E5%9B%BD%20134
 hysteria2://e83c768c-ec4f-4d0c-b8d1-a8c83f2ff89a@mf1.ylccloud.top:16090?insecure=1&sni=mf1.ylccloud.top#%E7%BE%8E%E5%9B%BD%20140
 hysteria2://e8a960d8-14f5-11ec-a0fc-f23c913c8d2b@34823962-swkhs0-szt6ky-1bonh.hy2.gotochinatown.net:8443?insecure=1&sni=34823962-swkhs0-szt6ky-1bonh.hy2.gotochinatown.net#%E7%BE%8E%E5%9B%BD_%E5%B4%A9%E9%93%81%E4%B8%93%E7%BA%BF_%E6%89%98%E9%A9%AC%E7%9A%84%E5%B0%8F%E7%A9%B4
