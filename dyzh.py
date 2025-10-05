@@ -8,6 +8,7 @@ import re
 import datetime
 import sys
 from glob import glob
+import shutil
 
 # ========== 配置 ==========
 USER_AGENTS = [
@@ -18,10 +19,10 @@ USER_AGENTS = [
 ]
 
 TG_DOMAINS = [
-    "t.me",               # 官方源
-    "tx.me",              # Telegram 官方镜像域
-    "telegram.me",        # 官方备用
-    "tgstat.com",         # 第三方镜像（只读）
+    "t.me",
+    "tx.me",
+    "telegram.me",
+    "tgstat.com",
 ]
 
 RE_URL = r"https?://[-A-Za-z0-9+&@#/%?=~_|!:,.;]+"
@@ -88,6 +89,34 @@ def save_null_data(source_url, content):
     except Exception as e:
         print(f"[错误] 无法写入 NULL.txt: {e}")
 
+# 🆕 新增函数：写入 pool 同步 Day 目录
+def write_to_pool_and_day(proto, lines, mode="a"):
+    """
+    写入 pool 文件，同时同步覆盖 Day/当日日期 文件
+    """
+    os.makedirs("pool", exist_ok=True)
+    pool_path = os.path.join("pool", f"{proto}.txt")
+
+    # --- 写入 pool 文件 ---
+    if mode == "w":
+        with open(pool_path, "w", encoding="utf-8") as f:
+            f.write("\n".join(lines) + "\n")
+    else:
+        with open(pool_path, "a", encoding="utf-8") as f:
+            for line in lines:
+                f.write(line + "\n")
+
+    # --- 同步写入 Day 文件（覆盖写入）---
+    today_str = datetime.datetime.now().strftime("%Y-%m-%d")
+    day_dir = os.path.join("Day", today_str)
+    os.makedirs(day_dir, exist_ok=True)
+    day_path = os.path.join(day_dir, f"{proto}.txt")
+
+    with open(day_path, "w", encoding="utf-8") as f:
+        f.write("\n".join(sorted(set(lines))) + "\n")
+
+    print(f"📁 已同步写入 Day/{today_str}/{proto}.txt")
+
 # === 清理 NULL.txt ===
 def clean_null_file():
     null_path = os.path.join("pool", "NULL.txt")
@@ -153,16 +182,11 @@ async def extract_sub_links(session, channel):
             for match in matches:
                 line = match.group(0).strip()
                 proto = line.split("://")[0].lower()
-                file_path = os.path.join("pool", f"{proto}.txt")
 
-                # 去重写入
-                old_lines = set()
-                if os.path.exists(file_path):
-                    old_lines = {l.strip() for l in open(file_path, encoding="utf-8") if l.strip()}
-                if line not in old_lines:
-                    with open(file_path, "a", encoding="utf-8") as f:
-                        f.write(line + "\n")
-            print(f"💾 已从 {channel} 提取 {len(matches)} 条节点，保存到 pool/ 下")
+                # 🧩 修改：调用同步写入函数
+                write_to_pool_and_day(proto, [line], mode="a")
+
+            print(f"💾 已从 {channel} 提取 {len(matches)} 条节点，保存到 pool/ 与 Day/ 下")
 
         if urls:
             print(f"🎯 在 {domain} 提取到 {len(urls)} 条订阅链接")
@@ -276,14 +300,9 @@ async def main():
                 save_null_data("Invalid proxy line", f"{line}\n{e}")
 
         for proto, lines in proxy_dict.items():
-            file_path = os.path.join("pool", f"{proto}.txt")
-            old_lines = set()
-            if os.path.exists(file_path):
-                old_lines = {l.strip() for l in open(file_path, encoding="utf-8") if l.strip()}
-            all_lines = sorted(old_lines | set(lines))
-            with open(file_path, "w", encoding="utf-8") as f:
-                f.write("\n".join(all_lines) + "\n")
-            print(f"💾 写入 {proto}.txt，共 {len(all_lines)} 条")
+            # 🧩 修改：同步写入 pool 和 Day
+            write_to_pool_and_day(proto, sorted(set(lines)), mode="w")
+            print(f"💾 写入 {proto}.txt，共 {len(lines)} 条（同步 Day 目录）")
 
         # Step 5: 清理与去重
         clean_null_file()
