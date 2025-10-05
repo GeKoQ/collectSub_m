@@ -7,6 +7,7 @@ from urllib.parse import urlparse
 import re
 import datetime
 import sys
+from glob import glob
 
 # ========== 配置 ==========
 USER_AGENTS = [
@@ -16,10 +17,12 @@ USER_AGENTS = [
     'Mozilla/5.0 (Macintosh; Intel Mac OS X 13_2) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.2 Safari/605.1.15'
 ]
 
-# === 新增功能开始 ===
-# 扩展支持的 Telegram 镜像域名
-TG_DOMAINS = ["t.me"]
-# === 新增功能结束 ===
+TG_DOMAINS = [
+    "t.me",               # 官方源
+    "tx.me",              # Telegram 官方镜像域
+    "telegram.me",        # 官方备用
+    "tgstat.com",         # 第三方镜像（只读）
+]
 
 RE_URL = r"https?://[-A-Za-z0-9+&@#/%?=~_|!:,.;]+"
 
@@ -62,7 +65,7 @@ class Logger:
         self.stream.flush()
 
 init_logger()
-print(f"\n🚀 启动任务时间: {datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
+print(f"\n{'='*80}\n🚀 启动任务时间: {datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n{'='*80}")
 
 # ========== 加载配置 ==========
 if not os.path.exists('pool.yaml'):
@@ -85,8 +88,7 @@ def save_null_data(source_url, content):
     except Exception as e:
         print(f"[错误] 无法写入 NULL.txt: {e}")
 
-# === 新增功能开始 ===
-# 新增 NULL.txt 清理函数
+# === 清理 NULL.txt ===
 def clean_null_file():
     null_path = os.path.join("pool", "NULL.txt")
     if not os.path.exists(null_path):
@@ -94,15 +96,13 @@ def clean_null_file():
     try:
         with open(null_path, "r", encoding="utf-8") as f:
             lines = f.readlines()
-        # 删除不以协议开头的行
-        pattern = re.compile(r'^(?!(socks|http|ss|vmess|vless|trojan|hy|tuic|anytls|sn|wireguard)).*$', re.IGNORECASE)
+        pattern = re.compile(r'^(?!(socks5?|https?|ss|vmess|vless|trojan|hy2?|hysteria2?|tuic|anytls|sn|wireguard|shadowsocks|shadowtls)[^\s]+).*$', re.IGNORECASE)
         kept_lines = [l for l in lines if not pattern.match(l.strip())]
         with open(null_path, "w", encoding="utf-8") as f:
             f.writelines(kept_lines)
         print(f"🧹 已清理 NULL.txt，删除 {len(lines) - len(kept_lines)} 行无效内容")
     except Exception as e:
         print(f"[错误] 清理 NULL.txt 失败: {e}")
-# === 新增功能结束 ===
 
 # ========== Telegram 抓取 ==========
 async def fetch_with_proxies(session, url):
@@ -111,7 +111,7 @@ async def fetch_with_proxies(session, url):
         for ua in USER_AGENTS:
             try:
                 headers = {"User-Agent": ua}
-                async with session.get(url, headers=headers, timeout=aiohttp.ClientTimeout(total=20), proxy=proxy) as r:
+                async with session.get(url, headers=headers, timeout=aiohttp.ClientTimeout(total=30), proxy=proxy) as r:
                     text = await r.text()
                     if r.status != 200:
                         print(f"⚠️ 状态码 {r.status} ({url}) 使用代理 {proxy}")
@@ -125,6 +125,7 @@ async def fetch_with_proxies(session, url):
                 save_null_data(url, str(e))
     return ""
 
+# ✅ 改进版 extract_sub_links (支持 hy2/hysteria2)
 async def extract_sub_links(session, channel):
     all_links = []
     for domain in TG_DOMAINS:
@@ -133,16 +134,40 @@ async def extract_sub_links(session, channel):
         html = await fetch_with_proxies(session, url)
         if not html:
             continue
+
+        # 匹配所有 URL（订阅）
         urls = re.findall(RE_URL, html)
         for u in urls:
             if re.search(r'(sub|clash|v2ray|vmess|ss|trojan|subscribe)', u, re.IGNORECASE):
                 if "t.me" not in u and "cdn-telegram" not in u:
                     all_links.append(u)
-        if all_links:
-            print(f"🎯 成功提取 {len(all_links)} 条链接 ✅")
-            return list(set(all_links))
-    print(f"❌ 所有镜像失败: {channel}")
-    return []
+
+        # ✅ 检测正文中的节点并保存
+        node_pattern = re.compile(
+            r'^(socks5?|https?|ss|vmess|vless|trojan|hy2?|hysteria2?|tuic|anytls|sn|wireguard|shadowsocks|shadowtls)[^\s]+',
+            re.IGNORECASE | re.MULTILINE
+        )
+        matches = list(re.finditer(node_pattern, html))
+        if matches:
+            os.makedirs("pool", exist_ok=True)
+            for match in matches:
+                line = match.group(0).strip()
+                proto = line.split("://")[0].lower()
+                file_path = os.path.join("pool", f"{proto}.txt")
+
+                # 去重写入
+                old_lines = set()
+                if os.path.exists(file_path):
+                    old_lines = {l.strip() for l in open(file_path, encoding="utf-8") if l.strip()}
+                if line not in old_lines:
+                    with open(file_path, "a", encoding="utf-8") as f:
+                        f.write(line + "\n")
+            print(f"💾 已从 {channel} 提取 {len(matches)} 条节点，保存到 pool/ 下")
+
+        if urls:
+            print(f"🎯 在 {domain} 提取到 {len(urls)} 条订阅链接")
+
+    return list(set(all_links))
 
 async def process_tgchannels(session, tgchannels):
     results = await asyncio.gather(*[extract_sub_links(session, ch) for ch in tgchannels], return_exceptions=True)
@@ -188,6 +213,24 @@ async def process_subscriptions(session, subscriptions):
             lines.extend(r)
     return lines
 
+# === 去重函数（含删除空文件）===
+def deduplicate_pool_files():
+    os.makedirs("pool", exist_ok=True)
+    files = glob("pool/*.txt")
+    for file in files:
+        try:
+            with open(file, "r", encoding="utf-8") as f:
+                lines = {l.strip() for l in f if l.strip()}
+            if not lines:
+                os.remove(file)
+                print(f"🗑️ 已删除空文件 {file}")
+                continue
+            with open(file, "w", encoding="utf-8") as f:
+                f.write("\n".join(sorted(lines)) + "\n")
+            print(f"🧩 已去重 {file} ({len(lines)} 条)")
+        except Exception as e:
+            print(f"[错误] 去重 {file} 失败: {e}")
+
 # ========== 主流程 ==========
 async def main():
     async with aiohttp.ClientSession() as session:
@@ -200,11 +243,9 @@ async def main():
             print("⚠️ tgchannels 为空，跳过抓取")
             new_links = []
 
-        # === 新增功能开始 ===
-        # Step 2: 更新 pool.yaml（并过滤无效链接）
+        # Step 2: 更新 pool.yaml
         all_subs = list(set(subscriptions + new_links))
         filtered_subs, removed = [], []
-
         for sub in all_subs:
             if re.search(r'\b(?:[\w-]+\.)*telesco\.pe\b', sub, re.IGNORECASE):
                 removed.append(sub)
@@ -213,13 +254,10 @@ async def main():
                 removed.append(sub)
                 continue
             filtered_subs.append(sub)
-
         config["subscriptions"] = filtered_subs
         with open("pool.yaml", "w", encoding="utf-8") as f:
             yaml.safe_dump(config, f, allow_unicode=True, sort_keys=False)
-
         print(f"🧾 已更新 pool.yaml：保留 {len(filtered_subs)} 条订阅，过滤掉 {len(removed)} 条无效链接")
-        # === 新增功能结束 ===
 
         # Step 3: 转换订阅
         print(f"\n🔄 开始转换 {len(filtered_subs)} 条订阅...")
@@ -247,10 +285,9 @@ async def main():
                 f.write("\n".join(all_lines) + "\n")
             print(f"💾 写入 {proto}.txt，共 {len(all_lines)} 条")
 
-        # === 新增功能开始 ===
-        # Step 5: 清理 NULL.txt
+        # Step 5: 清理与去重
         clean_null_file()
-        # === 新增功能结束 ===
+        deduplicate_pool_files()
 
         print("\n✅ 全部完成！日志已保存到 logs/log.txt")
 
