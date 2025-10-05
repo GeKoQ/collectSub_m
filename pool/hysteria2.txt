@@ -466,6 +466,7 @@ hysteria2://51fff8bd-68fc-4493-a8a9-59eb0a0da563@rb.dport.top:33657?insecure=1&o
 hysteria2://52816135-d3bc-46bc-a915-09886a2e2b2e@185.126.255.78:50440?insecure=0&sni=real.getafreenode.sbs#%40freenettir%20%238
 hysteria2://537d7098-fdbe-11ef-8ebc-f23c93141fad@297d1dc8-t2y4g0-t2zeef-d70y.la.shifen.uk:1743?insecure=1&sni=297d1dc8-t2y4g0-t2zeef-d70y.la.shifen.uk#US_41%20%7C%20%E2%AC%87%EF%B8%8F%208.0MB%2Fs
 hysteria2://537d7098-fdbe-11ef-8ebc-f23c93141fad@657e9805-t3z5s0-tcj7b6-d70y.la.shifen.uk:1743?insecure=0#%E7%9B%B4%E8%BF%9E%20%7C%20%E6%B4%9B%E6%9D%89%E7%9F%B6%E4%BA%8C%E5%8F%B7
+hysteria2://537d7098-fdbe-11ef-8ebc-f23c93141fad@73881600-t3zs00-tcjtj6-d70y.la.shifen.uk:1743?insecure=0#%E7%9B%B4%E8%BF%9E%20%7C%20%E6%B4%9B%E6%9D%89%E7%9F%B6%E4%BA%8C%E5%8F%B7
 hysteria2://537d7098-fdbe-11ef-8ebc-f23c93141fad@ec6b54e1-t3xb40-tcj7b6-d70y.la.shifen.uk:1743?insecure=0#%E7%9B%B4%E8%BF%9E%20%7C%20%E6%B4%9B%E6%9D%89%E7%9F%B6%E4%BA%8C%E5%8F%B7
 hysteria2://539423f9-d49e-41ef-86c2-eee2281f5584@6bkr1.6bnw.top:10100?insecure=1&sni=6bkr1.6bnw.top#KR_14%20%7C%20%E2%AC%87%EF%B8%8F%201.4MB%2Fs
 hysteria2://539423f9-d49e-41ef-86c2-eee2281f5584@azcus1.jueduibupao.top:20101?insecure=1&sni=azcus1.jueduibupao.top#US_115%20%7C%20%E2%AC%87%EF%B8%8F%201.1MB%2Fs
