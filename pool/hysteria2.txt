@@ -542,13 +542,16 @@ hysteria2://71504eaf-29ac-4190-89d1-dd9ce2c9ee14@2001:bc8:1640:50eb:dc00:ff:fe57
 hysteria2://71504eaf-29ac-4190-89d1-dd9ce2c9ee14@2001:bc8:1640:50eb:dc00:ff:fe57:dd6f:443?insecure=1&obfs=salamander&obfs-password=salamander&sni=Ab.ac#%40IRAN_V2RAY1
 hysteria2://71504eaf-29ac-4190-89d1-dd9ce2c9ee14@2001:bc8:1640:50eb:dc00:ff:fe57:dd6f:443?insecure=1&obfs=salamander&obfs-password=salamander&sni=Ab.ac#AZADIV2RAYY%20NL%20%20%F0%9F%87%B3%F0%9F%87%B1
 hysteria2://71504eaf-29ac-4190-89d1-dd9ce2c9ee14@2001:bc8:1640:50eb:dc00:ff:fe57:dd6f:51978?insecure=1&obfs=salamander&obfs-password=salamander&sni=Ab.ac#NL1
+hysteria2://71504eaf-29ac-4190-89d1-dd9ce2c9ee14@2001:bc8:1640:50eb:dc00:ff:fe57:dd6f:53656?insecure=1&obfs=salamander&obfs-password=salamander&sni=Ab.ac#NL1
 hysteria2://71504eaf-29ac-4190-89d1-dd9ce2c9ee14@2001:bc8:1640:50eb:dc00:ff:fe57:dd6f:54902?insecure=1&obfs=salamander&obfs-password=salamander&sni=Ab.ac#NL1
 hysteria2://71504eaf-29ac-4190-89d1-dd9ce2c9ee14@2001:bc8:1640:50eb:dc00:ff:fe57:dd6f:58433?insecure=1&obfs=salamander&obfs-password=salamander&sni=Ab.ac#NL1
 hysteria2://71504eaf-29ac-4190-89d1-dd9ce2c9ee14@2604:abc0:50:0:0:0:10:505b:53075?insecure=1&obfs=salamander&obfs-password=salamander&sni=Ab.ac#US2
 hysteria2://71504eaf-29ac-4190-89d1-dd9ce2c9ee14@2604:abc0:50:0:0:0:10:505b:54132?insecure=1&obfs=salamander&obfs-password=salamander&sni=Ab.ac#US2
 hysteria2://71504eaf-29ac-4190-89d1-dd9ce2c9ee14@2604:abc0:50:0:0:0:10:505b:54689?insecure=1&obfs=salamander&obfs-password=salamander&sni=Ab.ac#US2
+hysteria2://71504eaf-29ac-4190-89d1-dd9ce2c9ee14@2604:abc0:50:0:0:0:10:505b:55728?insecure=1&obfs=salamander&obfs-password=salamander&sni=Ab.ac#US2
 hysteria2://71504eaf-29ac-4190-89d1-dd9ce2c9ee14@2a01:4f9:6b:f808::1:53260?insecure=1&obfs=salamander&obfs-password=salamander&sni=Ab.ac#FI1
 hysteria2://71504eaf-29ac-4190-89d1-dd9ce2c9ee14@2a01:4f9:6b:f808::1:54937?insecure=1&obfs=salamander&obfs-password=salamander&sni=Ab.ac#FI1
+hysteria2://71504eaf-29ac-4190-89d1-dd9ce2c9ee14@2a01:4f9:6b:f808::1:59488?insecure=1&obfs=salamander&obfs-password=salamander&sni=Ab.ac#FI1
 hysteria2://729cf4e2-d5c8-4273-8c78-a2483afaf3e4@xg2.dimoyun.top:40001?insecure=1&sni=xg2.dimoyun.top#HK_32%20%7C%20%E2%AC%87%EF%B8%8F%201.3MB%2Fs
 hysteria2://747c62da-109f-4add-8e67-c66e1af7d255@208.87.242.77:35000?insecure=1&sni=www.apple.com#US_52%20%7C%20%E2%AC%87%EF%B8%8F%208.9MB%2Fs
 hysteria2://74ba7406-14a5-44ec-82e6-d4ab536f727f@hg.dport.top:33656?insecure=1&obfs=salamander&obfs-password=salamander&sni=hg.dport.top#%E9%9F%A9%E5%9B%BD-1A
@@ -870,6 +873,7 @@ hysteria2://Telegram--%3E%40Ln2Ray@gavazn.lnmarketplace.net:45000?insecure=1&obf
 hysteria2://Telegram--%3E%40Ln2Ray@gavazn.lnmarketplace.net:45000?insecure=1&obfs=salamander&obfs-password=salamander&sni=gavazn.55994421.xyz#NL%7C%20TG%40pgkj666
 hysteria2://Telegram--%3E%40Ln2Ray@gavazn.lnmarketplace.net:45000?insecure=1&obfs=salamander&obfs-password=salamander&sni=gavazn.55994421.xyz#NL_12%20%7C%20%E2%AC%87%EF%B8%8F%201.1MB%2Fs_1
 hysteria2://Telegram--%3E%40Ln2Ray@gavazn.lnmarketplace.net:45000?insecure=1&obfs=salamander&obfs-password=salamander&sni=gavazn.55994421.xyz#NL_12%20%7C%20%E2%AC%87%EF%B8%8F%201.1MB%2Fs_2
+hysteria2://Telegram--%3E%40Ln2Ray@gavazn.lnmarketplace.net:45000?insecure=1&obfs=salamander&obfs-password=salamander&sni=gavazn.55994421.xyz#NL_2%20%7C%20%E2%AC%87%EF%B8%8F%201.1MB%2Fs
 hysteria2://Telegram--%3E%40Ln2Ray@gavazn.lnmarketplace.net:45000?insecure=1&obfs=salamander&obfs-password=salamander&sni=gavazn.55994421.xyz#NL_2%20%7C%20%E2%AC%87%EF%B8%8F%201.3MB%2Fs
 hysteria2://Telegram--%3E%40Ln2Ray@gavazn.lnmarketplace.net:45000?insecure=1&obfs=salamander&obfs-password=salamander&sni=gavazn.55994421.xyz#NL_2%20%7C%20%E2%AC%87%EF%B8%8F%201.8MB%2Fs
 hysteria2://Telegram--%3E%40Ln2Ray@gavazn.lnmarketplace.net:45000?insecure=1&obfs=salamander&obfs-password=salamander&sni=gavazn.55994421.xyz#NL_3%20%7C%20%E2%AC%87%EF%B8%8F%201.0MB%2Fs
@@ -1292,6 +1296,7 @@ hysteria2://cecf3df6-a1eb-4609-9914-b9fe2b8a2b11@wmg2.wanlidag.top:5555?insecure
 hysteria2://cecf3df6-a1eb-4609-9914-b9fe2b8a2b11@wyd1.wanlidag.top:5555?insecure=1&sni=wyd1.wanlidag.top#RU_6%20%7C%20%E2%AC%87%EF%B8%8F%203.8MB%2Fs
 hysteria2://cf299cae-52af-46fc-9be5-b2b0eb9510ee@xg2.dimoyun.top:40001?insecure=1&sni=xg2.dimoyun.top#HK_25%20%7C%20%E2%AC%87%EF%B8%8F%201.2MB%2Fs
 hysteria2://cf364459-ffad-4b3c-987f-38169650470d@133.18.163.202:50000?insecure=1&sni=www.microsoft.com#JP_19%20%7C%20%E2%AC%87%EF%B8%8F%201.3MB%2Fs
+hysteria2://cf960a9bf4e4d580d8e91c321dbff4a7@dir.lightnright.com:989?insecure=0&obfs=salamander&obfs-password=salamander&sni=jnir-x.pichondan.com#Homa%20hy
 hysteria2://cfe032e4-1bc3-454f-9d09-301b0aea08ff@150.230.30.237:45979?insecure=1&sni=www.bing.com#%E5%8A%A0%E6%8B%BF%E5%A4%A73%20%7C%20%E2%AC%87%EF%B8%8F%201.6MB%2Fs
 hysteria2://d2348dac-3785-46e3-a0a4-f9d79cd8a485@sfjmg4.sufujia.top:57300?insecure=0&sni=sfjmg4.sufujia.top#%E7%BE%8E%E5%9C%8B%2033
 hysteria2://d2348dac-3785-46e3-a0a4-f9d79cd8a485@sfjmg4.sufujia.top:57300?insecure=1&sni=sfjmg4.sufujia.top#%E7%BE%8E%E5%9C%8B
@@ -1326,6 +1331,7 @@ hysteria2://dailyconfigschannel@103.249.133.79:443?insecure=1&obfs=salamander&ob
 hysteria2://db19dadd-8c57-4cfc-8b93-1df12443901e@45.147.201.231:30073?insecure=1&obfs=salamander&obfs-password=salamander#%E7%BE%8E%E5%9B%BD_%E5%94%AF%E4%BA%91%E4%B8%93%E7%BA%BF_%E7%90%B4%E7%9A%84%E8%9E%BA%E6%97%8B%E9%99%80%E8%9E%BA%E5%BF%AB%E5%87%86%E7%8B%A0%E7%B2%89%E9%B8%A1%E9%B8%A1
 hysteria2://db21403f-47ee-4bd2-8df9-f88d5b7f7c6b@103.146.119.121:2053?insecure=1&obfs=salamander&obfs-password=salamander&sni=nl01.kittycdn.pp.ua#NL%20ASNET%2002
 hysteria2://db21403f-47ee-4bd2-8df9-f88d5b7f7c6b@31.57.109.244:2053?insecure=1&obfs=salamander&obfs-password=salamander&sni=fr01.kittycdn.pp.ua#https%3A%2F%2Ft.me%2Fzyzzzoao%20%E2%9A%A1_15
+hysteria2://db21403f-47ee-4bd2-8df9-f88d5b7f7c6b@31.57.109.244:2053?insecure=1&obfs=salamander&obfs-password=salamander&sni=fr01.kittycdn.pp.ua#https%3A%2F%2Ft.me%2Fzyzzzoao%20%E2%9A%A1_3
 hysteria2://de8854c7-fa17-4266-ae18-50a9732a0c4e@hk1.1010991.xyz:3001?insecure=1&sni=hk1.1010991.xyz#%E9%A6%99%E6%B8%AF%20%233
 hysteria2://de8854c7-fa17-4266-ae18-50a9732a0c4e@us2.1010991.xyz:3001?insecure=1&sni=us2.1010991.xyz#%E7%BE%8E%E5%9B%BD%20%231
 hysteria2://de8854c7-fa17-4266-ae18-50a9732a0c4e@us2.1010991.xyz:3001?insecure=1&sni=us2.1010991.xyz#US_6%20%7C%20%E2%AC%87%EF%B8%8F%202.1MB%2Fs
