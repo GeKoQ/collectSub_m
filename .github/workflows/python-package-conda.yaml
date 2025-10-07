@@ -37,9 +37,7 @@ jobs:
 
     - name: 执行任务 (Python 使用代理)
       run: |
-        HTTP_PROXY="${{ secrets.HTTP_PROXY }}" \
-        HTTPS_PROXY="${{ secrets.HTTPS_PROXY }}" \
-        SOCKS5_PROXY="${{ secrets.SOCKS5_PROXY }}" \
+        PROXY_LIST="${{ secrets.PROXY_LIST }}"
         python ./main.py
 
     - name: Commit
