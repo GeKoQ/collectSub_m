@@ -1,14 +1,3 @@
-#!/usr/bin/env python3
-# dyzh.py
-# Enhanced version of dyzh.py
-# Features:
-# - Local-first subscription parsing (base64 / Clash YAML / JS inline / JSON)
-# - If local parsing fails, fall back to remote subscription conversion services
-# - USER_AGENTS tried in order when downloading subscriptions (and when calling APIs)
-# - Telegram channel scraping (as original)
-# - Detailed logging to stdout, logs/log.txt and logs/error.log (GitHub Actions friendly)
-# - Clash -> node link conversion supporting vmess/vless/ss/trojan/hysteria2/tuic
-
 import yaml
 import aiohttp
 import asyncio
@@ -25,9 +14,7 @@ from glob import glob
 # ========== 配置 ==========
 USER_AGENTS = [
     'meta/0.2.0.5.Meta',
-    'v2rayN/7.15.0',
-    #'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36',
-    #'Mozilla/5.0 (Macintosh; Intel Mac OS X 13_2) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.2 Safari/605.1.15'
+    'v2rayN/7.15.0'
 ]
 
 TG_DOMAINS = [
@@ -127,7 +114,7 @@ def clean_null_file():
         with open(null_path, "r", encoding="utf-8") as f:
             lines = f.readlines()
         pattern = re.compile(
-            r'^(?!(socks5?|https?|ss|vmess|vless|trojan|hy2?|hysteria2?|tuic|anytls|sn|wireguard|shadowsocks|shadowtls)[^\s]+).*$', 
+            r'^(?!(ss|ssocks|socks|socks5|http|https|vmess|vless|trojan|hysteria|hysteria2|hy|hy2|tuic|anytls|sn|snell|wireguard|shadowtls|shadowsocks)://[^\s]+).*$', 
             re.IGNORECASE
         )
         kept_lines = [l for l in lines if not pattern.match(l.strip())]
@@ -181,11 +168,11 @@ async def extract_sub_links(session, channel):
             continue
         urls = re.findall(RE_URL, html)
         for u in urls:
-            if re.search(r'(sub|clash|v2ray|vmess|ss|trojan|subscribe)', u, re.IGNORECASE):
+            if re.search(r'(sub|clash|v2ray|vmess|ss|hysteria|trojan|subscribe)', u, re.IGNORECASE):
                 if "t.me" not in u and "cdn-telegram" not in u:
                     all_links.append(u)
         node_pattern = re.compile(
-            r'^(socks5?|https?|ss|vmess|vless|trojan|hy2?|hysteria2?|tuic|anytls|sn|wireguard|shadowsocks|shadowtls)[^\s]+',
+            r'^(ss|ssocks|socks|socks5|http|https|vmess|vless|trojan|hysteria|hysteria2|hy|hy2|tuic|anytls|sn|snell|wireguard|shadowtls|shadowsocks)://[^\s]+',
             re.IGNORECASE | re.MULTILINE
         )
         matches = list(re.finditer(node_pattern, html))
@@ -225,7 +212,7 @@ async def convert_sub(session, sub_url, domain):
     tried_proxies = PROXY_LIST + [None]
     for proxy in tried_proxies:
         try:
-            async with session.get(api_url, timeout=aiohttp.ClientTimeout(total=100), proxy=proxy) as response:
+            async with session.get(api_url, timeout=aiohttp.ClientTimeout(total=30), proxy=proxy) as response:
                 status = response.status
                 content = (await response.text()).strip()
                 if status != 200:
@@ -434,7 +421,7 @@ def extract_nodes_from_text(text: str):
     """尝试从纯文本中提取节点行（vmess:// / vless:// / ss:// / trojan:// ...）"""
     lines = [l.strip() for l in text.splitlines() if l.strip()]
     nodes = []
-    pattern = re.compile(r'^(socks5?|https?|ss|vmess|vless|trojan|hy2?|hysteria2?|tuic|anytls|sn|wireguard|shadowsocks|shadowtls)[^\s]+', re.IGNORECASE)
+    pattern = re.compile(r'^(socks5?|https?|ss|vmess|vless|trojan|hy2?|hysteria2?|tuic|anytls|sn|wireguard|shadowsocks|shadowtls)://[^\s]+', re.IGNORECASE)
     for l in lines:
         if pattern.match(l):
             nodes.append(l)
@@ -599,7 +586,7 @@ if __name__ == '__main__':
         if len(sys.argv) >= 3:
             cli_clash_mode(sys.argv[2])
         else:
-            log_error('用法: python dyzh.py clash config.yaml')
+            log_error('用法: python dyzh_pro.py clash config.yaml')
         sys.exit(0)
 
     # local 模式（默认）
