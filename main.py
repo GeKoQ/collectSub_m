@@ -516,69 +516,73 @@ async def load_existing_txt_set(path: str) -> Set[str]:
     return s
 
 
-async def save_proxies_grouped(proxies_list: List[Dict[str, Any]]):
+# ---------- Robust normalization helper ----------
+def _normalize_proxies_items(proxies_list: List[Any]) -> List[Dict[str, Any]]:
     """
-    按 type 分组并保存到 pool/{type}.yaml 与 pool/{type}.txt
+    将输入条目规范化为 dict：
+    - dict 保留
+    - str 尝试 parse_node_line -> dict
+    - 其它类型转换为 {"type":"unknown","raw": str(item)}
+    """
+    normalized: List[Dict[str, Any]] = []
+    for item in proxies_list:
+        try:
+            if isinstance(item, dict):
+                normalized.append(item)
+            elif isinstance(item, str):
+                parsed = parse_node_line(item)
+                if parsed and isinstance(parsed, dict):
+                    normalized.append(parsed)
+                else:
+                    normalized.append({"type": "unknown", "raw": item})
+            else:
+                # 其他类型（例如 bytes etc.），保留字符串化形式
+                normalized.append({"type": "unknown", "raw": str(item)})
+        except Exception as e:
+            # 万一解析抛异常，仍保留字符串化的原始
+            logger.debug(f"_normalize_proxies_items: parse error for item={item}: {e}")
+            normalized.append({"type": "unknown", "raw": str(item)})
+    return normalized
+
+
+# ---------- 替换后的 save_proxies_grouped ----------
+async def save_proxies_grouped(proxies_list: List[Any]):
+    """
+    更健壮的按 type 分组并保存到 pool/{type}.yaml 与 pool/{type}.txt
+    - 首先对输入做归一化（保证每项为 dict）
     - YAML 做合并覆盖写入（去重）
-    - TXT 以链接形式去重写入（仅写入能生成链接的项）
+    - TXT 仅写入可成功生成单行链接的项
     """
     await ensure_dir(POOL_DIR)
+
+    # 1) 归一化所有输入项（防止字符串导致 .get 报错）
+    proxies = _normalize_proxies_items(proxies_list)
+
+    # 2) 分组
     grouped: Dict[str, List[Dict[str, Any]]] = {}
-    for p in proxies_list:
-        t = (p.get("type") or p.get("protocol") or "unknown").lower()
-        # 规范化一些常见别名
+    for p in proxies:
+        # p 应为 dict
+        t_raw = p.get("type") or p.get("protocol") or "unknown"
+        if not isinstance(t_raw, str):
+            t_raw = str(t_raw)
+        t = t_raw.lower().strip()
+
+        # 规范化同义词
         if t in ("shadowsocks",):
             t = "ss"
         if t in ("ssocks",):
             t = "socks"
-        if t not in SUPPORTED_NODE_TYPES:
-            # 仍然允许未知类型存储为 unknown
-            grouped.setdefault(t, []).append(p)
-        else:
-            grouped.setdefault(t, []).append(p)
 
+        grouped.setdefault(t, []).append(p)
+
+    # 3) 并行保存每个分组
     tasks = []
     for t, items in grouped.items():
         tasks.append(_save_group(t, items))
     await asyncio.gather(*tasks)
+    
+    
 
-
-async def _save_group(proto: str, proxies: List[Dict[str, Any]]):
-    """保存单个组：proto -> pool/{proto}.yaml, pool/{proto}.txt"""
-    yaml_path = os.path.join(POOL_DIR, f"{proto}.yaml")
-    txt_path = os.path.join(POOL_DIR, f"{proto}.txt")
-    lock = await get_lock_for(txt_path + ".lock")  # 用 txt_path 的锁，确保 yaml/txt 同步
-    async with lock:
-        # 读取现有
-        existing_yaml = await load_existing_yaml_list(yaml_path)
-        # 合并 proxies（以 dict 字符串去重）
-        combined = existing_yaml + proxies
-        combined = _make_unique_list_by_str(combined)
-
-        # 写回 YAML（覆盖写入，保存为单个 list）
-        try:
-            async with aiofiles.open(yaml_path, "w", encoding="utf-8") as f:
-                dump_text = yaml.safe_dump(combined, allow_unicode=True, sort_keys=False)
-                await f.write(dump_text)
-        except Exception as e:
-            logger.warning(f"写 YAML 失败 {yaml_path}: {e}")
-
-        # TXT：把 proxies 转为链接（仅把成功生成链接的写入）
-        existing_txt = await load_existing_txt_set(txt_path)
-        new_links = []
-        for p in proxies:
-            link = proxies_dict_to_link(p)
-            if link and link not in existing_txt:
-                new_links.append(link)
-        # 合并写回（追加新链接）
-        if new_links:
-            try:
-                async with aiofiles.open(txt_path, "a", encoding="utf-8") as f:
-                    for l in new_links:
-                        await f.write(l.strip() + "\n")
-                logger.info(f"({proto}) 新增 {len(new_links)} 条节点 -> {txt_path}")
-            except Exception as e:
-                logger.warning(f"写 TXT 失败 {txt_path}: {e}")
 
 
 # ---------------------------
