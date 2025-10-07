@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# dyzh_pro.py
+# dyzh.py
 # Enhanced version of dyzh.py
 # Features:
 # - Local-first subscription parsing (base64 / Clash YAML / JS inline / JSON)
@@ -599,7 +599,7 @@ if __name__ == '__main__':
         if len(sys.argv) >= 3:
             cli_clash_mode(sys.argv[2])
         else:
-            log_error('用法: python dyzh_pro.py clash config.yaml')
+            log_error('用法: python dyzh.py clash config.yaml')
         sys.exit(0)
 
     # local 模式（默认）
