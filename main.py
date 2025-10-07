@@ -475,8 +475,36 @@ def _make_unique_list_by_str(items: List[Any]) -> List[Any]:
     return out
 
 
+# 在文件顶部或合适位置添加（若已 import re 则无需重复）
+_line_kv_pattern = re.compile(r'^\s*-\s*([A-Za-z0-9_\-]+)\s*:\s*(.+)$')
+
+def _sanitize_yaml_text_simple(text: str) -> str:
+    """
+    对简单的错误行进行修复：
+    - 将形如 "- key: some:with:colons ..." 的行改为 "- key: 'some:with:colons ...'"
+    - 仅对简单单行键=值模式生效，复杂 YAML 结构不会尝试解析或改写。
+    """
+    out_lines = []
+    for ln in text.splitlines():
+        m = _line_kv_pattern.match(ln)
+        if m:
+            key = m.group(1)
+            val = m.group(2).rstrip()
+            # 如果值已经用引号包裹则不处理
+            if (val.startswith("'") and val.endswith("'")) or (val.startswith('"') and val.endswith('"')):
+                out_lines.append(ln)
+            else:
+                # 把单引号内部的单引号转为两个单引号以安全存入单引号包裹
+                escaped = val.replace("'", "''")
+                out_lines.append(f"- {key}: '{escaped}'")
+        else:
+            out_lines.append(ln)
+    return "\n".join(out_lines)
+
+
+# 把这个逻辑集成到 load_existing_yaml_list 函数：当 safe_load_all 失败时尝试 sanitize 再解析
 async def load_existing_yaml_list(path: str) -> List[Dict[str, Any]]:
-    """异步读取已有 YAML，返回列表（若为空则返回 []）"""
+    """异步读取已有 YAML，返回列表（若为空则返回 []）。包含容错：解析失败时做简单修复后重试。"""
     if not os.path.exists(path):
         return []
     try:
@@ -484,8 +512,24 @@ async def load_existing_yaml_list(path: str) -> List[Dict[str, Any]]:
             text = await f.read()
             if not text.strip():
                 return []
-            # 可能文件中有多个 document，先用 safe_load_all
-            docs = list(yaml.safe_load_all(text))
+            try:
+                docs = list(yaml.safe_load_all(text))
+            except Exception as e:
+                # 初次解析失败，尝试做简单修复并重试
+                logger.warning(f"第一次尝试解析 YAML 失败 {path}: {e}. 正在对文件做简单 sanitize 后重试。")
+                fixed_text = _sanitize_yaml_text_simple(text)
+                try:
+                    docs = list(yaml.safe_load_all(fixed_text))
+                    # 如果修复成功，覆盖原文件（可选，便于后续直接正确读取）
+                    try:
+                        async with aiofiles.open(path, "w", encoding="utf-8") as fw:
+                            await fw.write(fixed_text)
+                        logger.info(f"已对 {path} 做简单修复并覆盖写入（请确认内容）。")
+                    except Exception:
+                        logger.debug("尝试写回已修复的 YAML 文件失败（忽略）。")
+                except Exception as e2:
+                    logger.warning(f"修复后仍无法解析 YAML 文件 {path}: {e2}")
+                    return []
             combined = []
             for d in docs:
                 if isinstance(d, list):
@@ -498,7 +542,6 @@ async def load_existing_yaml_list(path: str) -> List[Dict[str, Any]]:
     except Exception as e:
         logger.warning(f"读取 YAML 文件失败 {path}: {e}")
         return []
-
 
 async def load_existing_txt_set(path: str) -> Set[str]:
     """读取已有 txt 行，返回集合"""
@@ -545,29 +588,90 @@ def _normalize_proxies_items(proxies_list: List[Any]) -> List[Dict[str, Any]]:
     return normalized
 
 
-# ---------- 替换后的 save_proxies_grouped ----------
+async def _save_group(proto: str, proxies: List[Dict[str, Any]]):
+    """
+    保存单个组：proto -> pool/{proto}.yaml, pool/{proto}.txt
+    - 使用 per-file asyncio.Lock 避免并发写冲突
+    - YAML: 读出已有 -> 合并去重 -> 覆盖写入
+    - TXT: 只把可以生成单行链接的项追加写入（写前再读取去重）
+    """
+    yaml_path = os.path.join(POOL_DIR, f"{proto}.yaml")
+    txt_path = os.path.join(POOL_DIR, f"{proto}.txt")
+    # 使用同一把锁保护 yaml/txt 的写入
+    lock = await get_lock_for(txt_path + ".lock")
+    async with lock:
+        # 确保目录存在
+        await ensure_dir(POOL_DIR)
+
+        # 读取现有 YAML 内容并合并
+        existing_yaml = await load_existing_yaml_list(yaml_path)
+        # 合并并去重（保持顺序）
+        combined = existing_yaml + proxies
+        combined = _make_unique_list_by_str(combined)
+
+        try:
+            async with aiofiles.open(yaml_path, "w", encoding="utf-8") as f:
+                dump_text = yaml.safe_dump(combined, allow_unicode=True, sort_keys=False)
+                await f.write(dump_text)
+        except Exception as e:
+            logger.warning(f"[{proto}] 写入 YAML 失败 {yaml_path}: {e}")
+
+        # TXT：先读取已有，再把能转成链接的追加进去
+        existing_txt = await load_existing_txt_set(txt_path)
+        new_links = []
+        for p in proxies:
+            try:
+                link = proxies_dict_to_link(p)  # 有可能返回 None
+                if link and link not in existing_txt:
+                    new_links.append(link)
+            except Exception as e:
+                logger.debug(f"[{proto}] 转换为链接失败: {e} - item={mask_sensitive(p)}")
+        if new_links:
+            try:
+                async with aiofiles.open(txt_path, "a", encoding="utf-8") as f:
+                    for l in new_links:
+                        await f.write(l.strip() + "\n")
+                logger.info(f"({proto}) 新增 {len(new_links)} 条节点 -> {txt_path}")
+            except Exception as e:
+                logger.warning(f"[{proto}] 写入 TXT 失败 {txt_path}: {e}")
+
+
 async def save_proxies_grouped(proxies_list: List[Any]):
     """
     更健壮的按 type 分组并保存到 pool/{type}.yaml 与 pool/{type}.txt
-    - 首先对输入做归一化（保证每项为 dict）
-    - YAML 做合并覆盖写入（去重）
-    - TXT 仅写入可成功生成单行链接的项
+    - 首先对输入条目做归一化（将字符串解析为 dict / 标记为 unknown）
+    - 然后按 type 分组并并行调用 _save_group
     """
     await ensure_dir(POOL_DIR)
 
-    # 1) 归一化所有输入项（防止字符串导致 .get 报错）
-    proxies = _normalize_proxies_items(proxies_list)
+    # 归一化输入项：把 str -> parse_node_line 或 {"type":"unknown","raw":str}
+    normalized: List[Dict[str, Any]] = []
+    for item in proxies_list:
+        try:
+            if isinstance(item, dict):
+                normalized.append(item)
+            elif isinstance(item, str):
+                parsed = parse_node_line(item)
+                if parsed and isinstance(parsed, dict):
+                    normalized.append(parsed)
+                else:
+                    normalized.append({"type": "unknown", "raw": item})
+            else:
+                normalized.append({"type": "unknown", "raw": str(item)})
+        except Exception as e:
+            logger.debug(f"save_proxies_grouped: 归一化单项失败，保留原始 -> {e}")
+            normalized.append({"type": "unknown", "raw": str(item)})
 
-    # 2) 分组
+    # 按 type 分组
     grouped: Dict[str, List[Dict[str, Any]]] = {}
-    for p in proxies:
-        # p 应为 dict
+    for p in normalized:
         t_raw = p.get("type") or p.get("protocol") or "unknown"
-        if not isinstance(t_raw, str):
-            t_raw = str(t_raw)
-        t = t_raw.lower().strip()
+        t = (t_raw or "unknown")
+        if not isinstance(t, str):
+            t = str(t)
+        t = t.lower().strip()
 
-        # 规范化同义词
+        # 规范化同义词（如 shadowsocks -> ss）
         if t in ("shadowsocks",):
             t = "ss"
         if t in ("ssocks",):
@@ -575,12 +679,15 @@ async def save_proxies_grouped(proxies_list: List[Any]):
 
         grouped.setdefault(t, []).append(p)
 
-    # 3) 并行保存每个分组
+    # 并行保存每个分组
     tasks = []
     for t, items in grouped.items():
         tasks.append(_save_group(t, items))
-    await asyncio.gather(*tasks)
-    
+    # 使用 gather 执行所有 group 保存，并收集异常
+    results = await asyncio.gather(*tasks, return_exceptions=True)
+    for i, res in enumerate(results):
+        if isinstance(res, Exception):
+            logger.warning(f"save_proxies_grouped: 保存分组任务第 {i} 个发生异常: {res}")
     
 
 
@@ -747,42 +854,76 @@ async def try_remote_convert(session: aiohttp.ClientSession, url: str) -> List[D
 # ---------------------------
 async def extract_links_from_telegram(session: aiohttp.ClientSession, channel: str) -> List[str]:
     """
-    从 t.me/s/{channel} 页面抓取可能的订阅链接与内嵌节点
-    - 使用 RE_URL 提取链接
-    - 过滤掉图片/zip/telegram.org 等非订阅链接
-    - 若发现链接的域属于 TG_DOMAINS 则跳过（避免抓到跳转到其他 tg 页面）
-    - 注意：你的 tgchannels 列表若使用裸名（如 freevpnjdlottery），请预先转为 https://t.me/s/<name>
+    从 t.me/s/{channel} 页面抓取可能的订阅链接与内嵌节点。
+    - 过滤规则包括：图片/zip/rar 等、telegram.org 资源、TG 内部域、以及 BLOCKED_URL_PATTERNS 中的黑名单。
+    - 返回外部链接列表（已经做了 html.unescape 与 strip）。
     """
-    channel = html.unescape(channel).strip()
+    # 黑名单正则（大小写不敏感）。你给的两条已经包含，稍作增强以匹配 query 的情况。
+    BLOCKED_URL_PATTERNS = [
+        re.compile(r'\.(?:apk|apks|exe|jpg)(?:$|\?)', re.I),  # 文件扩展名（考虑 query 情况）
+        re.compile(r'\b(?:[\w-]+\.)*telesco\.pe\b', re.I),     # telesco.pe 及其子域
+        # 你可以在这里继续添加其它要屏蔽的模式，例如：
+        # re.compile(r'\bexample-bad-domain\.com\b', re.I),
+    ]
+
     url = channel
     try:
         text, content_type = await fetch_with_user_agents_and_proxies(session, url)
         if not text:
             return []
+
         found = set()
         for m in RE_URL_COMPILED.finditer(text):
             u = m.group(0)
-            # 过滤图片、压缩包等
+            # 先做 HTML 实体反转与去空白
+            u = html.unescape(u).strip()
+
+            # 额外跳过非常短的或明显无效的项
+            if not u or len(u) < 8:
+                continue
+
+            # 过滤图片、压缩包等（旧逻辑保留）
             if any(ext in u.lower() for ext in (".png", ".jpg", ".jpeg", ".gif", ".zip", ".rar")):
+                logger.debug(f"过滤掉资源链接（扩展名）: {u}")
                 continue
-            # 过滤 telegram org 静态资源
+
+            # 过滤 telegram.org 静态资源
             if "telegram.org" in u:
+                logger.debug(f"过滤掉 telegram.org 资源: {u}")
                 continue
+
+            # 黑名单模式匹配 -> 直接跳过
+            blocked = False
+            for patt in BLOCKED_URL_PATTERNS:
+                try:
+                    if patt.search(u):
+                        logger.debug(f"Blocked by pattern {patt.pattern}: {u}")
+                        blocked = True
+                        break
+                except Exception:
+                    # 防止某些异常正则出问题
+                    continue
+            if blocked:
+                continue
+
             # 若目标域是 TG 域（t.me/tx.me/...）通常是内部跳转，跳过
             try:
                 parsed = urlparse(u)
                 netloc = (parsed.netloc or "").lower()
                 if netloc:
                     if any(netloc.endswith(d) for d in TG_DOMAINS):
+                        logger.debug(f"过滤掉 TG 内部链接: {u}")
                         continue
                 # 把剩下的外部链接作为可能的订阅加入
                 found.add(u)
             except Exception:
                 continue
+
         return list(found)
     except Exception as e:
         logger.debug(f"extract_links_from_telegram 错误 {channel}: {e}")
         return []
+
 
 
 # ---------------------------
@@ -840,8 +981,16 @@ async def main():
         # 并发处理订阅
         sem = asyncio.Semaphore(MAX_CONCURRENT_DOWNLOADS)
         tasks = [handle_subscription_content(session, s, sem) for s in subscriptions]
-        await asyncio.gather(*tasks)
-
+        results = await asyncio.gather(*tasks,return_exceptions=True)
+        for i, r in enumerate(results):
+            if isinstance(r, Exception):
+                logger.warning(f"订阅处理任务 {i} 抛出异常: {r}")
+        
+        
+        
+        
+        
+        
     logger.info("处理完成。所有结果保存在 pool/ 目录下。")
 
 
