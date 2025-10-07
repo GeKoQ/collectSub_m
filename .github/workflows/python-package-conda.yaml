@@ -40,7 +40,7 @@ jobs:
         HTTP_PROXY="${{ secrets.HTTP_PROXY }}" \
         HTTPS_PROXY="${{ secrets.HTTPS_PROXY }}" \
         SOCKS5_PROXY="${{ secrets.SOCKS5_PROXY }}" \
-        python ./dyzh.py
+        python ./dyzh.py local
 
     - name: Commit
       run: |
