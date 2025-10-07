@@ -1,0 +1,4 @@
+sni: bing.com
+sni: hk04.sqx001.com
+sni: singapore02.sqx001.com
+sni: vn02hk.sqx001.com
