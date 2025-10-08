@@ -139,7 +139,7 @@ async def fetch_with_user_agents_and_proxies(session: aiohttp.ClientSession, url
         for ua in user_agents:
             try:
                 headers = {"User-Agent": ua, "Accept": "*/*"}
-                timeout = aiohttp.ClientTimeout(total=30)
+                timeout = aiohttp.ClientTimeout(total=10)
                 conn_args = {"timeout": timeout, "headers": headers}
                 if proxy:
                     conn_args["proxy"] = proxy
@@ -822,7 +822,7 @@ async def try_remote_convert(session: aiohttp.ClientSession, url: str) -> List[D
             try:
                 encoded_url = quote_plus(url)
                 full = CHECK_NODE_URL_TEMPLATE.format(domain=domain, target=TARGET, url=encoded_url)
-                timeout = aiohttp.ClientTimeout(total=25)
+                timeout = aiohttp.ClientTimeout(total=15)
                 headers = {"User-Agent": USER_AGENTS[0] if USER_AGENTS else "python-httplib"}
                 async with session.get(full, timeout=timeout, headers=headers) as resp:
                     text = await resp.text(errors="ignore")
